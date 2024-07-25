@@ -1,7 +1,7 @@
 #include "headers/character.h"
 
-Character::Character(int maxHp, int atk, int def, Entity::EntityType et) : 
-                                        Entity{et}, maxHP{maxHP}, atk{atk}, def{def} 
+Character::Character(int maxHp, int atk, int def, Entity::EntityType entityType) : 
+                                        Entity{entityType}, maxHP{maxHP}, atk{atk}, def{def} 
 {
     hp = maxHP;
 }

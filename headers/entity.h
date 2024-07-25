@@ -11,9 +11,9 @@ class Entity {
   public:
     Entity(EntityType et);
     virtual ~Entity();
-    EntityType eType;
+    EntityType entityType;
     void virtual notify() = 0;
-    void virtual charAt() = 0;
+    char virtual charAt() = 0;
 };
 
 #endif

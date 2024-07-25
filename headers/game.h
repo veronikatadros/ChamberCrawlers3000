@@ -15,12 +15,14 @@ class Game {
         int currentFloor = 0;
         View view;
         FloorGenerator generator;
+        vector<Enemy*> enemies;
 
         void movePlayer(string dir);
         void playerAttack(string dir);
         void usePotion(string dir);
         void nextFloor();
         void reset();
+        void moveEnemies();
     public:
         HumanPlayer& player;
         void start();

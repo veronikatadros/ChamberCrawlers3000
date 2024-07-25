@@ -9,6 +9,22 @@ void Game::Game() {
 
 void Game::start() {
     HumanPlayer& player = HumanPlayer::getInstance();
+
+    string selectRace;
+    cin << selectRace;
+
+    if(selectRace == "h") {
+        // player = new HumanPlayer
+    }
+    else if(selectRace == "e") {
+        // player = new Elf
+    }
+    else if(selectRace == "d") {
+        // player = new Dwarf
+    }
+    else if(selectRace == "o") {
+        // player = new Orc
+    }
 }
 
 void Game::movePlayer(string dir) {
@@ -281,8 +297,30 @@ void Game::reset() {
 
 void Game::playTurn() {
     while(true) {
-        // Take in input from the terminal
+        string input;
         cin >> input;
-        
+        if (input == "r") {
+            reset();
+        }
+        else if (input == "q") {
+            return;
+        }
+        else if (input == "no" || input == "so" || input == "ea" || input == "we" || input == "ne" || input == "nw" || input == "se" || input == "sw") {
+            movePlayer(input);
+        }
+        else if (input == "u") {
+            string direction;
+            cin >> direction;
+            usePotion(direction);
+        }
+        else if (input == "a") {
+            string direction;
+            cin >> direction;
+            playerAttack(direction);
+        }
+        else {
+            cout << "Invalid Try Again!" << endl;
+        }
+        view.render(floors[currentFloor], player);
     }
 }

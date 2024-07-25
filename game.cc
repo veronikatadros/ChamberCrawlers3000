@@ -8,6 +8,9 @@ void Game::Game() {
 }
 
 void Game::start() {
+    // set merchant hostiles to false
+
+
     HumanPlayer& player = HumanPlayer::getInstance();
 
     string selectRace;
@@ -183,15 +186,24 @@ void Game::movePlayer(string dir) {
         }
     }
 
-    // notify the cells around the player
-        for(int i = -1; i <= 1; i++) {
-            for(int j = -1; i <= 1; j++) {
-                Cell& k = floors[currentFloor].board[playerLocation.first + i][playerLocation.second + j];
-                if(k.occupant != nullptr) {
-                    k.occupant->notify();
-                }
+    // Notify item cells around the Player
+    for(int i = -1; i <= 1; i++) {
+        for(int j = -1; i <= 1; j++) {
+            Cell& k = floors[currentFloor].board[playerLocation.first + i][playerLocation.second + j];
+            if(k.occupant != nullptr && k.occupant.eType == EntityType::ITEM) {
+                k.occupant->notify();
             }
         }
+    }
+    // Notify enemy cells around the Player
+    for(int i = -1; i <= 1; i++) {
+        for(int j = -1; i <= 1; j++) {
+            Cell& k = floors[currentFloor].board[playerLocation.first + i][playerLocation.second + j];
+            if(k.occupant != nullptr && k.occupant.eType == EntityType::ENEMY) {
+                k.occupant->notify();
+            }
+        }
+    }
 }
 
 void Game::moveEnemies() {
@@ -292,7 +304,7 @@ void Game::nextFloor() {
 }
 
 void Game::reset() {
-
+    
 }
 
 void Game::playTurn() {

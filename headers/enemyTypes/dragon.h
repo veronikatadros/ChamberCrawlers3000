@@ -6,13 +6,13 @@ class Gold;
 class Protected;
 
 class Dragon : public Enemy {
-        bool hostile;
         Protected* hoard;
     public:
+        bool hostile;
         Dragon(Protected* hoard);
         virtual ~Dragon();
         Gold* spawnLoot() override;
         void notify() override;
-}
+};
 
 #endif

@@ -2,18 +2,17 @@
 #define ENTITY_H
 
 class Entity {
-   protected:
-    enum EntityType {
+  public:
+  enum EntityType {
       ENEMY,
       PLAYER,
       ITEM
     };
-  public:
-    Entity(EntityType et);
+    Entity(EntityType entityType);
     virtual ~Entity();
     EntityType entityType;
-    void virtual notify() = 0;
-    char virtual charAt() = 0;
+    virtual void notify() = 0;
+    virtual char charAt() = 0;
 };
 
 #endif

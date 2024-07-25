@@ -2,10 +2,10 @@
 #define ENEMY_H
 
 #include "character.h"
-class Gold;
+#include "items/gold.h"
 
 class Enemy : public Character {
-        char enemyChar;
+        const char enemyChar;
     public:
         int spawnRate;
         bool hasAttacked;
@@ -14,8 +14,8 @@ class Enemy : public Character {
         virtual ~Enemy() = 0; // force this to be abstract
 
         char charAt() override;
-        Gold* virtual spawnLoot();
-        void virtual notify() override;
+        virtual void notify() override;
+        virtual Gold* spawnLoot();
 };
 
 #endif

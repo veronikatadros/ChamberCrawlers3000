@@ -12,7 +12,8 @@ Gold* Dragon::spawnLoot() {
 }
 
 void Dragon::notify() {
-    if (hostile & !hasAttacked) { // called by hoard in case that came second as well
+    if (hostile) { // hoard is notified first
         Enemy::notify();
+        hostile = false;
     }
 }

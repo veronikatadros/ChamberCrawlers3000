@@ -12,7 +12,7 @@ class Entity {
     virtual ~Entity();
     EntityType eType;
     virtual void notify() = 0;
-    virtual char charAt() = 0;
+    virtual char charAt() const = 0;
 };
 
 #endif

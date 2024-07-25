@@ -8,7 +8,7 @@ Enemy::Enemy(char enemyChar, int spawnRate, int maxHP, int atk, int def) :
 
 Enemy::~Enemy() {}
 
-char Enemy::charAt() {
+char Enemy::charAt() const {
     return enemyChar;
 }
 

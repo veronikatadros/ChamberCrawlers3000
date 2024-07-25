@@ -6,20 +6,10 @@
 class Enemy : public Character {
         char enemyChar;
     public:
-        enum EnemyType {
-            VAMPIRE,
-            WEREWOLF,
-            TROLL,
-            GOBLIN,
-            PHOENIX,
-            MERCHANT,
-            DRAGON
-        };
-        EnemyType enemyType;
         int spawnRate;
         bool hasAttacked;
 
-        Enemy(EnemyType enemyType, int maxHP, int atk, int def, Entity::EntityType entType);
+        Enemy(char enemyChar, int spawnRate, int maxHP, int atk, int def);
         virtual ~Enemy();
 
         char charAt() override;

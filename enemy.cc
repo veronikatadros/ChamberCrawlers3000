@@ -1,5 +1,6 @@
 #include "headers/enemy.h"
 #include "headers/gold.h"
+#include "headers/humanPlayer.h"
 
 Enemy::Enemy(EnemyType enemyType, int maxHP, int atk, int def, Entity::EntityType entityType) : 
     Character{maxHP, atk, def, entityType},
@@ -47,8 +48,17 @@ char Enemy::charAt() {
     return enemyChar;
 }
 
-Gold* spawnLoot() { // upon enemy death (onHit returns true), return loot then game deletes Enemy
+Gold* Enemy::spawnLoot() { // upon enemy death (onHit returns true), return loot then game deletes Enemy
     return new Gold{1};
+}
+
+void Enemy::notify() { // try to attack player
+    hasAttacked = true;
+    // get def of static player instance
+    // calculate damage
+    // call player.tryKill(damage)
+
+    
 }
 
 

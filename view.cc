@@ -13,38 +13,64 @@ void View::render(const Floor& floor, const HumanPlayer& player, ostream& out) {
         for (size_t col = 0; col < floor.board[row].size(); ++col) {
             Cell& c = floor.board[row][col];
             if (c.occupant == nullptr) {
+                out << View::BEGCOLOR;
                 // use cell type
                 switch (c.cellType) {
                     case Cell::EMPTY:
-                        out << ' ';
+                        out << "m ";
                         break;
                     case Cell::STAIRS:
+                        // green (32)
                         if (floor.compassFound) {
-                            out << '\\';
+                            out << "32m\\";
                             break;
                         }
                     case Cell::GROUND:
-                        out << '.';
+                        out << "m.";
                         break;
                     case Cell::VWALL:
-                        out << '|';
+                        // inverse (7)
+                        out << "7m|";
                         break;
                     case Cell::HWALL:
-                        out << '-';
+                        // inverse (7)
+                        out << "7m-";
                         break;
                     case Cell::DOOR:
-                        out << '+';
+                        // inverse (7) and then blue (34)
+                        out << "7;34m+";
                         break;
                     case Cell::PASSAGE:
-                        out << '#';
+                        // inverse (7) and then cyan (36)
+                        out << "7;36m#";
                         break;
                     default:
                         // throw error?
                         out << "missing CellType\n";
                 }
+                out << View::ENDCOLOR;
             } else {
                 // use occupant type
-                out << c.occupant->charAt();
+                char temp = c.occupant->charAt();
+                // enemy red (31)
+                // potion blue (34)
+                // player bold/bright (1) magenta (35)
+                out << View::BEGCOLOR;
+                switch (occupant->eType) {
+                    case Entity::ENEMY:
+                        out << "31m" << c;
+                        break;
+                    case Entity::PLAYER:
+                        out << "1;35m" << c;
+                        break;
+                    case Entity::ITEM:
+                        out << "34m" << c;
+                        break;
+                    default:
+                        // throw error?
+                        out << "missing EntityType";
+                }
+                out << View::ENDCOLOR;
             }
         }
         out << '\n';

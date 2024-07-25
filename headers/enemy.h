@@ -17,13 +17,13 @@ class Enemy : public Character {
         };
         EnemyType enemyType;
         int spawnRate;
+        bool hasAttacked;
 
         Enemy(EnemyType enemyType, int maxHP, int atk, int def, Entity::EntityType entType);
         virtual ~Enemy();
 
-        void virtual moveRandom();
         char charAt() override;
-        void virtual spawnLoot();
+        Gold* virtual spawnLoot();
         void virtual notify() override;
 };
 

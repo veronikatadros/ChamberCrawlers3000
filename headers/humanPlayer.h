@@ -3,11 +3,14 @@ class Item;
 class Gold;
 
 class HumanPlayer {
+    private:
+        HumanPlayer();
     public:
-    int gold;
-    Potion* potionEffect; 
-    void pickUp(Item& i);
-    void getGoldValue(Gold& g);
-    void notifyAdjacent();
-    
+        static HumanPlayer& getInstance();
+        
+        int gold;
+        Potion* potionEffect; 
+        void pickUp(Item& i);
+        void getGoldValue(Gold& g);
+        void notifyAdjacent();
 };

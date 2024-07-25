@@ -54,11 +54,8 @@ Gold* Enemy::spawnLoot() { // upon enemy death (onHit returns true), return loot
 
 void Enemy::notify() { // try to attack player
     hasAttacked = true;
-    // get def of static player instance
-    // calculate damage
-    // call player.tryKill(damage)
-
-    
+    HumanPlayer& player = HumanPlayer::getInstance(); // using singleton pattern
+    player.tryKill(atk);
 }
 
 

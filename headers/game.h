@@ -19,7 +19,7 @@ class Game {
         void movePlayer(string dir);
         void playerAttack(string dir);
         void usePotion(string dir);
-        void useFloor();
+        void nextFloor();
         void reset();
     public:
         HumanPlayer& player;

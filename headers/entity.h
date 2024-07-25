@@ -3,7 +3,7 @@
 
 class Entity {
   public:
-  enum EntityType {
+    enum EntityType {
       ENEMY,
       PLAYER,
       ITEM

@@ -1,7 +1,7 @@
 #include <fstream>
 #include <vector>
-#include "cell.h"
-#include "floor.h"
+#include "headers/cell.h"
+#include "headers/floor.h"
 
 Floor::Floor(){
     const int rows = 25;

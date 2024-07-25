@@ -6,8 +6,8 @@
       "type": "lldb",
       "request": "launch",
       "args": [],
-      "cwd": "/Users/veronikatadros/CS247cc3k/CS247Rogue",
-      "program": "/Users/veronikatadros/CS247cc3k/CS247Rogue/build/Debug/outDebug"
+      "cwd": "/Users/georgia.alpajaro/Documents/GitHub/CS247Rogue",
+      "program": "/Users/georgia.alpajaro/Documents/GitHub/CS247Rogue/build/Debug/outDebug"
     }
   ]
 }

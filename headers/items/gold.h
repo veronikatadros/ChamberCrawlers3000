@@ -7,7 +7,7 @@ class Gold : public Item {
         const int value;
     public:
         Gold(int value);
-        ~Gold();
+        virtual ~Gold();
 };
 
 #endif

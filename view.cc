@@ -1,17 +1,18 @@
 #include "headers/view.h"
 #include "headers/floor.h"
 #include "headers/humanPlayer.h"
+#include "headers/entity.h"
 using namespace std;
 
 View::View() : action{""} {}
 
 View::~View() {}
 
-void View::render(const Floor& floor, const HumanPlayer& player, ostream& out) {
+void View::render(const Floor& floor, const int curFloor, const HumanPlayer& player, ostream& out) {
     // go through each row & column on board, includes border
     for (size_t row = 0; row < floor.board.size(); ++row) {
         for (size_t col = 0; col < floor.board[row].size(); ++col) {
-            Cell& c = floor.board[row][col];
+            const Cell& c = floor.board[row][col];
             if (c.occupant == nullptr) {
                 out << View::BEGCOLOR;
                 // use cell type
@@ -56,15 +57,18 @@ void View::render(const Floor& floor, const HumanPlayer& player, ostream& out) {
                 // potion blue (34)
                 // player bold/bright (1) magenta (35)
                 out << View::BEGCOLOR;
-                switch (occupant->eType) {
+                switch (c.occupant->eType) {
                     case Entity::ENEMY:
-                        out << "31m" << c;
+                        out << "31m";
+                        out << temp;
                         break;
                     case Entity::PLAYER:
-                        out << "1;35m" << c;
+                        out << "1;35m";
+                        out << temp;
                         break;
                     case Entity::ITEM:
-                        out << "34m" << c;
+                        out << "34m";
+                        out << temp;
                         break;
                     default:
                         // throw error?

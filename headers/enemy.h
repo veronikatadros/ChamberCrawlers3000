@@ -13,7 +13,7 @@ class Enemy : public Character {
         Enemy(char enemyChar, int spawnRate, int maxHP, int atk, int def);
         virtual ~Enemy() = 0; // force this to be abstract
 
-        char charAt() override;
+        char charAt() const override;
         virtual void notify() override;
         virtual Gold* spawnLoot();
 };

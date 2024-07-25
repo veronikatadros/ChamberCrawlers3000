@@ -1,5 +1,5 @@
 #include "headers/entity.h"
 
-Entity::Entity(EntityType entityType) : entityType{entityType} {}
+Entity::Entity(EntityType eType) : eType{eType} {}
 
 Entity::~Entity() {}

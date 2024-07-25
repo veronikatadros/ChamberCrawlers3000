@@ -17,7 +17,7 @@ class Item : public Entity {
 
         Item(char itemChar);
         virtual ~Item() = 0;
-        char charAt() override;
+        char charAt() const override;
         virtual void notify() override;
 };
 

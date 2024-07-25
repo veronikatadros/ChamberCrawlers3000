@@ -2,7 +2,7 @@ class Potion;
 class Item;
 class Gold;
 
-class HumanPlayer {
+class HumanPlayer : public Character {
     private:
         HumanPlayer();
     public:
@@ -13,4 +13,6 @@ class HumanPlayer {
         void pickUp(Item& i);
         void getGoldValue(Gold& g);
         void notifyAdjacent();
+        void notify() override;
+        char charAt() const override;
 };

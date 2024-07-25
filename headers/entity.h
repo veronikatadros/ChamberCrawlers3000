@@ -3,16 +3,16 @@
 
 class Entity {
   public:
-  enum EntityType {
+    enum EntityType {
       ENEMY,
       PLAYER,
       ITEM
     };
-    Entity(EntityType entityType);
+    Entity(EntityType eType);
     virtual ~Entity();
-    EntityType entityType;
+    EntityType eType;
     virtual void notify() = 0;
-    virtual char charAt() = 0;
+    virtual char charAt() const = 0;
 };
 
 #endif

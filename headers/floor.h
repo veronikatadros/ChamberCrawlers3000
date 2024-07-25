@@ -1,11 +1,13 @@
 #include <vector>
-#include "gameBoard.h"
+#include "game.h"
 
 class Cell;
 
-class Floor : public GameBoard {
+class Floor : public Game {
+    private:
+    bool compassFound;
     public:
-    std::vector<std::vector<Cell>> board;
+    Cell[25][79] board;
     Floor();
     Floor(std::string filename);
 

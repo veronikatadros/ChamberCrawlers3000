@@ -1,5 +1,5 @@
 #include "headers/enemy.h"
-#include "headers/gold.h"
+#include "headers/items/gold.h"
 #include "headers/humanPlayer.h"
 
 Enemy::Enemy(char enemyChar, int spawnRate, int maxHP, int atk, int def) : 

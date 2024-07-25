@@ -1,7 +1,8 @@
 #ifndef MERCHANT_H
 #define MERCHANT_H
 
-#include "enemy.h"
+#include "../enemy.h"
+class Gold;
 
 class Merchant : public Enemy {
         static bool merchantsHostile;
@@ -11,6 +12,6 @@ class Merchant : public Enemy {
         Gold* spawnLoot() override;
         void notify() override;
         bool tryKill(int otherAtk) override;
-}
+};
 
 #endif

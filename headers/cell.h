@@ -4,7 +4,7 @@ enum class CellType {
     EMPTY,
     GROUND,
     VWALL,
-    HWALL
+    HWALL,
     DOOR,
     PASSAGE,
     STAIRS

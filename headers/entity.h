@@ -8,9 +8,9 @@ class Entity {
       PLAYER,
       ITEM
     };
-    Entity(EntityType entityType);
+    Entity(EntityType eType);
     virtual ~Entity();
-    EntityType entityType;
+    EntityType eType;
     virtual void notify() = 0;
     virtual char charAt() = 0;
 };

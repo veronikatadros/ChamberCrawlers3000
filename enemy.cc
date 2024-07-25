@@ -2,45 +2,9 @@
 #include "headers/gold.h"
 #include "headers/humanPlayer.h"
 
-Enemy::Enemy(EnemyType enemyType, int maxHP, int atk, int def, Entity::EntityType entityType) : 
-    Character{maxHP, atk, def, entityType},
-    enemyType{enemyType}
-    {
-        switch (enemyType) {
-            case VAMPIRE:
-                enemyChar = 'V';
-                spawnRate = 3;
-                break;
-            case WEREWOLF:
-                enemyChar = 'W';
-                spawnRate = 4;
-                break;
-            case TROLL:
-                enemyChar = 'T';
-                spawnRate = 2;
-                break;
-            case GOBLIN:
-                enemyChar = 'N';
-                spawnRate = 5;
-                break;
-            case PHOENIX:
-                enemyChar = 'X';
-                spawnRate = 2;
-                break;
-            case MERCHANT:
-                enemyChar = 'M';
-                spawnRate = 2;
-                break;
-            case DRAGON:
-                enemyChar = 'D';
-                spawnRate = 0; // do not spawn naturally (w/out hoard)
-                break;
-            default:
-                // error ?
-                enemyChar = '?';
-                spawnRate = -1;
-        }
-    }
+Enemy::Enemy(char enemyChar, int spawnRate, int maxHP, int atk, int def) : 
+    Character{maxHP, atk, def, EntityType::ENEMY},
+    enemyChar{enemyChar}, spawnRate{spawnRate} {}
 
 Enemy::~Enemy() {}
 
@@ -54,8 +18,9 @@ Gold* Enemy::spawnLoot() { // upon enemy death (onHit returns true), return loot
 
 void Enemy::notify() { // try to attack player
     hasAttacked = true;
+    // generate random number??
     HumanPlayer& player = HumanPlayer::getInstance(); // using singleton pattern
-    player.tryKill(atk);
+    player.tryKill(atk); // this needs to only be half accurate
 }
 
 

@@ -10,7 +10,7 @@ class Character : public Entity {
         int hp, atk, def;
         Character(int maxHP, int atk, int def, Entity::EntityType entityType);
         virtual ~Character();
-        bool tryKill(int otherAtk);
+        bool virtual tryKill(int otherAtk);
 };
 
 #endif

@@ -1,3 +1,6 @@
+#ifndef VIEW_H
+#define VIEW_H
+
 #include "iostream"
 using namespace std;
 
@@ -12,3 +15,5 @@ class View {
         string action;
         void render(const Floor& floor, const int curFloor, const HumanPlayer& player, ostream& out = cout);
 };
+
+#endif

@@ -1,4 +1,8 @@
+#ifndef ENTITY_H
+#define ENTITY_H
+
 class Entity {
+   protected:
     enum EntityType {
       ENEMY,
       PLAYER,
@@ -11,3 +15,5 @@ class Entity {
     void virtual notify() = 0;
     void virtual charAt() = 0;
 };
+
+#endif

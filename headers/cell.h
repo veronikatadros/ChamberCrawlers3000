@@ -1,3 +1,5 @@
+#ifndef CELL_H
+#define CELL_H
 class Entity;
 // Define an enum for tile types
 enum class CellType {
@@ -17,3 +19,4 @@ class Cell {
     Cell(CellType c = CellType::EMPTY, Entity* e = nullptr) : cellType(c), occupant(e) {}
 
 };
+#endif

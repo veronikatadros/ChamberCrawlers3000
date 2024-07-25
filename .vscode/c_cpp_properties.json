@@ -8,7 +8,7 @@
       "compilerPath": "/usr/bin/gcc",
       "cStandard": "${default}",
       "cppStandard": "${default}",
-      "intelliSenseMode": "macos-gcc-x64",
+      "intelliSenseMode": "macos-clang-arm",
       "compilerArgs": [
         ""
       ]

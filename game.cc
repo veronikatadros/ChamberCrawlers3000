@@ -1,6 +1,12 @@
 #include"headers/game.h"
 #include"headers/enemy.h"
 
+using namespace std;
+
+void Game::Game() {
+
+}
+
 void Game::start() {
     HumanPlayer& player = HumanPlayer::getInstance();
 }
@@ -172,6 +178,10 @@ void Game::movePlayer(string dir) {
         }
 }
 
+void Game::moveEnemies() {
+
+}
+
 void Game::playerAttack(string dir) {
     int yDir = playerLocation.first;
     int xDir = playerLocation.second;
@@ -212,6 +222,8 @@ void Game::playerAttack(string dir) {
 
             if (isEnemyDead) { // if dead, replace enemy* with gold*
                 Gold *g = e->spawnLoot();
+                // erase-remove idiom
+                enemies.erase(remove(enemies.begin(), enemies.end(), e), enemies.end());
                 delete e;
                 c.occupant = g;
             }
@@ -220,14 +232,57 @@ void Game::playerAttack(string dir) {
 }
 
 void Game::usePotion(string dir) {
+    // check it has a potion
+    int yDir = playerLocation.first;
+    int xDir = playerLocation.second;
+    if (dir == "no") { // UP
+        yDir--;
+    }
+    else if (dir == "so") { // DOWN
+        yDir++;
+    }
+    else if (dir == "ea") { // RIGHT
+        xDir++;
+    }
+    else if (dir == "we") { // LEFT
+        xDir--;
+    }
+    else if (dir == "ne") { // UP-RIGHT
+        yDir--;
+        xDir++;
+    }
+    else if (dir == "nw") { // UP-LEFT
+        yDir--;
+        xDir--;
+    }
+    else if (dir == "se") { // DOWN-RIGHT
+        yDir++;
+        xDir++;
+    }
+    else if (dir == "sw") { // DOWN-LEFT
+        yDir--;
+        xDir--;
+    }
 
+    Cell& c = floors[currentFloor].board[yDir][xDir];
+    if(xDir >= 0 && yDir >= 0 && yDir < floors[currentFloor].board.size() && xDir < floors[currentFloor].board[playerLocation.first].size()
+        && c.occupant != nullptr && c.occupant.eType == EntityType::ITEM && c.occupant.type == ItemType::HEALTH_POTION && c.occupant.type == ItemType::TEMP_POTION) { 
+            player.pickUp(static_cast<Item*>(c.occupant));
+    }
 }
 
 void Game::nextFloor() {
-
+    currentFloor++;
 }
 
 void Game::reset() {
 
 }
 
+void Game::playTurn() {
+    while(true) {
+        // Take in input from the terminal
+        cin >> input;
+        
+    }
+}

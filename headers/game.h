@@ -18,16 +18,18 @@ class Game {
         vector<Enemy*> enemies;
 
         void movePlayer(string dir);
+        void moveEnemies();
         void playerAttack(string dir);
         void usePotion(string dir);
         void nextFloor();
         void reset();
-        void moveEnemies();
+        void playTurn();
     public:
         HumanPlayer& player;
         void start();
 
-        virtual ~Game() = 0;
+        Game();
+        ~Game();
 };
 
 

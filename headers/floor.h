@@ -9,12 +9,10 @@
 using namespace std;
 
 class Floor : public Game {
-    private:
-    bool compassFound;
     public:
     array<array<Cell, 79>, 25> board;
+    bool compassFound;
     Floor();
-    Floor(std::string filename);
     ~Floor();
     void printBoard() const;
 };

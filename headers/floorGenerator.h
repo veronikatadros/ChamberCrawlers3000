@@ -10,5 +10,6 @@ class FloorGenerator {
 
         int randomNumber(int low, int high);
     public:
-        Floor& generatorFloor();
+        Floor& generateFloor();
+        Floor& generateFloor(string& filename);
 };

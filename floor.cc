@@ -32,7 +32,7 @@ Floor::Floor(std::string filename){
 
     for (int row = 0; row < 25; row++){
         for (int col = 0; col < 79; col++){
-
+            
         }
     }
 }

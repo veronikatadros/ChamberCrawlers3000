@@ -3,7 +3,8 @@ class Entity;
 enum class CellType {
     EMPTY,
     GROUND,
-    WALL,
+    VWALL,
+    HWALL
     DOOR,
     PASSAGE,
     STAIRS

@@ -15,7 +15,7 @@ class Dragon : public Enemy {
         Dragon(Protected* hoard);
         virtual ~Dragon();
         Gold* spawnLoot() override;
-        void notify();
+        void notify(Player& p) override;
         void setHoard(Protected* h);
 };
 

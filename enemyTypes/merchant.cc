@@ -9,9 +9,9 @@ Gold* Merchant::spawnLoot() {
     return new Gold{4};
 }
 
-void Merchant::notify() {
+void Merchant::notify(Player& p) {
     if (Merchant::merchantsHostile) {
-        Enemy::notify();
+        Enemy::notify(p);
     }
 }
 

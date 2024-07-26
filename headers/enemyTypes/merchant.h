@@ -10,7 +10,7 @@ class Merchant : public Enemy {
         Merchant();
         virtual ~Merchant();
         Gold* spawnLoot() override;
-        void notify() override;
+        void notify(Player& p) override;
         bool tryKill(int otherAtk) override;
 };
 

@@ -9,9 +9,9 @@ Gold* Dragon::spawnLoot() {
     return nullptr;
 }
 
-void Dragon::notify() {
+void Dragon::notify(Player& p) {
     if (hostile) { // hoard is notified first
-        Enemy::notify();
+        Enemy::notify(p);
         hostile = false;
     }
 }

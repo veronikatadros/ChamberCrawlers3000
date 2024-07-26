@@ -8,9 +8,10 @@ class FloorGenerator {
     private:
         vector< vector<pair<int, int>> > chambers;
         vector<int> chamberFloorTiles;
-        vector<pair<int,int>> playerFloorLocation;
+        
         int randomNumber(int low, int high);
     public:
+        vector<pair<int,int>> playerFloorLocation;
         Floor& generateFloor();
         Floor& generateFloor(const std::string& filename, Player& player);
 };

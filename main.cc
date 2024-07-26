@@ -12,11 +12,8 @@ int main(int argc, char *argv[]){
     cout << "Welcome to the game of CC3k!\n";
     cout << "Enter 'q' to quit, or any other character to continue: ";
 
-    if (argc > 1){
-        // Random Floor Gen
-    }
-    else{
-        game.start();
-    }
+
+    game.start(argc > 1 ? argv[1] : "");
+    
 
 }

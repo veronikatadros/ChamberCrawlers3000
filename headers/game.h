@@ -14,9 +14,9 @@ class Game {
         pair<int, int> playerLocation;
         vector<Floor&> floors;
         int currentFloor = 0;
-        View view;
-        FloorGenerator generator;
-        vector<Enemy*> enemies;
+        View* view;
+        FloorGenerator* generator;
+        string cmd;
 
         void movePlayer(string dir);
         void moveEnemies();
@@ -26,10 +26,10 @@ class Game {
         void reset();
         void playTurn();
     public:
-        Player& player;
+        Player* player;
         void start();
 
-        Game();
+        Game(string cmd);
         virtual ~Game();
 };
 

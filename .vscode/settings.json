@@ -55,6 +55,9 @@
     "tuple": "cpp",
     "typeinfo": "cpp",
     "variant": "cpp",
-    "vector": "cpp"
+    "vector": "cpp",
+    "utility": "cpp",
+    "xstring": "cpp",
+    "random": "cpp"
   }
 }

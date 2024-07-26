@@ -1,12 +1,17 @@
 #include "../headers/enemyTypes/merchant.h"
 #include "../headers/items/gold.h"
+#include "../headers/items/compass.h"
 
 Merchant::Merchant() : Enemy{'M', 2, 30, 70, 5} {}
 
 Merchant::~Merchant() {}
 
-Gold* Merchant::spawnLoot() {
-    return new Gold{4};
+Item* Merchant::spawnLoot() {
+    if (holdsCompass) {
+        return new Compass{};
+    } else {
+        return new Gold{4};
+    }
 }
 
 void Merchant::notify(Player& p) {

@@ -8,7 +8,7 @@
 
 using namespace std;
 
-class Floor : public Game {
+class Floor {
     public:
         struct EntityPosition {
             Entity* entity;

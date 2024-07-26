@@ -198,7 +198,6 @@ Floor::~Floor(){
             if (cell.occupant){
                 delete cell.occupant;
             }
-            
             cell.occupant = nullptr;
         }
     }

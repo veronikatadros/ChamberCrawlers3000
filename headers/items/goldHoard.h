@@ -9,7 +9,6 @@ class GoldHoard : public Protected {
         int value = 6;
         GoldHoard();
         virtual ~GoldHoard();
-        void setProtector(Dragon* d);
 };
 
 #endif

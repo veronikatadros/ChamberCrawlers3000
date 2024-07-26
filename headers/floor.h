@@ -10,11 +10,15 @@ using namespace std;
 
 class Floor : public Game {
     public:
-    array<array<Cell, 79>, 25> board;
-    bool compassFound;
-    Floor();
-    ~Floor();
-    void printBoard() const;
+        struct EntityPosition {
+            Entity* entity;
+            int x, y;
+        };
+        vector<vector<EntityPosition>> enemyPositions;
+        array<array<Cell, 79>, 25> board;
+        Floor();
+        ~Floor();
+        void printBoard() const;
 };
 
 #endif

@@ -20,8 +20,8 @@ class FloorGenerator {
         FloorGenerator();
         virtual ~FloorGenerator();
         vector<pair<int,int>> playerFloorLocation;
-        vector<Floor&> generateFloor(Player& player);
-        vector<Floor&> generateFloor(const std::string& filename, Player& player);
+        vector<Floor*> generateFloor(Player& player);
+        vector<Floor*> generateFloor(const std::string& filename, Player& player);
 };
 
 #endif

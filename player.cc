@@ -65,6 +65,7 @@ void Player::removeEffects() {
     while (potionEffect) {
         hp -= temp->value;
         potionEffect = potionEffect->next;
+        delete temp;
         temp = potionEffect;
     }
 }

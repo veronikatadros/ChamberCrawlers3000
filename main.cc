@@ -3,6 +3,20 @@
 
 using namespace std;
 
-int main(){
-    
+int main(int argc, char *argv[]){
+
+    string command;
+    string dir;
+    Game game;
+
+    cout << "Welcome to the game of CC3k!\n";
+    cout << "Enter 'q' to quit, or any other character to continue: ";
+
+    if (argc > 1){
+        // Random Floor Gen
+    }
+    else{
+        game.start();
+    }
+
 }

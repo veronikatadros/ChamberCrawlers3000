@@ -14,9 +14,6 @@ using namespace std;
 void Game::start() {
     // set merchant hostiles to false
 
-
-    HumanPlayer& player = HumanPlayer::getInstance();
-
     string selectRace;
     cin >> selectRace;
 
@@ -41,9 +38,10 @@ void Game::movePlayer(string dir) {
         if(playerLocation.first - 1 >= 0 && c.cellType != Cell::HWALL) {
             
             if(c.occupant != nullptr) {
-                if(c.occupant.eType == Entity::ITEM) {
-                    if(c.occupant.type == Item::GOLD || c.occupant.type == Item::COMPASS || c.occupant.type == Item::BARRIER_SUIT) {
-                        player.pickUp(static_cast<Item*>(c.occupant)); // cast it to item
+                if(c.occupant->eType == Entity::ITEM) {
+                    Item* item = static_cast<Item*>(c.occupant);
+                    if(item->itemType == Item::GOLD || item->itemType == Item::COMPASS || item->itemType == Item::BARRIER_SUIT) {
+                        player.pickUp(item); // cast it to item
                         playerLocation.first--;
                     }
                 }
@@ -60,8 +58,9 @@ void Game::movePlayer(string dir) {
             
             if(c.occupant != nullptr) {
                 if(c.occupant->eType == Entity::ITEM) {
-                    if(c.occupant->type == Item::GOLD || c.occupant.type == Item::COMPASS || c.occupant.type == Item::BARRIER_SUIT) {
-                        player.pickUp(static_cast<Item*>(c.occupant)); // cast it to item
+                    Item* item = static_cast<Item*>(c.occupant);
+                    if(item->itemType == Item::GOLD || item->itemType == Item::COMPASS || item->itemType == Item::BARRIER_SUIT) {
+                        player.pickUp(item); // cast it to item
                         playerLocation.first++;
                     }
                 }
@@ -75,12 +74,13 @@ void Game::movePlayer(string dir) {
     else if(dir == "ea") {  // Move Right
         Cell& c = floors[currentFloor].board[playerLocation.first][playerLocation.second + 1];
         if(playerLocation.second + 1 < floors[currentFloor].board[playerLocation.second].size() && 
-            c.cellType != CellType::VWALL) {
+            c.cellType != Cell::VWALL) {
             
             if(c.occupant != nullptr) {
-                if(c.occupant.eType == EntityType::ITEM) {
-                    if(c.occupant.type == ItemType::GOLD || c.occupant.type == ItemType::COMPASS || c.occupant.type == ItemType::BARRIER_SUIT) {
-                        player.pickUp(static_cast<Item*>(c.occupant)); // cast it to item
+                if(c.occupant->eType == Entity::ITEM) {
+                    Item* item = static_cast<Item*>(c.occupant);
+                    if(item->itemType == Item::GOLD || item->itemType == Item::COMPASS || item->itemType == Item::BARRIER_SUIT) {
+                        player.pickUp(item); // cast it to item
                         playerLocation.second++;
                     }
                 }
@@ -93,12 +93,13 @@ void Game::movePlayer(string dir) {
     }
     else if(dir == "we") { // Move Left
         Cell& c = floors[currentFloor].board[playerLocation.first][playerLocation.second - 1];
-        if(playerLocation.second - 1 >= 0 && c.cellType != CellType::VWALL && c.occupant.eType != EntityType::ENEMY) {
+        if(playerLocation.second - 1 >= 0 && c.cellType != Cell::VWALL) {
             
             if(c.occupant != nullptr) {
-                if(c.occupant.eType == EntityType::ITEM) {
-                    if(c.occupant.type == ItemType::GOLD || c.occupant.type == ItemType::COMPASS || c.occupant.type == ItemType::BARRIER_SUIT) {
-                        player.pickUp(static_cast<Item*>(c.occupant)); // cast it to item
+                if(c.occupant->eType == Entity::ITEM) {
+                    Item* item = static_cast<Item*>(c.occupant);
+                    if(item->itemType == Item::GOLD || item->itemType == Item::COMPASS || item->itemType == Item::BARRIER_SUIT) {
+                        player.pickUp(item); // cast it to item
                         playerLocation.second--;
                     }
                 }
@@ -111,12 +112,13 @@ void Game::movePlayer(string dir) {
     else if(dir == "ne") { // Move Up and Right
         Cell& c = floors[currentFloor].board[playerLocation.first - 1][playerLocation.second + 1];
         if(playerLocation.first - 1 >= 0 && playerLocation.second + 1 < floors[currentFloor].board[playerLocation.second].size() &&
-             c.cellType != CellType::HWALL && c.cellType != CellType::VWALL) {
+             c.cellType != Cell::HWALL && c.cellType != Cell::VWALL) {
             
             if(c.occupant != nullptr) {
-                if(c.occupant.eType == EntityType::ITEM) {
-                    if(c.occupant.type == ItemType::GOLD || c.occupant.type == ItemType::COMPASS || c.occupant.type == ItemType::BARRIER_SUIT) {
-                        player.pickUp(static_cast<Item*>(c.occupant)); // cast it to item
+                if(c.occupant->eType == Entity::ITEM) {
+                    Item* item = static_cast<Item*>(c.occupant);
+                    if(item->itemType == Item::GOLD || item->itemType == Item::COMPASS || item->itemType == Item::BARRIER_SUIT) {
+                        player.pickUp(item); // cast it to item
                         playerLocation.first--;
                         playerLocation.second++;
                     }
@@ -131,12 +133,13 @@ void Game::movePlayer(string dir) {
     else if(dir == "nw") {  // Move Up and Left
         Cell& c = floors[currentFloor].board[playerLocation.first - 1][playerLocation.second - 1];
         if(playerLocation.first - 1 >= 0 && playerLocation.second - 1 >= 0 &&
-             c.cellType != CellType::HWALL && c.cellType != CellType::VWALL) {
+             c.cellType != Cell::HWALL && c.cellType != Cell::VWALL) {
             
             if(c.occupant != nullptr) {
-                if(c.occupant.eType == EntityType::ITEM) {
-                    if(c.occupant.type == ItemType::GOLD || c.occupant.type == ItemType::COMPASS || c.occupant.type == ItemType::BARRIER_SUIT) {
-                        player.pickUp(static_cast<Item*>(c.occupant)); // cast it to item
+                if(c.occupant->eType == Entity::ITEM) {
+                    Item* item = static_cast<Item*>(c.occupant);
+                    if(item->itemType == Item::GOLD || item->itemType == Item::COMPASS || item->itemType == Item::BARRIER_SUIT) {
+                        player.pickUp(item); // cast it to item
                         playerLocation.first--;
                         playerLocation.second--;
                     }
@@ -152,12 +155,13 @@ void Game::movePlayer(string dir) {
         Cell& c = floors[currentFloor].board[playerLocation.first + 1][playerLocation.second + 1];
         if(playerLocation.first + 1 < floors[currentFloor].board.size() && 
             playerLocation.second + 1 < floors[currentFloor].board[playerLocation.second].size() &&
-             c.cellType != CellType::HWALL && c.cellType != CellType::VWALL) {
+             c.cellType != Cell::HWALL && c.cellType != Cell::VWALL) {
             
             if(c.occupant != nullptr) {
-                if(c.occupant.eType == EntityType::ITEM) {
-                    if(c.occupant.type == ItemType::GOLD || c.occupant.type == ItemType::COMPASS || c.occupant.type == ItemType::BARRIER_SUIT) {
-                        player.pickUp(static_cast<Item*>(c.occupant)); // cast it to item
+                if(c.occupant->eType == Entity::ITEM) {
+                    Item* item = static_cast<Item*>(c.occupant);
+                    if(item->itemType == Item::GOLD || item->itemType == Item::COMPASS || item->itemType == Item::BARRIER_SUIT) {
+                        player.pickUp(item); // cast it to item
                         playerLocation.first++;
                         playerLocation.second++;
                     }
@@ -172,12 +176,13 @@ void Game::movePlayer(string dir) {
     else if(dir == "sw") {  // Move Down and Left
         Cell& c = floors[currentFloor].board[playerLocation.first + 1][playerLocation.second - 1];
         if(playerLocation.first + 1 < floors[currentFloor].board.size() && playerLocation.second - 1 >= 0 &&
-             c.cellType != CellType::HWALL && c.cellType != CellType::VWALL) {
+             c.cellType != Cell::HWALL && c.cellType != Cell::VWALL) {
             
             if(c.occupant != nullptr) {
-                if(c.occupant.eType == EntityType::ITEM) {
-                    if(c.occupant.type == ItemType::GOLD || c.occupant.type == ItemType::COMPASS || c.occupant.type == ItemType::BARRIER_SUIT) {
-                        player.pickUp(static_cast<Item*>(c.occupant)); // cast it to item
+                if(c.occupant->eType == Entity::ITEM) {
+                    Item* item = static_cast<Item*>(c.occupant);
+                    if(item->itemType == Item::GOLD || item->itemType == Item::COMPASS || item->itemType == Item::BARRIER_SUIT) {
+                        player.pickUp(item); // cast it to item
                         playerLocation.first++;
                         playerLocation.second--;
                     }
@@ -194,7 +199,7 @@ void Game::movePlayer(string dir) {
     for(int i = -1; i <= 1; i++) {
         for(int j = -1; i <= 1; j++) {
             Cell& k = floors[currentFloor].board[playerLocation.first + i][playerLocation.second + j];
-            if(k.occupant != nullptr && k.occupant.eType == EntityType::ITEM) {
+            if(k.occupant != nullptr && k.occupant->eType == Entity::ITEM) {
                 k.occupant->notify();
             }
         }
@@ -203,7 +208,7 @@ void Game::movePlayer(string dir) {
     for(int i = -1; i <= 1; i++) {
         for(int j = -1; i <= 1; j++) {
             Cell& k = floors[currentFloor].board[playerLocation.first + i][playerLocation.second + j];
-            if(k.occupant != nullptr && k.occupant.eType == EntityType::ENEMY) {
+            if(k.occupant != nullptr && k.occupant->eType == Entity::ENEMY) {
                 k.occupant->notify();
             }
         }
@@ -248,7 +253,7 @@ void Game::playerAttack(string dir) {
 
     Cell& c = floors[currentFloor].board[yDir][xDir];
     if(xDir >= 0 && yDir >= 0 && yDir < floors[currentFloor].board.size() && xDir < floors[currentFloor].board[playerLocation.first].size()
-        && c.occupant != nullptr && c.occupant.eType == EntityType::ENEMY) { 
+        && c.occupant != nullptr && c.occupant->eType == Entity::ENEMY) { 
             Enemy* e = static_cast<Enemy*>(c.occupant);
             bool isEnemyDead = e->tryKill(player.atk);
 
@@ -298,13 +303,16 @@ void Game::usePotion(string dir) {
 
     Cell& c = floors[currentFloor].board[yDir][xDir];
     if(xDir >= 0 && yDir >= 0 && yDir < floors[currentFloor].board.size() && xDir < floors[currentFloor].board[playerLocation.first].size()
-        && c.occupant != nullptr && c.occupant.eType == EntityType::ITEM && c.occupant.type == ItemType::HEALTH_POTION && c.occupant.type == ItemType::TEMP_POTION) { 
-            player.pickUp(static_cast<Item*>(c.occupant));
+        && c.occupant != nullptr && c.occupant->eType == Entity::ITEM) { 
+            Item* item = static_cast<Item*>(c.occupant);
+            if (item->itemType == Item::HEALTH_POTION && item->itemType == Item::TEMP_POTION)
+            player.pickUp(*item);
     }
 }
 
 void Game::nextFloor() {
     currentFloor++;
+    player.removeEffects();
 }
 
 void Game::reset() {
@@ -338,6 +346,6 @@ void Game::playTurn() {
         else {
             cout << "Invalid Try Again!" << endl;
         }
-        view.render(floors[currentFloor], player);
+        view.render(floors[currentFloor], currentFloor, player);
     }
 }

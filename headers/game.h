@@ -1,10 +1,11 @@
-#include "humanPlayer.h"
+#include "player.h"
 #include "view.h"
 #include "floorGenerator.h"
 #include <iostream>
 #include <vector>
 
 class Floor;
+class Enemy;
 
 using namespace std;
 
@@ -25,11 +26,11 @@ class Game {
         void reset();
         void playTurn();
     public:
-        HumanPlayer& player;
+        Player& player;
         void start();
 
         Game();
-        ~Game();
+        virtual ~Game();
 };
 
 

@@ -3,6 +3,7 @@
 
 #include "character.h"
 #include "items/gold.h"
+class Player;
 
 class Enemy : public Character {
         const char enemyChar;
@@ -14,7 +15,7 @@ class Enemy : public Character {
         virtual ~Enemy() = 0; // force this to be abstract
 
         char charAt() const override;
-        virtual void notify() override;
+        virtual void notify(Player& player) override;
         virtual Gold* spawnLoot();
 };
 

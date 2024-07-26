@@ -1,11 +1,11 @@
 #include "headers/item.h"
 
-Item::Item(char itemChar) : Entity{EntityType::ITEM}, itemChar{itemChar} {}
+Item::Item(char itemChar, ItemType itemType) : Entity{EntityType::ITEM}, itemChar{itemChar}, itemType{itemType} {}
 
 Item::~Item() {}
 
-char Item::charAt() {
+char Item::charAt() const {
     return itemChar;
 }
 
-void Item::notify() {}
+void Item::notify(Player& player) {}

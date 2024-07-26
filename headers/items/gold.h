@@ -3,9 +3,9 @@
 
 #include "../item.h"
 
-class Gold : public Item {
-        const int value;
+class Gold : public Item {    
     public:
+        const int value;
         Gold(int value);
         virtual ~Gold();
 };

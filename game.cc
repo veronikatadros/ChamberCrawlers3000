@@ -2,8 +2,8 @@
 #include "headers/enemy.h"
 #include "headers/floor.h"
 #include "headers/entity.h"
-#include "headers/humanPlayer.h"
-#include <iostream>
+#include "headers/player.h"
+#include "iostream"
 
 using namespace std;
 
@@ -200,7 +200,7 @@ void Game::movePlayer(string dir) {
         for(int j = -1; i <= 1; j++) {
             Cell& k = floors[currentFloor].board[playerLocation.first + i][playerLocation.second + j];
             if(k.occupant != nullptr && k.occupant->eType == Entity::ITEM) {
-                k.occupant->notify();
+                k.occupant->notify(player);
             }
         }
     }
@@ -209,7 +209,7 @@ void Game::movePlayer(string dir) {
         for(int j = -1; i <= 1; j++) {
             Cell& k = floors[currentFloor].board[playerLocation.first + i][playerLocation.second + j];
             if(k.occupant != nullptr && k.occupant->eType == Entity::ENEMY) {
-                k.occupant->notify();
+                k.occupant->notify(player);
             }
         }
     }
@@ -306,7 +306,7 @@ void Game::usePotion(string dir) {
         && c.occupant != nullptr && c.occupant->eType == Entity::ITEM) { 
             Item* item = static_cast<Item*>(c.occupant);
             if (item->itemType == Item::HEALTH_POTION && item->itemType == Item::TEMP_POTION)
-            player.pickUp(*item);
+            player.pickUp(item);
     }
 }
 

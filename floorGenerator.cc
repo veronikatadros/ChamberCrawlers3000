@@ -21,11 +21,16 @@
 using namespace std;
 
 FloorGenerator::FloorGenerator() {
-    chambers = {{{2, 3}, {6, 28}}, 
-                {{3, 39}, {4, 61}, {5, 39}, {3, 69}, {6, 39}, {6, 72}, {7, 61}, {12, 75}}, 
-                {{10, 38}, {12, 49}}, 
-                {{15, 4}, {21, 14}}, 
-                {{19, 37}, {21, 64}, {16, 65}, {21, 75}} };
+    chambers = {{{2, 3}}, 
+                {{3, 39}, {5, 39}, {6, 39}, {7, 61}}, 
+                {{10, 38}}, 
+                {{15, 4}}, 
+                {{19, 37}, {16, 65}} };
+    chamberDimensions = {{{5, 26}}, 
+                        {{2, 23}, {1, 31}, {1, 34}, {6, 15}}, 
+                        {{3, 12}}, 
+                        {{7, 11}}, 
+                        {{3, 28}, {6, 11}}};
     chamberFloorTiles = {104, 201, 36, 77, 150};
     occupiedTiles = {0, 0, 0, 0, 0};
 }
@@ -154,16 +159,16 @@ vector<Floor&> FloorGenerator::generateFloor(const string& filename, Player& pla
 
 vector<Floor&> FloorGenerator::generateFloor(Player& player){
     vector<Floor&> floors;
-    bool barrierSuitGenerated = false;
+    int barrierSuitFloor = RandomNumberGenerator::randomNumber(0, 4);
     for (int curFloor = 0; curFloor < 5; ++curFloor) {
         // 1 player position
 
         // 2 stair position
         // 3 potions
         // 4 gold (+ dragons)
+        // gen barrier suit if on correct floor
         // 5 enemies
         // choose enemy to hold compass
-        // barrier suit??
 
     }
 }
@@ -173,6 +178,17 @@ int FloorGenerator::randomChamber() {
 }
 
 pair<int, int> FloorGenerator::randomFloorTile(int chamber) {
-    Entity* e = nullptr;
+    int tile = RandomNumberGenerator::randomNumber(0, chamberFloorTiles[chamber] - 1);
+    int rect;
+    for (rect = 0; rect < chamberDimensions[chamber].size(); ++rect) {
+        int rectSize = chamberDimensions[chamber][rect].first * chamberDimensions[chamber][rect].second;
+        if (tile <= rectSize) {
+            // in rect
+        } else {
+            tile -= rectSize; // in next rect
+        }
+    }
+
+    // get random x and y for specific rect, if cell is occupied cycle through rect until unoccupied space
 
 }

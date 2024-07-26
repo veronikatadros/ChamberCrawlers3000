@@ -12,6 +12,7 @@ class FloorGenerator {
     private:
         vector< vector<pair<int, int>> > chambers;
         vector<int> chamberFloorTiles;
+        vector< vector<pair<int, int>> > chamberDimensions;
         vector<int> occupiedTiles;
         int randomChamber();
         pair<int, int> randomFloorTile(int chamber); //valid random floor tile

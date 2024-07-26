@@ -7,13 +7,12 @@ int main(int argc, char *argv[]){
 
     string command;
     string dir;
-    Game game;
+    Game game(argc > 1 ? argv[1] : "");
 
     cout << "Welcome to the game of CC3k!\n";
     cout << "Enter 'q' to quit, or any other character to continue: ";
 
-
-    game.start(argc > 1 ? argv[1] : "");
+    game.start();
     
 
 }

@@ -1,9 +1,8 @@
 #include <fstream>
-#include <vector>
 #include "headers/cell.h"
 #include "headers/floor.h"
 
-Floor::Floor(){
+Floor::Floor(): compassFound(false){
     for (int i = 0; i < 25; ++i) {
         for (int j = 0; j < 79; ++j) {
             if (j == 0 || j == 78) {
@@ -192,14 +191,6 @@ Floor::Floor(){
 }
 
 
-// Floor::Floor(std::string filename){
-
-//     for (int row = 0; row < 25; row++){
-//         for (int col = 0; col < 79; col++){
-            
-//         }
-//     }
-// }
 void Floor::printBoard() const {
     for (const auto& row : board) {
         for (const auto& cell : row) {

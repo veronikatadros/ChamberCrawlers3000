@@ -8,3 +8,7 @@ Protected::~Protected() {}
 void Protected::notify(Player& player) {
     protector->hostile = true;
 }
+
+void Protected::setProtector(Dragon* d){
+    protector = d;
+}

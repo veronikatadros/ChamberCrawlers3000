@@ -1,5 +1,6 @@
 #include <fstream>
 #include <unordered_map>
+#include "headers/randomNumberGenerator.h"
 #include "headers/floor.h"
 #include "headers/floorGenerator.h"
 #include "headers/entity.h"
@@ -17,8 +18,6 @@
 #include "headers/enemyTypes/troll.h"
 #include "headers/enemyTypes/vampire.h"
 #include "headers/enemyTypes/werewolf.h"
-
-
 
 Floor& FloorGenerator::generateFloor(const std::string& filename, Player& player) {
     std::ifstream file(filename);
@@ -38,6 +37,7 @@ Floor& FloorGenerator::generateFloor(const std::string& filename, Player& player
             switch (line[col]) {
                 case '@': f->board[row][col].occupant = static_cast<Entity*>(&player); 
                 playerFloorLocation.push_back(std::make_pair(row, col)); break;
+                case '\\': f->board[row][col].cellType = Cell::STAIRS; break;
                 case '0': f->board[row][col].occupant = new PermPotion(10); break;
                 case '1': f->board[row][col].occupant = new TempPotion(5, "ATK"); break;
                 case '2': f->board[row][col].occupant = new TempPotion(5, "DEF"); break;
@@ -71,6 +71,7 @@ Floor& FloorGenerator::generateFloor(const std::string& filename, Player& player
                 case 'M': f->board[row][col].occupant = new Merchant(); break;
                 case 'X': f->board[row][col].occupant = new Phoenix(); break;
                 case 'T': f->board[row][col].occupant = new Troll(); break;
+                default:
             }
         }
         ++row;
@@ -91,23 +92,19 @@ Floor& FloorGenerator::generateFloor(const std::string& filename, Player& player
                     if (it != protectedPositions.end()) {
                         Protected* protectedItem = it->second;
                         dragon->setHoard(protectedItem);
-                        if (auto* gold = dynamic_cast<GoldHoard*>(protectedItem)) {
-                            gold->setProtector(dragon);
-                        } else if (auto* suit = dynamic_cast<BarrierSuit*>(protectedItem)) {
-                            suit->setProtector(dragon);
-                        }
+                        protectedItem->setProtector(dragon);
                         goto next_dragon;
                     }
                 }
             }
         }
-    next_dragon:;
+        next_dragon:;
     }
 
     return *f; // Return the reference to the dynamically allocated Floor object
 }
 
 
-Floor& FloorGenerator::generateFloor(){
+Floor& FloorGenerator::generateFloor(Player& player){
 
 }

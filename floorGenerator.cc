@@ -36,7 +36,8 @@ Floor& FloorGenerator::generateFloor(const std::string& filename, Player& player
     while (std::getline(file, line) && row < 25) {
         for (int col = 0; col < 79 && col < line.size(); ++col) {
             switch (line[col]) {
-                case '@': f->board[row][col].occupant = static_cast<Entity*>(&player); break;
+                case '@': f->board[row][col].occupant = static_cast<Entity*>(&player); 
+                playerFloorLocation.push_back(std::make_pair(row, col)); break;
                 case '0': f->board[row][col].occupant = new PermPotion(10); break;
                 case '1': f->board[row][col].occupant = new TempPotion(5, "ATK"); break;
                 case '2': f->board[row][col].occupant = new TempPotion(5, "DEF"); break;

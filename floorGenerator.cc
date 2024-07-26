@@ -162,7 +162,7 @@ vector<Floor&> FloorGenerator::generateFloor(Player& player){
     int barrierSuitFloor = RandomNumberGenerator::randomNumber(0, 4);
     for (int curFloor = 0; curFloor < 5; ++curFloor) {
         // 1 player position
-
+        
         // 2 stair position
         // 3 potions
         // 4 gold (+ dragons)

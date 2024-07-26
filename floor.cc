@@ -192,5 +192,14 @@ Floor::Floor() {
 
 
 Floor::~Floor(){
-
+    // Delete the occupant in every cell
+    for (auto& row : board) {
+        for (auto& cell : row) {
+            if (cell.occupant){
+                delete cell.occupant;
+            }
+            
+            cell.occupant = nullptr;
+        }
+    }
 }

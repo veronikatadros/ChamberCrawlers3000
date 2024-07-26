@@ -1,5 +1,6 @@
 #include "floor.h"
 #include<vector>
+#include "enemy.h"
 
 using namespace std;
 class Player;
@@ -10,7 +11,7 @@ class FloorGenerator {
         vector<int> chamberFloorTiles;
     public:
         vector<pair<int,int>> playerFloorLocation;
-        Floor& generateFloor(Player& player);
-        Floor& generateFloor(const std::string& filename, Player& player);
+        vector<Floor&> generateFloor(Player& player);
+        vector<Floor&> generateFloor(const std::string& filename, Player& player);
 };
 

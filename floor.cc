@@ -2,7 +2,7 @@
 #include "headers/cell.h"
 #include "headers/floor.h"
 
-Floor::Floor(): compassFound(false){
+Floor::Floor() {
     for (int i = 0; i < 25; ++i) {
         for (int j = 0; j < 79; ++j) {
             if (j == 0 || j == 78) {

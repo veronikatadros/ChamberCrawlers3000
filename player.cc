@@ -39,6 +39,11 @@ char Player::charAt() const {
 int Player::getGoldValue(Gold* g) {
     return g->value;
 }
+
+int Player::getGoldValue(GoldHoard* g) {
+    return g->value;
+}
+
 void Player::usePotion(Potion* p) {
     if (p->stat == "ATK") {
         atk += p->value;

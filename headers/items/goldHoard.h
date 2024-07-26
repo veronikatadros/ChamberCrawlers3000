@@ -4,8 +4,8 @@
 #include "protected.h"
 
 class GoldHoard : public Protected {
-        const int value = 6;
     public:
+        int value = 6;
         GoldHoard();
         virtual ~GoldHoard();
 };

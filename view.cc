@@ -1,6 +1,6 @@
 #include "headers/view.h"
 #include "headers/floor.h"
-#include "headers/humanPlayer.h"
+#include "headers/player.h"
 #include "headers/entity.h"
 using namespace std;
 
@@ -8,7 +8,7 @@ View::View() : action{""} {}
 
 View::~View() {}
 
-void View::render(const Floor& floor, const int curFloor, const HumanPlayer& player, ostream& out) {
+void View::render(const Floor& floor, const int curFloor, const Player& player, ostream& out) {
     // go through each row & column on board, includes border
     for (size_t row = 0; row < floor.board.size(); ++row) {
         for (size_t col = 0; col < floor.board[row].size(); ++col) {
@@ -22,7 +22,7 @@ void View::render(const Floor& floor, const int curFloor, const HumanPlayer& pla
                         break;
                     case Cell::STAIRS:
                         // green (32)
-                        if (floor.compassFound) {
+                        if (player.hasCompass) {
                             out << "32m\\";
                             break;
                         }

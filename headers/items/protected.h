@@ -4,14 +4,14 @@
 #include "../item.h"
 class Dragon;
 
-class Protected : public Item {
-        Dragon* protector;
+class Protected : public Item { 
     public:
+        Dragon* protector;
         bool protectedAlive;
         
-        Protected(char itemChar);
+        Protected(char itemChar, ItemType itemType);
         virtual ~Protected() = 0;
-        void notify() override;
+        void notify(Player& player) override;
 };
 
 #endif

@@ -18,7 +18,6 @@ class Floor : public Game {
         array<array<Cell, 79>, 25> board;
         Floor();
         ~Floor();
-        void printBoard() const;
 };
 
 #endif

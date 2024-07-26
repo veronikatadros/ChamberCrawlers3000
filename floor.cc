@@ -191,21 +191,6 @@ Floor::Floor() {
 }
 
 
-void Floor::printBoard() const {
-    for (const auto& row : board) {
-        for (const auto& cell : row) {
-            switch (cell.cellType) {
-                case Cell::EMPTY: std::cout << ' '; break;
-                case Cell::GROUND: std::cout << '.'; break;
-                case Cell::VWALL: std::cout << '|'; break;
-                case Cell::HWALL: std::cout << '-'; break;
-                case Cell::DOOR: std::cout << '+'; break;
-                case Cell::PASSAGE: std::cout << '#'; break;
-                case Cell::STAIRS: std::cout << '/'; break;
-            }
-        }
-        std::cout << '\n';
-    }
-}
+Floor::~Floor(){
 
-Floor::~Floor(){}
+}

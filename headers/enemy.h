@@ -2,7 +2,7 @@
 #define ENEMY_H
 
 #include "character.h"
-#include "items/gold.h"
+class Item;
 class Player;
 
 class Enemy : public Character {
@@ -10,13 +10,14 @@ class Enemy : public Character {
     public:
         int spawnRate;
         bool hasAttacked;
+        bool holdsCompass;
 
         Enemy(char enemyChar, int spawnRate, int maxHP, int atk, int def);
         virtual ~Enemy() = 0; // force this to be abstract
 
         char charAt() const override;
         virtual void notify(Player& player) override;
-        virtual Gold* spawnLoot();
+        virtual Item* spawnLoot();
 };
 
 #endif

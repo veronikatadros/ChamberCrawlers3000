@@ -20,13 +20,26 @@
 #include "headers/enemyTypes/werewolf.h"
 using namespace std;
 
+FloorGenerator::FloorGenerator() {
+    chambers = {{{2, 3}, {6, 28}}, 
+                {{3, 39}, {4, 61}, {5, 39}, {3, 69}, {6, 39}, {6, 72}, {7, 61}, {12, 75}}, 
+                {{10, 38}, {12, 49}}, 
+                {{15, 4}, {21, 14}}, 
+                {{19, 37}, {21, 64}, {16, 65}, {21, 75}} };
+    chamberFloorTiles = {104, 201, 36, 77, 150};
+    occupiedTiles = {0, 0, 0, 0, 0};
+}
+
+FloorGenerator::~FloorGenerator() {}
+
 vector<Floor&> FloorGenerator::generateFloor(const string& filename, Player& player) {
     ifstream file(filename);
     if (!file) {
         cerr << "Failed to open file: " << filename << endl;
         throw std::runtime_error("Failed to open file");
     }
-
+    // assume can always see the stairs
+    player.hasCompass = true;
     vector<Floor&> floors;
     for (int curFloor = 0; curFloor < 5; ++curFloor) {
         Floor* f = new Floor(); // Create the Floor object on the heap
@@ -71,37 +84,37 @@ vector<Floor&> FloorGenerator::generateFloor(const string& filename, Player& pla
                     case 'W': {
                         Entity* e = new Werewolf();
                         f->board[row][col].occupant = e;
-                        f->enemyPositions[curFloor].push_back({e, row, col});
+                        f->enemyPositions.push_back({e, row, col});
                         break;
                     }
                     case 'V': {
                         Entity* e = new Vampire();
                         f->board[row][col].occupant = e;
-                        f->enemyPositions[curFloor].push_back({e, row, col});
+                        f->enemyPositions.push_back({e, row, col});
                         break;
                     }
                     case 'N': {
                         Entity* e = new Goblin();
                         f->board[row][col].occupant = e;
-                        f->enemyPositions[curFloor].push_back({e, row, col});
+                        f->enemyPositions.push_back({e, row, col});
                         break;
                     }
                     case 'M': {
                         Entity* e = new Merchant();
                         f->board[row][col].occupant = e;
-                        f->enemyPositions[curFloor].push_back({e, row, col});
+                        f->enemyPositions.push_back({e, row, col});
                         break;
                     }
                     case 'X': {
                         Entity* e = new Phoenix();
                         f->board[row][col].occupant = e;
-                        f->enemyPositions[curFloor].push_back({e, row, col});
+                        f->enemyPositions.push_back({e, row, col});
                         break;
                     }
                     case 'T': {
                         Entity* e = new Troll();
                         f->board[row][col].occupant = e;
-                        f->enemyPositions[curFloor].push_back({e, row, col});
+                        f->enemyPositions.push_back({e, row, col});
                         break;
                     }
                     default:
@@ -139,7 +152,27 @@ vector<Floor&> FloorGenerator::generateFloor(const string& filename, Player& pla
     return floors;
 }
 
-
 vector<Floor&> FloorGenerator::generateFloor(Player& player){
+    vector<Floor&> floors;
+    bool barrierSuitGenerated = false;
+    for (int curFloor = 0; curFloor < 5; ++curFloor) {
+        // 1 player position
+
+        // 2 stair position
+        // 3 potions
+        // 4 gold (+ dragons)
+        // 5 enemies
+        // choose enemy to hold compass
+        // barrier suit??
+
+    }
+}
+
+int FloorGenerator::randomChamber() {
+    return RandomNumberGenerator::randomNumber(0, 4);
+}
+
+pair<int, int> FloorGenerator::randomFloorTile(int chamber) {
+    Entity* e = nullptr;
 
 }

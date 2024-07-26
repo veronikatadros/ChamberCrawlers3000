@@ -4,8 +4,7 @@
 #include "../enemy.h"
 #include "../headers/items/goldHoard.h"
 
-class Gold;
-class GoldHoard;
+class Item;
 class Protected;
 
 class Dragon : public Enemy {
@@ -14,7 +13,7 @@ class Dragon : public Enemy {
         bool hostile;
         Dragon(Protected* hoard);
         virtual ~Dragon();
-        Gold* spawnLoot() override;
+        Item* spawnLoot() override;
         void notify(Player& p) override;
         void setHoard(Protected* h);
 };

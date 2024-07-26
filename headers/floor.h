@@ -14,7 +14,7 @@ class Floor : public Game {
             Entity* entity;
             int x, y;
         };
-        vector<vector<EntityPosition>> enemyPositions;
+        vector<EntityPosition> enemyPositions;
         array<array<Cell, 79>, 25> board;
         Floor();
         ~Floor();

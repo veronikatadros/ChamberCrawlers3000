@@ -1,14 +1,10 @@
 #ifndef TEMP_POTION_H
 #define TEMP_POTION_H
 
-#include "../item.h"
-#include <string>
-using namespace std;
+#include "potion.h"
 
-class TempPotion : public Item {
+class TempPotion : public Potion {
     public:
-        const int value;
-        const string stat;
         TempPotion* next;
         TempPotion(int value, string stat);
         virtual ~TempPotion();

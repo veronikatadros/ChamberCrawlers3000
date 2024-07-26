@@ -6,8 +6,7 @@
 class Item : public Entity {
     public:
         enum ItemType {
-            HEALTH_POTION,
-            TEMP_POTION,
+            POTION,
             GOLD,
             COMPASS,
             BARRIER_SUIT,

@@ -1,7 +1,8 @@
 #include "headers/player.h"
 #include "headers/item.h"
+#include "headers/items/potion.h"
 #include "headers/items/tempPotion.h"
-#include "headers/items/healthPotion.h"
+#include "headers/items/permPotion.h"
 #include "headers/items/gold.h"
 #include "headers/items/compass.h"
 #include "headers/items/barrierSuit.h"
@@ -12,10 +13,8 @@ Player::Player(int maxHP, int atk, int def, string race) : Character{maxHP, atk,
 Player::~Player() {}
 
 void Player::pickUp(Item* i) { // these items need to be deleted in game logic
-    if (i->itemType == Item::HEALTH_POTION) {
-        usePotion(dynamic_cast<HealthPotion*>(i));
-    } else if (i->itemType == Item::TEMP_POTION) {
-        usePotion(dynamic_cast<TempPotion*>(i));
+    if (i->itemType == Item::POTION) {
+        usePotion(dynamic_cast<Potion*>(i));
     } else if (i->itemType == Item::GOLD) {
         Gold* g = dynamic_cast<Gold*>(i);
         gold += getGoldValue(g);
@@ -40,19 +39,19 @@ char Player::charAt() const {
 int Player::getGoldValue(Gold* g) {
     return g->value;
 }
-void Player::usePotion(TempPotion* p) {
+void Player::usePotion(Potion* p) {
     if (p->stat == "ATK") {
         atk += p->value;
     } else if (p->stat == "DEF") {
         def += p->value;
+    } else if (p->stat == "HP") {
+        hp += p->value;
     }
-    p->next = potionEffect;
-    potionEffect = p;
-}
-
-void Player::usePotion(HealthPotion* p) {
-    hp += p->value;
-    if (hp > maxHP) hp = maxHP;
+    TempPotion* tp = dynamic_cast<TempPotion*>(p);
+    if (tp) {
+        tp->next = potionEffect;
+        potionEffect = tp;
+    }
 }
 
 void Player::removeEffects() {

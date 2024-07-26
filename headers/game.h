@@ -15,7 +15,7 @@ class Game {
         vector<Floor&> floors;
         int currentFloor = 0;
         View view;
-        FloorGenerator generator;
+        FloorGenerator& generator;
         vector<Enemy*> enemies;
 
         void movePlayer(string dir);

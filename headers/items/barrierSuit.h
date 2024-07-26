@@ -7,6 +7,7 @@ class BarrierSuit : public Protected {
     public:
         BarrierSuit();
         virtual ~BarrierSuit();
+        void setProtector(Dragon* d);
 };
 
 #endif

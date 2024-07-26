@@ -1,6 +1,4 @@
 #include "../headers/enemyTypes/dragon.h"
-#include "../headers/items/protected.h"
-#include "../headers/items/gold.h"
 
 Dragon::Dragon(Protected* hoard) : Enemy{'D', 0, 150, 20, 20}, hoard{hoard} {}
 
@@ -16,4 +14,8 @@ void Dragon::notify() {
         Enemy::notify();
         hostile = false;
     }
+}
+
+void Dragon::setHoard(Protected* h){
+    this->hoard = h;
 }

@@ -1,11 +1,15 @@
-#include"headers/game.h"
-#include"headers/enemy.h"
+#include "headers/game.h"
+#include "headers/enemy.h"
+#include "headers/floor.h"
+#include "headers/entity.h"
+#include "headers/humanPlayer.h"
+#include <iostream>
 
 using namespace std;
 
-void Game::Game() {
+// Game::Game() {
 
-}
+// }
 
 void Game::start() {
     // set merchant hostiles to false
@@ -14,7 +18,7 @@ void Game::start() {
     HumanPlayer& player = HumanPlayer::getInstance();
 
     string selectRace;
-    cin << selectRace;
+    cin >> selectRace;
 
     if(selectRace == "h") {
         // player = new HumanPlayer
@@ -34,11 +38,11 @@ void Game::movePlayer(string dir) {
 
     if(dir == "no") {   // Move Up
         Cell& c = floors[currentFloor].board[playerLocation.first - 1][playerLocation.second];
-        if(playerLocation.first - 1 >= 0 && c != CellType::HWALL) {
+        if(playerLocation.first - 1 >= 0 && c.cellType != Cell::HWALL) {
             
             if(c.occupant != nullptr) {
-                if(c.occupant.eType == EntityType::ITEM) {
-                    if(c.occupant.type == ItemType::GOLD || c.occupant.type == ItemType::COMPASS || c.occupant.type == ItemType::BARRIER_SUIT) {
+                if(c.occupant.eType == Entity::ITEM) {
+                    if(c.occupant.type == Item::GOLD || c.occupant.type == Item::COMPASS || c.occupant.type == Item::BARRIER_SUIT) {
                         player.pickUp(static_cast<Item*>(c.occupant)); // cast it to item
                         playerLocation.first--;
                     }
@@ -52,11 +56,11 @@ void Game::movePlayer(string dir) {
     else if(dir == "so") { // Move Down
         Cell& c = floors[currentFloor].board[playerLocation.first + 1][playerLocation.second];
         if(playerLocation.first + 1 < floors[currentFloor].board.size() && 
-            c != CellType::HWALL) {
+            c.cellType != Cell::HWALL) {
             
             if(c.occupant != nullptr) {
-                if(c.occupant.eType == EntityType::ITEM) {
-                    if(c.occupant.type == ItemType::GOLD || c.occupant.type == ItemType::COMPASS || c.occupant.type == ItemType::BARRIER_SUIT) {
+                if(c.occupant->eType == Entity::ITEM) {
+                    if(c.occupant->type == Item::GOLD || c.occupant.type == Item::COMPASS || c.occupant.type == Item::BARRIER_SUIT) {
                         player.pickUp(static_cast<Item*>(c.occupant)); // cast it to item
                         playerLocation.first++;
                     }
@@ -71,7 +75,7 @@ void Game::movePlayer(string dir) {
     else if(dir == "ea") {  // Move Right
         Cell& c = floors[currentFloor].board[playerLocation.first][playerLocation.second + 1];
         if(playerLocation.second + 1 < floors[currentFloor].board[playerLocation.second].size() && 
-            c != CellType::VWALL) {
+            c.cellType != CellType::VWALL) {
             
             if(c.occupant != nullptr) {
                 if(c.occupant.eType == EntityType::ITEM) {
@@ -89,7 +93,7 @@ void Game::movePlayer(string dir) {
     }
     else if(dir == "we") { // Move Left
         Cell& c = floors[currentFloor].board[playerLocation.first][playerLocation.second - 1];
-        if(playerLocation.second - 1 >= 0 && c != CellType::VWALL && c.occupant.eType != EntityType::ENEMY) {
+        if(playerLocation.second - 1 >= 0 && c.cellType != CellType::VWALL && c.occupant.eType != EntityType::ENEMY) {
             
             if(c.occupant != nullptr) {
                 if(c.occupant.eType == EntityType::ITEM) {
@@ -107,7 +111,7 @@ void Game::movePlayer(string dir) {
     else if(dir == "ne") { // Move Up and Right
         Cell& c = floors[currentFloor].board[playerLocation.first - 1][playerLocation.second + 1];
         if(playerLocation.first - 1 >= 0 && playerLocation.second + 1 < floors[currentFloor].board[playerLocation.second].size() &&
-             c != CellType::HWALL && c != CellType::VWALL) {
+             c.cellType != CellType::HWALL && c.cellType != CellType::VWALL) {
             
             if(c.occupant != nullptr) {
                 if(c.occupant.eType == EntityType::ITEM) {
@@ -127,7 +131,7 @@ void Game::movePlayer(string dir) {
     else if(dir == "nw") {  // Move Up and Left
         Cell& c = floors[currentFloor].board[playerLocation.first - 1][playerLocation.second - 1];
         if(playerLocation.first - 1 >= 0 && playerLocation.second - 1 >= 0 &&
-             c != CellType::HWALL && c != CellType::VWALL) {
+             c.cellType != CellType::HWALL && c.cellType != CellType::VWALL) {
             
             if(c.occupant != nullptr) {
                 if(c.occupant.eType == EntityType::ITEM) {
@@ -148,7 +152,7 @@ void Game::movePlayer(string dir) {
         Cell& c = floors[currentFloor].board[playerLocation.first + 1][playerLocation.second + 1];
         if(playerLocation.first + 1 < floors[currentFloor].board.size() && 
             playerLocation.second + 1 < floors[currentFloor].board[playerLocation.second].size() &&
-             c != CellType::HWALL && c != CellType::VWALL) {
+             c.cellType != CellType::HWALL && c.cellType != CellType::VWALL) {
             
             if(c.occupant != nullptr) {
                 if(c.occupant.eType == EntityType::ITEM) {
@@ -168,7 +172,7 @@ void Game::movePlayer(string dir) {
     else if(dir == "sw") {  // Move Down and Left
         Cell& c = floors[currentFloor].board[playerLocation.first + 1][playerLocation.second - 1];
         if(playerLocation.first + 1 < floors[currentFloor].board.size() && playerLocation.second - 1 >= 0 &&
-             c != CellType::HWALL && c != CellType::VWALL) {
+             c.cellType != CellType::HWALL && c.cellType != CellType::VWALL) {
             
             if(c.occupant != nullptr) {
                 if(c.occupant.eType == EntityType::ITEM) {
@@ -304,7 +308,8 @@ void Game::nextFloor() {
 }
 
 void Game::reset() {
-    
+    // delete a bunch of shit
+    // call Game::start()
 }
 
 void Game::playTurn() {

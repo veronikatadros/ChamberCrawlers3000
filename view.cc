@@ -110,7 +110,7 @@ void View::render(const Floor* floor, const int curFloor, const Player* player, 
 void View::enemyAttack(Enemy* enemy) {
     char e = enemy->charAt();
     getEnemyName(e);
-    action += " attacks! ";
+    action += " tries to attack! ";
 }
 
 void View::playerAttack(Enemy* enemy, bool dead) {

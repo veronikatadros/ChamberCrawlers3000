@@ -62,6 +62,8 @@ void Player::usePotion(Potion* p) {
     if (tp) {
         tp->next = potionEffect;
         potionEffect = tp;
+    } else {
+        delete p;
     }
 }
 

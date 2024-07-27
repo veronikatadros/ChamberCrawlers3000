@@ -95,7 +95,7 @@ void Game::movePlayer(string dir) {
         xDir++;
     }
     else if (dir == "sw") { // DOWN-LEFT
-        yDir--;
+        yDir++;
         xDir--;
     }
 
@@ -238,7 +238,7 @@ void Game::playerAttack(string dir) {
         xDir++;
     }
     else if (dir == "sw") { // DOWN-LEFT
-        yDir--;
+        yDir++;
         xDir--;
     }
 
@@ -293,7 +293,7 @@ void Game::usePotion(string dir) {
         xDir++;
     }
     else if (dir == "sw") { // DOWN-LEFT
-        yDir--;
+        yDir++;
         xDir--;
     }
 

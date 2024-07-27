@@ -136,7 +136,7 @@ vector<Floor*> FloorGenerator::generateFloor(const string& filename, Player& pla
             Dragon* dragon = static_cast<Dragon*>(dragonPos.entity);
 
             for (auto& protectedPos : protectedPositions) {
-                if (abs(protectedPos.row - dragonPos.row) <= 1) {
+                if (abs(protectedPos.row - dragonPos.row) <= 1 && abs(protectedPos.col - protectedPos.col) <= 1) {
                     Protected* p = dynamic_cast<Protected*>(protectedPos.entity);
                     dragon->setHoard(p);
                     p->setProtector(dragon);
@@ -154,8 +154,8 @@ vector<Floor*> FloorGenerator::generateFloor(Player& player) {
     vector<Floor*> floors;
     int barrierSuitFloor = RandomNumberGenerator::randomNumber(0, 4);
     for (int curFloor = 0; curFloor < 5; ++curFloor) {
-        floors[curFloor] = new Floor();
-        Floor* cf = floors[curFloor];
+        Floor* cf = new Floor();
+        floors.push_back(cf);
         // 1) player position
         int playerChamber = randomChamber();
         pair<int, int> playerPos = randomFloorTile(cf, playerChamber);

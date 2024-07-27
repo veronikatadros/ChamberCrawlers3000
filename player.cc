@@ -51,6 +51,9 @@ void Player::usePotion(Potion* p) {
         def += p->value;
     } else if (p->stat == "HP") {
         hp += p->value;
+        if (hp > maxHP) {
+            hp = maxHP;
+        }
     }
     TempPotion* tp = dynamic_cast<TempPotion*>(p);
     if (tp) {

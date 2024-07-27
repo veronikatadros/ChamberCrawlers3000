@@ -317,6 +317,7 @@ void Game::playTurn() {
         cin >> input;
         if (input == "r") {
             reset();
+            break;
         }
         else if (input == "q") {
             quitGame = true;

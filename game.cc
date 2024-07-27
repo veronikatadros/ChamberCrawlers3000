@@ -97,7 +97,7 @@ void Game::movePlayer(string dir) {
         else {
             if(c.cellType == Cell::STAIRS) {
                 nextFloor();
-                generator->playerFloorLocation[currentFloor];
+                playerLocation = generator->playerFloorLocation[currentFloor];
             }
             else {
                 playerLocation.first = yDir;
@@ -267,6 +267,7 @@ void Game::updateDir(int &yDir, int &xDir, string dir) {
 void Game::nextFloor() {
     currentFloor++;
     player->removeEffects();
+    player->hasCompass = false;
 }
 
 void Game::reset() {
@@ -308,6 +309,7 @@ void Game::playTurn() {
         else {
             cout << "Invalid Try Again!" << endl;
         }
+        notifyCells();
         moveEnemies();
         view->render(floors[currentFloor], currentFloor, player);
     }

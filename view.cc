@@ -42,8 +42,8 @@ void View::render(const Floor* floor, const int curFloor, const Player* player, 
                         output += "7;34m+";
                         break;
                     case Cell::PASSAGE:
-                        // inverse (7) and then cyan (36)
-                        output += "7;36m#";
+                        // blue (34)
+                        output += "34m#";
                         break;
                     default:
                         // throw error?

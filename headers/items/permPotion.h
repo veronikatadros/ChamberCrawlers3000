@@ -1,5 +1,5 @@
-#ifndef HEALTH_POTION_H
-#define HEALTH_POTION_H
+#ifndef PERM_POTION_H
+#define PERM_POTION_H
 
 #include "potion.h"
 

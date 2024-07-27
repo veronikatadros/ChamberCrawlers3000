@@ -1,7 +1,6 @@
 #include "headers/view.h"
 #include "headers/floor.h"
 #include "headers/player.h"
-#include "headers/entity.h"
 using namespace std;
 
 View::View() : action{"default action"} {}

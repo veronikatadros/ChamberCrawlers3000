@@ -17,7 +17,8 @@ using namespace std;
 Game::Game(string cmd) : cmd{cmd} {}
 
 void Game::start() {
-    cout << "Please enter your Race: ";
+    cout << "Welcome to the game of CC3K!" << endl;
+    cout << "Enter 'q' to quit or please enter your race: ";
 
     string selectRace;
     cin >> selectRace;
@@ -34,6 +35,7 @@ void Game::start() {
     else if(selectRace == "o") {
         player = new Orc();
     }
+    else if(selectRace == "q") return;
 
     currentFloor = 0;
 

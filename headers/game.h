@@ -1,3 +1,5 @@
+#ifndef GAME_H
+#define GAME_H
 #include "player.h"
 #include "view.h"
 #include "floorGenerator.h"
@@ -32,6 +34,6 @@ class Game {
         Game(string cmd);
         virtual ~Game();
 };
-
+#endif
 
 

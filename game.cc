@@ -126,7 +126,7 @@ void Game::movePlayer(string dir) {
 
     // Notify item cells around the Player
     for(int i = -1; i <= 1; i++) {
-        for(int j = -1; i <= 1; j++) {
+        for(int j = -1; j <= 1; j++) {
             int y = playerLocation.first + i;
             int x = playerLocation.second + j;
             if (y >= 0 && x >= 0 && y < floors[currentFloor]->board.size() && x < floors[currentFloor]->board[playerLocation.first].size()) {
@@ -140,7 +140,7 @@ void Game::movePlayer(string dir) {
 
     // Notify enemy cells around the Player
     for(int i = -1; i <= 1; i++) {
-        for(int j = -1; i <= 1; j++) {
+        for(int j = -1; j <= 1; j++) {
             int y = playerLocation.first + i;
             int x = playerLocation.second + j;
             if (y >= 0 && x >= 0 && y < floors[currentFloor]->board.size() && x < floors[currentFloor]->board[playerLocation.first].size()) {
@@ -156,18 +156,18 @@ void Game::movePlayer(string dir) {
 void Game::moveEnemies() {
 
     for(int k = 0; k < floors[currentFloor]->enemyPositions.size(); k++) {
-        vector<Cell&> validCells;
+        vector<Cell*> validCells;
 
         Floor::EntityPosition entPos = floors[currentFloor]->enemyPositions[k];
         Entity *e = entPos.entity;
 
         for(int i = -1; i <= 1; i++) {
-            for(int j = -1; i <= 1; j++) {
+            for(int j = -1; j <= 1; j++) {
                 int y = playerLocation.first + i;
                 int x = playerLocation.second + j;
                 if (y >= 0 && x >= 0 && y < floors[currentFloor]->board.size() && x < floors[currentFloor]->board[playerLocation.first].size()) {
                     Cell& c = floors[currentFloor]->board[y][x];
-                    if(c.cellType == Cell::GROUND && c.occupant == nullptr) validCells.push_back(c);
+                    if(c.cellType == Cell::GROUND && c.occupant == nullptr) validCells.push_back(&c);
                 }
             }
         }
@@ -177,7 +177,7 @@ void Game::moveEnemies() {
             int ran = RandomNumberGenerator::randomNumber(0, size -1);
             Cell& curCell = floors[currentFloor]->board[entPos.y][entPos.x];
             curCell.occupant = nullptr;
-            validCells[ran].occupant = e;
+            validCells[ran]->occupant = e;
         }
 
     }

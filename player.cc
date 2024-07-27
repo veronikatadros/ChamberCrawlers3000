@@ -19,16 +19,15 @@ void Player::pickUp(Item* i) { // these items need to be deleted in game logic
     } else if (i->itemType == Item::GOLD) {
         Gold* g = dynamic_cast<Gold*>(i);
         gold += getGoldValue(g);
-        delete g;
     } else if (i->itemType == Item::GOLD_HOARD) {
         GoldHoard* g = dynamic_cast<GoldHoard*>(i);
         gold += getGoldValue(g);
-        delete g;
     } else if (i->itemType == Item::COMPASS) {
         hasCompass = true;
     } else if (i->itemType == Item::BARRIER_SUIT) {
         hasBarrierSuit = true;
     }
+    delete i;
 }
 
 void Player::notify(Entity* player) {}

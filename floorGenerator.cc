@@ -60,65 +60,65 @@ vector<Floor*> FloorGenerator::generateFloor(const string& filename, Player& pla
                     case '@': f->board[row][col].occupant = static_cast<Entity*>(&player); // shouldn't need cast here?
                     playerFloorLocation.push_back(make_pair(row, col)); break;
                     case '\\': f->board[row][col].cellType = Cell::STAIRS; break;
-                    case '0': f->board[row][col].occupant = new PermPotion(10); break;
-                    case '1': f->board[row][col].occupant = new TempPotion(5, "ATK"); break;
-                    case '2': f->board[row][col].occupant = new TempPotion(5, "DEF"); break;
-                    case '3': f->board[row][col].occupant = new PermPotion(-10); break;
-                    case '4': f->board[row][col].occupant = new TempPotion(-5, "ATK"); break;
-                    case '5': f->board[row][col].occupant = new TempPotion(-5, "DEF"); break;
-                    case '6': f->board[row][col].occupant = new Gold(1); break;
-                    case '7': f->board[row][col].occupant = new Gold(2); break;
-                    case '8': f->board[row][col].occupant = new Gold(4); break;
+                    case '0': f->board[row][col].occupant = new PermPotion{10}; break;
+                    case '1': f->board[row][col].occupant = new TempPotion{5, "ATK"}; break;
+                    case '2': f->board[row][col].occupant = new TempPotion{5, "DEF"}; break;
+                    case '3': f->board[row][col].occupant = new PermPotion{-10}; break;
+                    case '4': f->board[row][col].occupant = new TempPotion{-5, "ATK"}; break;
+                    case '5': f->board[row][col].occupant = new TempPotion{-5, "DEF"}; break;
+                    case '6': f->board[row][col].occupant = new Gold{1}; break;
+                    case '7': f->board[row][col].occupant = new Gold{2}; break;
+                    case '8': f->board[row][col].occupant = new Gold{4}; break;
                     case '9': {
-                        GoldHoard* gold = new GoldHoard();
+                        GoldHoard* gold = new GoldHoard{};
                         f->board[row][col].occupant = gold;
                         protectedPositions.push_back({gold, row, col});
                         break;
                     }
                     case 'D': {
-                        Dragon* dragon = new Dragon(nullptr);
+                        Dragon* dragon = new Dragon{nullptr};
                         f->board[row][col].occupant = dragon;
                         dragonPositions.push_back({dragon, row, col});
                         break;
                     }
                     case 'B': {
-                        BarrierSuit* suit = new BarrierSuit();
+                        BarrierSuit* suit = new BarrierSuit{};
                         f->board[row][col].occupant = suit;
                         protectedPositions.push_back({suit, row, col});
                         break;
                     }
                     case 'W': {
-                        Entity* e = new Werewolf();
+                        Entity* e = new Werewolf{};
                         f->board[row][col].occupant = e;
                         f->enemyPositions.push_back({e, row, col});
                         break;
                     }
                     case 'V': {
-                        Entity* e = new Vampire();
+                        Entity* e = new Vampire{};
                         f->board[row][col].occupant = e;
                         f->enemyPositions.push_back({e, row, col});
                         break;
                     }
                     case 'N': {
-                        Entity* e = new Goblin();
+                        Entity* e = new Goblin{};
                         f->board[row][col].occupant = e;
                         f->enemyPositions.push_back({e, row, col});
                         break;
                     }
                     case 'M': {
-                        Entity* e = new Merchant();
+                        Entity* e = new Merchant{};
                         f->board[row][col].occupant = e;
                         f->enemyPositions.push_back({e, row, col});
                         break;
                     }
                     case 'X': {
-                        Entity* e = new Phoenix();
+                        Entity* e = new Phoenix{};
                         f->board[row][col].occupant = e;
                         f->enemyPositions.push_back({e, row, col});
                         break;
                     }
                     case 'T': {
-                        Entity* e = new Troll();
+                        Entity* e = new Troll{};
                         f->board[row][col].occupant = e;
                         f->enemyPositions.push_back({e, row, col});
                         break;
@@ -198,6 +198,7 @@ vector<Floor*> FloorGenerator::generateFloor(Player& player) {
         Enemy* compassEnemy = dynamic_cast<Enemy*>(cf->enemyPositions[compassEnemyIndex].entity);
         compassEnemy->holdsCompass = true;
     }
+    return floors;
 }
 
 void FloorGenerator::spawnEnemy(Floor* f) {

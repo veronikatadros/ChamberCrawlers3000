@@ -4,7 +4,7 @@
 #include "headers/entity.h"
 using namespace std;
 
-View::View() : action{""} {}
+View::View() : action{"default action"} {}
 
 View::~View() {}
 

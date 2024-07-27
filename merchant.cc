@@ -2,6 +2,8 @@
 #include "headers/items/gold.h"
 #include "headers/items/compass.h"
 
+bool Merchant::merchantsHostile;
+
 Merchant::Merchant() : Enemy{'M', 2, 30, 70, 5} {}
 
 Merchant::~Merchant() {}

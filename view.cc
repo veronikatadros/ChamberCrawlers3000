@@ -108,67 +108,17 @@ void View::render(const Floor* floor, const int curFloor, const Player* player, 
 }
 
 void View::enemyAttack(Enemy* enemy) {
-    // get enemy type
     char e = enemy->charAt();
-    switch (e) {
-        case 'V':
-            action += "Vampire";
-            break;
-        case 'W':
-            action += "Werewolf";
-            break;
-        case 'N':
-            action += "Goblin";
-            break;
-        case 'M':
-            action += "Merchant";
-            break;
-        case 'D':
-            action += "Dragon";
-            break;
-        case 'X':
-            action += "Phoenix";
-            break;
-        case 'T':
-            action += "Troll";
-            break;
-        default:
-            break;
-    }
+    getEnemyName(e);
     action += " attacks! ";
 }
 
 void View::playerAttack(Enemy* enemy, bool dead) {
-    // get enemy type
     action += "Player attacks ";
     char e = enemy->charAt();
-    switch (e) {
-        case 'V':
-            action += "Vampire";
-            break;
-        case 'W':
-            action += "Werewolf";
-            break;
-        case 'N':
-            action += "Goblin";
-            break;
-        case 'M':
-            action += "Merchant";
-            break;
-        case 'D':
-            action += "Dragon";
-            break;
-        case 'X':
-            action += "Phoenix";
-            break;
-        case 'T':
-            action += "Troll";
-            break;
-        default:
-            break;
-    }
+    getEnemyName(e);
 
-    action += " (" + (char)enemy->hp;
+    action += " (" + to_string(enemy->hp);
     action += " HP)! ";
 }
 
@@ -182,14 +132,14 @@ void View::itemGrabbed(Item* item) {
         case (Item::GOLD): {
             action += " Gold (";
             Gold* g = dynamic_cast<Gold*>(item);
-            action += (char)g->value;
+            action += to_string(g->value);
             action += ")! ";
             break;
         }
         case (Item::GOLD_HOARD): {
             action += " Gold Hoard (";
             GoldHoard* g = dynamic_cast<GoldHoard*>(item);
-            action += (char)g->value;
+            action += to_string(g->value);
             action += ")! ";
             break;
         }
@@ -199,9 +149,11 @@ void View::itemGrabbed(Item* item) {
             
             action += p->stat + " ";
             if (p->value < 0) {
-                action += "- " + static_cast<char>(0 - p->value);
+                action += "- ";
+                action += to_string(0 - p->value);
             } else {
-                action += "+ " + static_cast<char>(0 - p->value);
+                action += "+ ";
+                action += to_string(0 - p->value);
             }
             action += "! ";
             break;
@@ -234,5 +186,33 @@ void View::gameOver() {
         ⠀⠀⠀⠹⣿⣿⣶⣾⣿⣿⣿⠟⠁⠀⠸⢿⣿⠇⠀⠀⠀⠛⠛⠁⠀⠀⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀
         ⠀⠀⠀⠀⠈⠙⠛⠛⠛⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
     )" << '\n';
+}
+
+void View::getEnemyName(char enemyChar) {
+    switch (enemyChar) {
+        case 'V':
+            action += "Vampire";
+            break;
+        case 'W':
+            action += "Werewolf";
+            break;
+        case 'N':
+            action += "Goblin";
+            break;
+        case 'M':
+            action += "Merchant";
+            break;
+        case 'D':
+            action += "Dragon";
+            break;
+        case 'X':
+            action += "Phoenix";
+            break;
+        case 'T':
+            action += "Troll";
+            break;
+        default:
+            break;
+    }
 }
 

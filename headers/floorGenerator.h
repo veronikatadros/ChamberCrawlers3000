@@ -19,6 +19,7 @@ class FloorGenerator {
         bool emptyFloorTile(Floor* f, int row, int col) const; // returns whether tile is empty
         void spawnPotion(Floor* f);
         void spawnGold(Floor* f, vector<Floor::EntityPosition>& protectedPositions);
+        void spawnDragon(Floor* f, Floor::EntityPosition& procItem);
     public:
         FloorGenerator();
         virtual ~FloorGenerator();

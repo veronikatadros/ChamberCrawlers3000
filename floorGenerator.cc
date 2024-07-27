@@ -1,5 +1,6 @@
 #include <fstream>
 #include <unordered_map>
+#include <stdio.h>
 #include "headers/randomNumberGenerator.h"
 #include "headers/floor.h"
 #include "headers/floorGenerator.h"
@@ -134,11 +135,11 @@ vector<Floor*> FloorGenerator::generateFloor(const string& filename, Player& pla
         // Second pass to link dragons to their protected objects
         for (auto& dragonPos : dragonPositions) {
             Dragon* dragon = static_cast<Dragon*>(dragonPos.entity);
-            int dr = dragonPos.x;
-            int dc = dragonPos.y;
+            int dr = dragonPos.row;
+            int dc = dragonPos.col;
 
             for (auto& protectedPos : protectedPositions) {
-                if (abs(protectedPos.x - dragonPos.x) <= 1) {
+                if (abs(protectedPos.row - dragonPos.row) <= 1) {
                     Protected* p = dynamic_cast<Protected*>(protectedPos.entity);
                     dragon->setHoard(p);
                     p->setProtector(dragon);
@@ -171,16 +172,32 @@ vector<Floor*> FloorGenerator::generateFloor(Player& player) {
         for (int i = 0; i < 10; ++i) {
             spawnPotion(cf);
         }
-        // 4 gold (+ dragons)
+        // 4) gold
         vector<Floor::EntityPosition> protectedPositions;
         for (int i = 0; i < 10; ++i) {
-
+            spawnGold(cf, protectedPositions);
         }
-        // gen barrier suit if on correct floor
-        // 5 enemies
+        // generate barrier suit if on correct floor
+        if (curFloor == barrierSuitFloor) {
+            pair<int, int> suitPos = randomFloorTile(cf, randomChamber());
+            Protected* p = new BarrierSuit{};
+            cf->board[suitPos.first][suitPos.second].occupant = p;
+            protectedPositions.push_back({p, suitPos.first, suitPos.second});
+        }
+        // 5) enemies
+        int enemyCount;
+        // generate dragons
+        for (enemyCount = 0; enemyCount < protectedPositions.size(); ++enemyCount) {
+            // find valid cells
+        }
         // choose enemy to hold compass
 
     }
+}
+
+void FloorGenerator::spawnDragon(Floor* f, Floor::EntityPosition& procItem) {
+    //get valid tiles around item
+    //
 }
 
 void FloorGenerator::spawnGold(Floor* f, vector<Floor::EntityPosition>& protectedPositions) {
@@ -196,8 +213,12 @@ void FloorGenerator::spawnGold(Floor* f, vector<Floor::EntityPosition>& protecte
             break;
         case 5:
         case 6:
+            f->board[goldPos.first][goldPos.second].occupant = new Gold{2};
             break;
         case 7:
+            Protected* p = new GoldHoard{};
+            f->board[goldPos.first][goldPos.second].occupant = p;
+            protectedPositions.push_back({p, goldPos.first, goldPos.second});
             break;
         default:
             break;

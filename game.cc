@@ -224,7 +224,12 @@ void Game::playerAttack(string dir) {
             if (isEnemyDead) { // if dead, replace enemy* with gold*
                 Item *i = e->spawnLoot();
                 // erase-remove idiom
-                floors[currentFloor]->enemyPositions.erase(remove(floors[currentFloor]->enemyPositions.begin(), floors[currentFloor]->enemyPositions.end(), e), floors[currentFloor]->enemyPositions.end());
+                for (int k = 0; k < floors[currentFloor]->enemyPositions.size(); k++){
+                    if (floors[currentFloor]->enemyPositions[k].entity == e){
+                        std::swap(floors[currentFloor]->enemyPositions[k], floors[currentFloor]->enemyPositions[floors[currentFloor]->enemyPositions.size() - 1]);
+                        floors[currentFloor]->enemyPositions.pop_back();
+                    }
+                }
                 delete e;
                 c.occupant = i;
             }

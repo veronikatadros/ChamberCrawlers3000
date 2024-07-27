@@ -6,13 +6,14 @@
 #include "headers/items/gold.h"
 #include "headers/items/goldHoard.h"
 #include "headers/items/potion.h"
+#include <iostream>
 using namespace std;
 
 View::View() : action{""} {}
 
 View::~View() {}
 
-void View::render(const Floor* floor, const int curFloor, const Player* player, ostream& out) {
+void View::render(const Floor* floor, const int curFloor, const Player* player) {
     // go through each row & column on board, includes border
     for (size_t row = 0; row < floor->board.size(); ++row) {
         for (size_t col = 0; col < floor->board[row].size(); ++col) {
@@ -88,22 +89,22 @@ void View::render(const Floor* floor, const int curFloor, const Player* player, 
                 }
                 output += View::ENDCOLOR;
             }
-            out << output;
+            cout << output;
         }
-        out << '\n';
+        cout << '\n';
     }
     //output UI
-    out << "Race: " << player->race;
-    for (int i = 0; i < View::SPACING; ++i) out << ' ';
-    out << "Floor: " << curFloor + 1 << '\n';
+    cout << "Race: " << player->race;
+    for (int i = 0; i < View::SPACING; ++i) cout << ' ';
+    cout << "Floor: " << curFloor + 1 << '\n';
     
-    out << "Gold: " << player->gold << '\n';
+    cout << "Gold: " << player->gold << '\n';
 
-    out << "HP: " << player->hp << '\n';
-    out << "Atk: " << player->atk << '\n';
-    out << "Def: " << player->def << '\n';
+    cout << "HP: " << player->hp << '\n';
+    cout << "Atk: " << player->atk << '\n';
+    cout << "Def: " << player->def << '\n';
 
-    out << "Action: " << action << '\n';
+    cout << "Action: " << action << '\n';
     action = "";
 }
 

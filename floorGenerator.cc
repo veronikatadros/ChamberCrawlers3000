@@ -21,7 +21,7 @@
 using namespace std;
 
 FloorGenerator::FloorGenerator() {
-    chambers = {{{2, 3}}, 
+    chambers = {{{3, 3}}, 
                 {{3, 39}, {5, 39}, {6, 39}, {7, 61}}, 
                 {{10, 38}}, 
                 {{15, 4}}, 

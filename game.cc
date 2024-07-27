@@ -163,8 +163,8 @@ void Game::moveEnemies() {
 
         for(int i = -1; i <= 1; i++) {
             for(int j = -1; j <= 1; j++) {
-                int y = playerLocation.first + i;
-                int x = playerLocation.second + j;
+                int y = entPos.row + i;
+                int x = entPos.col + j;
                 if (y >= 0 && x >= 0 && y < floors[currentFloor]->board.size() && x < floors[currentFloor]->board[playerLocation.first].size()) {
                     Cell& c = floors[currentFloor]->board[y][x];
                     if(c.cellType == Cell::GROUND && c.occupant == nullptr) validCells.push_back(&c);

@@ -8,7 +8,7 @@
 #include "headers/items/potion.h"
 using namespace std;
 
-View::View() : action{"default action"} {}
+View::View() : action{""} {}
 
 View::~View() {}
 

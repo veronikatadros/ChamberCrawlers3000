@@ -160,6 +160,7 @@ vector<Floor*> FloorGenerator::generateFloor(Player& player) {
         int playerChamber = randomChamber();
         pair<int, int> playerPos = randomFloorTile(cf, playerChamber);
         cf->board[playerPos.first][playerPos.second].occupant = &player;
+        playerFloorLocation.push_back(playerPos);
         // 2) stair position
         int stairChamber = RandomNumberGenerator::randomNumber(0, 3);
         if (stairChamber >= playerChamber) stairChamber++;

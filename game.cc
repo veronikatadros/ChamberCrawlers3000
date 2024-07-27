@@ -101,7 +101,7 @@ void Game::movePlayer(string dir) {
 
     Cell& c = floors[currentFloor]->board[yDir][xDir];
     if(xDir >= 0 && yDir >= 0 && yDir < floors[currentFloor]->board.size() && xDir < floors[currentFloor]->board[playerLocation.first].size()
-        && c.cellType != Cell::HWALL && c.cellType != Cell::VWALL && c.cellType == !Cell::EMPTY) {
+        && c.cellType != Cell::HWALL && c.cellType != Cell::VWALL && c.cellType != Cell::EMPTY) {
         
         if(c.occupant != nullptr) {
             if(c.occupant->eType == Entity::ITEM) {

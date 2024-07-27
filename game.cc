@@ -62,7 +62,7 @@ void Game::movePlayer(string dir) {
     updateDir(yDir, xDir, dir);
 
     Cell& c = floors[currentFloor]->board[yDir][xDir];
-    if(xDir >= 0 && yDir >= 0 && yDir < floors[currentFloor]->board.size() && xDir < floors[currentFloor]->board[playerLocation.first].size()
+    if(xDir >= 0 && yDir >= 0 && static_cast<std::size_t>(yDir) < floors[currentFloor]->board.size() && static_cast<std::size_t>(xDir) < floors[currentFloor]->board[playerLocation.first].size()
         && c.cellType != Cell::HWALL && c.cellType != Cell::VWALL && c.cellType != Cell::EMPTY) {
         
         if(c.occupant != nullptr) {
@@ -107,7 +107,7 @@ void Game::movePlayer(string dir) {
 
 void Game::moveEnemies() {
 
-    for(int k = 0; k < floors[currentFloor]->enemyPositions.size(); k++) {
+    for(size_t k = 0; k < floors[currentFloor]->enemyPositions.size(); k++) {
         vector<pair<int, int>> testCells;
 
         Floor::EntityPosition &ePos = floors[currentFloor]->enemyPositions[k];
@@ -124,7 +124,7 @@ void Game::moveEnemies() {
             for(int j = -1; j <= 1; j++) {
                 int row = ePos.row + i;
                 int col = ePos.col + j;
-                if (row >= 0 && col >= 0 && row < floors[currentFloor]->board.size() && col < floors[currentFloor]->board[playerLocation.first].size()) {
+                if (row >= 0 && col >= 0 && static_cast<std::size_t>(row) < floors[currentFloor]->board.size() && static_cast<std::size_t>(col) < floors[currentFloor]->board[playerLocation.first].size()) {
                     Cell& c = floors[currentFloor]->board[row][col];
                     pair<int, int> newCoord;
                     newCoord.first = row;
@@ -156,7 +156,7 @@ void Game::playerAttack(string dir) {
     updateDir(yDir, xDir, dir);
 
     Cell& c = floors[currentFloor]->board[yDir][xDir];
-    if(xDir >= 0 && yDir >= 0 && yDir < floors[currentFloor]->board.size() && xDir < floors[currentFloor]->board[playerLocation.first].size()
+    if(xDir >= 0 && yDir >= 0 && static_cast<std::size_t>(yDir) < floors[currentFloor]->board.size() && static_cast<std::size_t>(xDir) < floors[currentFloor]->board[playerLocation.first].size()
         && c.occupant != nullptr && c.occupant->eType == Entity::ENEMY) { 
             Enemy* e = static_cast<Enemy*>(c.occupant);
             bool isEnemyDead = e->tryKill(player->atk);
@@ -166,7 +166,7 @@ void Game::playerAttack(string dir) {
             if (isEnemyDead) { // if dead, replace enemy* with gold*
                 Item *i = e->spawnLoot();
                 // erase-remove idiom
-                for (int k = 0; k < floors[currentFloor]->enemyPositions.size(); k++){
+                for (size_t k = 0; k < floors[currentFloor]->enemyPositions.size(); k++){
                     if (floors[currentFloor]->enemyPositions[k].entity == e){
                         std::swap(floors[currentFloor]->enemyPositions[k], floors[currentFloor]->enemyPositions[floors[currentFloor]->enemyPositions.size() - 1]);
                         floors[currentFloor]->enemyPositions.pop_back();
@@ -187,7 +187,7 @@ void Game::usePotion(string dir) {
     updateDir(yDir, xDir, dir);
 
     Cell& c = floors[currentFloor]->board[yDir][xDir];
-    if(xDir >= 0 && yDir >= 0 && yDir < floors[currentFloor]->board.size() && xDir < floors[currentFloor]->board[playerLocation.first].size()
+    if(xDir >= 0 && yDir >= 0 && static_cast<std::size_t>(yDir) < floors[currentFloor]->board.size() && static_cast<std::size_t>(xDir) < floors[currentFloor]->board[playerLocation.first].size()
         && c.occupant != nullptr && c.occupant->eType == Entity::ITEM) { 
             Item* item = static_cast<Item*>(c.occupant);
             if (item->itemType == Item::POTION) {
@@ -205,7 +205,7 @@ void Game::notifyCells() {
         for(int j = -1; j <= 1; j++) {
             int y = playerLocation.first + i;
             int x = playerLocation.second + j;
-            if (y >= 0 && x >= 0 && y < floors[currentFloor]->board.size() && x < floors[currentFloor]->board[playerLocation.first].size()) {
+            if (y >= 0 && x >= 0 && static_cast<std::size_t>(y) < floors[currentFloor]->board.size() && static_cast<std::size_t>(x) < floors[currentFloor]->board[playerLocation.first].size()) {
                 Cell& k = floors[currentFloor]->board[playerLocation.first + i][playerLocation.second + j];
                 if(k.occupant != nullptr && k.occupant->eType == Entity::ITEM) {
                     k.occupant->notify(static_cast<Entity*>(player));
@@ -219,7 +219,7 @@ void Game::notifyCells() {
         for(int j = -1; j <= 1; j++) {
             int y = playerLocation.first + i;
             int x = playerLocation.second + j;
-            if (y >= 0 && x >= 0 && y < floors[currentFloor]->board.size() && x < floors[currentFloor]->board[playerLocation.first].size()) {
+            if (y >= 0 && x >= 0 && static_cast<std::size_t>(y) < floors[currentFloor]->board.size() && static_cast<std::size_t>(x) < floors[currentFloor]->board[playerLocation.first].size()) {
                 Cell& k = floors[currentFloor]->board[playerLocation.first + i][playerLocation.second + j];
                 if(k.occupant != nullptr && k.occupant->eType == Entity::ENEMY) {
                     k.occupant->notify(static_cast<Entity*>(player));

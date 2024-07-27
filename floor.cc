@@ -1,5 +1,5 @@
 #include <fstream>
-#include "headers/cell.h"
+#include "headers/entity.h"
 #include "headers/floor.h"
 
 Floor::Floor() {

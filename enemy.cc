@@ -22,10 +22,11 @@ Item* Enemy::spawnLoot() { // upon enemy death (onHit returns true), return loot
     }
 }
 
-void Enemy::notify(Player& player) { // try to attack player
+void Enemy::notify(Entity* player) { // try to attack player
+    Player* p = dynamic_cast<Player*>(player);
     hasAttacked = true;
     if (RandomNumberGenerator::randomNumber(0, 1) == 0) {
-        player.tryKill(atk);
+        p->tryKill(atk);
     }
     // else missed
 }

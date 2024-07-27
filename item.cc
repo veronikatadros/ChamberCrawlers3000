@@ -8,4 +8,4 @@ char Item::charAt() const {
     return itemChar;
 }
 
-void Item::notify(Player& player) {}
+void Item::notify(Entity* player) {}

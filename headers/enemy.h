@@ -16,7 +16,7 @@ class Enemy : public Character {
         virtual ~Enemy() = 0; // force this to be abstract
 
         char charAt() const override;
-        virtual void notify(Player& player) override;
+        virtual void notify(Entity* player) override;
         virtual Item* spawnLoot();
 };
 

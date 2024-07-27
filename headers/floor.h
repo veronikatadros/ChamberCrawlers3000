@@ -5,7 +5,6 @@
 #include <array>
 #include "cell.h"
 
-
 using namespace std;
 
 class Floor {

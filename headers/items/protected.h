@@ -11,7 +11,7 @@ class Protected : public Item {
         
         Protected(char itemChar, ItemType itemType);
         virtual ~Protected() = 0;
-        void notify(Player& player) override;
+        void notify(Entity* player) override;
         void setProtector(Dragon* d);
 };
 

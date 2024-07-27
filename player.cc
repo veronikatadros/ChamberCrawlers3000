@@ -31,7 +31,7 @@ void Player::pickUp(Item* i) { // these items need to be deleted in game logic
     }
 }
 
-void Player::notify(Player& player) {}
+void Player::notify(Entity* player) {}
 
 char Player::charAt() const {
     return '@';

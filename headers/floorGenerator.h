@@ -3,7 +3,6 @@
 
 #include<vector>
 #include "floor.h"
-#include "enemy.h"
 
 using namespace std;
 class Player;

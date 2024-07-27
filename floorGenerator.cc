@@ -2,16 +2,15 @@
 #include <unordered_map>
 #include <iostream>
 #include "headers/randomNumberGenerator.h"
-#include "headers/floor.h"
 #include "headers/floorGenerator.h"
-#include "headers/entity.h"
 #include "headers/player.h"
+
 #include "headers/items/gold.h"
-#include "headers/items/protected.h"
 #include "headers/items/barrierSuit.h"
 #include "headers/items/goldHoard.h"
 #include "headers/items/permPotion.h"
 #include "headers/items/tempPotion.h"
+
 #include "headers/enemyTypes/dragon.h"
 #include "headers/enemyTypes/goblin.h"
 #include "headers/enemyTypes/merchant.h"
@@ -135,8 +134,6 @@ vector<Floor*> FloorGenerator::generateFloor(const string& filename, Player& pla
         // Second pass to link dragons to their protected objects
         for (auto& dragonPos : dragonPositions) {
             Dragon* dragon = static_cast<Dragon*>(dragonPos.entity);
-            int dr = dragonPos.row;
-            int dc = dragonPos.col;
 
             for (auto& protectedPos : protectedPositions) {
                 if (abs(protectedPos.row - dragonPos.row) <= 1) {

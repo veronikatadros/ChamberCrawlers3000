@@ -2,7 +2,6 @@
 #define DRAGON_H
 
 #include "../enemy.h"
-#include "../items/goldHoard.h"
 
 class Item;
 class Protected;
@@ -14,7 +13,7 @@ class Dragon : public Enemy {
         Dragon(Protected* hoard);
         virtual ~Dragon();
         Item* spawnLoot() override;
-        void notify(Player& p) override;
+        void notify(Entity* player) override;
         void setHoard(Protected* h);
 };
 

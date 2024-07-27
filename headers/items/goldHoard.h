@@ -2,7 +2,6 @@
 #define GOLD_HOARD_H
 
 #include "protected.h"
-class Dragon;
 
 class GoldHoard : public Protected {
     public:

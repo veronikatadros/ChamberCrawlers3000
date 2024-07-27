@@ -1,6 +1,6 @@
 #ifndef CELL_H
 #define CELL_H
-#include "entity.h"
+class Entity;
 
 class Cell {
     public:
@@ -15,7 +15,7 @@ class Cell {
         };
         CellType cellType;
         Entity* occupant;
-        Cell(CellType c = CellType::EMPTY, Entity* e = nullptr) : cellType(c), occupant(e) {}
+        Cell(CellType c = CellType::EMPTY, Entity* e = nullptr);
 
 };
 #endif

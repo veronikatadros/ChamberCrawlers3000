@@ -14,7 +14,7 @@ Item* Merchant::spawnLoot() {
     }
 }
 
-void Merchant::notify(Player& p) {
+void Merchant::notify(Entity* p) {
     if (Merchant::merchantsHostile) {
         Enemy::notify(p);
     }

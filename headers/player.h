@@ -31,7 +31,7 @@ class Player : public Character {
         void pickUp(Item* i);
         virtual void removeEffects();
         
-        void notify(Player& player) override;
+        void notify(Entity* player) override;
         char charAt() const override;
         bool tryKill(int otherAtk) override;
 };

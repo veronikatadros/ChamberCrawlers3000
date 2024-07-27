@@ -12,7 +12,7 @@ class Entity {
     Entity(EntityType eType);
     virtual ~Entity();
     EntityType eType;
-    virtual void notify(Player& player) = 0;
+    virtual void notify(Entity* player) = 0;
     virtual char charAt() const = 0;
 };
 

@@ -1,6 +1,7 @@
 #include <fstream>
 #include "headers/entity.h"
 #include "headers/floor.h"
+#include <iostream>
 
 Floor::Floor() {
     for (int i = 0; i < 25; ++i) {
@@ -191,14 +192,14 @@ Floor::Floor() {
 }
 
 
-Floor::~Floor(){
-    // Delete the occupant in every cell
+Floor::~Floor() {
     for (auto& row : board) {
         for (auto& cell : row) {
-            if (cell.occupant){
+            if (cell.occupant && cell.occupant->eType != Entity::PLAYER) {
                 delete cell.occupant;
+                cell.occupant = nullptr;
             }
-            cell.occupant = nullptr;
         }
     }
 }
+

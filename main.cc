@@ -8,8 +8,16 @@ int main(int argc, char *argv[]){
 
     string command;
     string dir;
-    RandomNumberGenerator();
-    Game game(argc > 1 ? argv[1] : "");
+    RandomNumberGenerator();    
+    
+    string cmd = argc > 1 ? argv[1] : "";
+    Game* game = new Game(cmd);
+    game->start();
 
-    game.start();
+    while(game->playAgain) {
+        delete game;
+        Game game(cmd);
+        game.start();
+    }
+    delete game;
 }

@@ -17,26 +17,34 @@ using namespace std;
 Game::Game(string cmd) : view{new View()}, cmd{cmd} {}
 
 void Game::start() {
+    playAgain = false;
+    
     cout << "Welcome to the game of CC3K!" << endl;
     cout << "Enter 'q' to quit or please enter your race: ";
 
     string selectRace;
-    cin >> selectRace;
-
-    if(selectRace == "h") {
-        player = new Human();
+    while(cin >> selectRace) {
+        if(selectRace == "h") {
+            player = new Human();
+            break;
+        }
+        else if(selectRace == "e") {
+            player = new Elf();
+            break;
+        }
+        else if(selectRace == "d") {
+            player = new Dwarf();
+            break;
+        }
+        else if(selectRace == "o") {
+            player = new Orc();
+            break;
+        }
+        else if(selectRace == "q") return;
+        else {
+            cout << "Invalid command. Try again!" << endl;
+        }
     }
-    else if(selectRace == "e") {
-        player = new Elf();
-    }
-    else if(selectRace == "d") {
-        player = new Dwarf();
-    }
-    else if(selectRace == "o") {
-        player = new Orc();
-    }
-    else if(selectRace == "q") return;
-    else start();
 
     currentFloor = 0;
     // Set merchants hostiles to false
@@ -275,7 +283,6 @@ void Game::nextFloor() {
 void Game::endGame() {
     string input;
     while(cin >> input) {
-        cin >> input;
         if (input == "r") {
             reset();
             break;
@@ -291,15 +298,8 @@ void Game::endGame() {
 }
 
 void Game::reset() {
-    delete view;
-    delete generator;
-    delete player;
-
-    for(auto f : floors) {
-        delete f;
-    }
-
-    start();
+    playAgain = true;
+    return;
 }
 
 void Game::playTurn() {
@@ -349,10 +349,11 @@ void Game::playTurn() {
 
 Game::~Game() {
     delete generator;
-    delete player;
     delete view;
 
     for(auto f : floors) {
         delete f;
     }
+    player->removeEffects();
+    delete player;
 }

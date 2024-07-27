@@ -9,7 +9,7 @@
 #include "headers/items/goldHoard.h"
 #include <cmath>
 
-Player::Player(int maxHP, int atk, int def, string race) : Character{maxHP, atk, def, Entity::PLAYER}, race{race}, gold{0}, hasCompass{false}, hasBarrierSuit{false} {}
+Player::Player(int maxHP, int atk, int def, string race) : Character{maxHP, atk, def, Entity::PLAYER}, potionEffect{nullptr}, race{race}, gold{0}, hasCompass{false}, hasBarrierSuit{false} {}
 
 Player::~Player() {}
 

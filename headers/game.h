@@ -33,6 +33,7 @@ class Game {
         void endGame();
     public:
         Player* player;
+        bool playAgain = false;
         void start();
 
         Game(string cmd);

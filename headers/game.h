@@ -19,6 +19,7 @@ class Game {
         View* view;
         FloorGenerator* generator;
         string cmd;
+        bool quitGame = false;
 
         void movePlayer(string dir);
         void moveEnemies();
@@ -29,6 +30,7 @@ class Game {
         void playTurn();
         void notifyCells();
         void updateDir(int &yDir, int &xDir, string dir);
+        void endGame();
     public:
         Player* player;
         void start();

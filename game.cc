@@ -262,8 +262,32 @@ void Game::updateDir(int &yDir, int &xDir, string dir) {
 
 void Game::nextFloor() {
     currentFloor++;
+
+    if(currentFloor >= 5) {
+        view->gameWon(player);
+        endGame();
+    }
+
     player->removeEffects();
     player->hasCompass = cmd.empty() ? false : true;
+}
+
+void Game::endGame() {
+    string input;
+    while(cin >> input) {
+        cin >> input;
+        if (input == "r") {
+            reset();
+            break;
+        }
+        else if (input == "q") {
+            quitGame = true;
+            break;
+        }
+        else {
+            cout << "Invalid commands! Try again." << endl;
+        }
+    }
 }
 
 void Game::reset() {
@@ -283,8 +307,10 @@ void Game::playTurn() {
 
         if(player->hp <= 0) {
             view->gameOver();
-            return;
+            endGame();
         }
+
+        if(quitGame) return;
 
         cout << "Input stuff :)\n";
         string input;
@@ -293,10 +319,11 @@ void Game::playTurn() {
             reset();
         }
         else if (input == "q") {
-            return;
+            quitGame = true;
         }
         else if (input == "no" || input == "so" || input == "ea" || input == "we" || input == "ne" || input == "nw" || input == "se" || input == "sw") {
             movePlayer(input);
+            if(quitGame) return;
         }
         else if (input == "u") {
             string direction;

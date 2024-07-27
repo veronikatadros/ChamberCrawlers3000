@@ -6,7 +6,7 @@ using namespace std;
 
 class Floor;
 class Player;
-class Entity;
+class Enemy;
 class View {
         const int SPACING = 57;
         const string BEGCOLOR = "\033[", ENDCOLOR = "\033[0m";
@@ -18,7 +18,7 @@ class View {
         void enemyAttack(Enemy* enemy);
         void playerAttack(Enemy* enemy, bool dead);
         void playerMove(string dir);
-        void itemGrabbed(Entity* item);
+        void itemGrabbed(Item* item);
         void gameOver();
 };
 

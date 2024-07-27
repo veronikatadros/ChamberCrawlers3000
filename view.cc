@@ -173,7 +173,7 @@ void View::playerMove(string dir) {
     action += "Player moves " + dir + " ";
 }
 
-void View::itemGrabbed(Entity* item) {
+void View::itemGrabbed(Item* item) {
     
 }
 

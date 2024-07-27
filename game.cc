@@ -319,7 +319,7 @@ void Game::playTurn() {
             reset();
         }
         else if (input == "q") {
-            return;
+            break;
         }
         else if (input == "no" || input == "so" || input == "ea" || input == "we" || input == "ne" || input == "nw" || input == "se" || input == "sw") {
             movePlayer(input);

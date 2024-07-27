@@ -75,12 +75,13 @@ void Player::removeEffects() {
 }
 
 bool Player::tryKill(int otherAtk) {
-    int damage = ceil( (100 / (100 + def)) * otherAtk );
+    int damage = ceil( (100 / static_cast<float>(100 + def)) * otherAtk );
     if (hasBarrierSuit) {
         damage = ceil( damage / 2.0 );
     }
     hp -= damage;
     if (hp <= 0) {
+        hp = 0;
         return true; // entity is dead, game should delete
     }
     return false;

@@ -6,7 +6,7 @@
 
 Enemy::Enemy(char enemyChar, int spawnRate, int maxHP, int atk, int def) : 
     Character{maxHP, atk, def, EntityType::ENEMY},
-    enemyChar{enemyChar}, spawnRate{spawnRate}, holdsCompass{false} {}
+    enemyChar{enemyChar}, spawnRate{spawnRate}, holdsCompass{false}, hasAttacked{false} {}
 
 Enemy::~Enemy() {}
 

@@ -1,6 +1,6 @@
 #ifndef CELL_H
 #define CELL_H
-class Entity;
+#include "entity.h"
 
 class Cell {
     public:

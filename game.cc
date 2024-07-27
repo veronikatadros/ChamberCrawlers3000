@@ -37,17 +37,27 @@ void Game::start() {
     }
     else if(selectRace == "q") return;
 
+    cout << "DONE SELECTING RACE" << endl;
+
     currentFloor = 0;
+
+    cout << "DONE CURRENT FLOOR" << endl;
 
     // Set merchants hostiles to false
     Merchant::merchantsHostile = false;
 
+    cout << "DONE HOSTILE" << endl;
+
     // Generate a floor, create an instance of the random floor generator
     generator = new FloorGenerator();
+    cout << "DONE CTOR FG" << endl;
     floors = !cmd.empty() ? generator->generateFloor(cmd, *player) : generator->generateFloor(*player);
+    cout << "DONE GENERATE FLOOR" << endl;
 
     // Player Location
     playerLocation = generator->playerFloorLocation[currentFloor];
+
+    cout << "DONE PLAYER FLOOR LOCATION" << endl;
 
     playTurn();
 }

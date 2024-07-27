@@ -1,7 +1,7 @@
 #include "headers/randomNumberGenerator.h"
 #include <stdlib.h> // srand/rand
 
-RandomNumberGenerator::RandomNumberGenerator(int seed) : seed{seed} {
+RandomNumberGenerator::RandomNumberGenerator(unsigned int seed) : seed{seed} {
     srand(seed);
 }
 

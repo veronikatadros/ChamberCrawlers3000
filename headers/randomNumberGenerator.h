@@ -9,7 +9,7 @@ class RandomNumberGenerator {
         unsigned seed;
         static int randomNumber(int low, int high);
 
-        RandomNumberGenerator(int seed = getpid());
+        RandomNumberGenerator(unsigned int seed = getpid());
         virtual ~RandomNumberGenerator();
 };
 

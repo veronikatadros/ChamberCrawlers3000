@@ -7,6 +7,7 @@
 #include "headers/items/compass.h"
 #include "headers/items/barrierSuit.h"
 #include "headers/items/goldHoard.h"
+#include <cmath>
 
 Player::Player(int maxHP, int atk, int def, string race) : Character{maxHP, atk, def, Entity::PLAYER}, race{race}, gold{0} {}
 

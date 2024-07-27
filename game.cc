@@ -70,34 +70,7 @@ void Game::movePlayer(string dir) {
     int xDir = playerLocation.second;
     floors[currentFloor]->board[playerLocation.first][playerLocation.second].occupant = nullptr; // set current board cell Entity to NULL
     
-    if (dir == "no") { // UP
-        yDir--;
-    }
-    else if (dir == "so") { // DOWN
-        yDir++;
-    }
-    else if (dir == "ea") { // RIGHT
-        xDir++;
-    }
-    else if (dir == "we") { // LEFT
-        xDir--;
-    }
-    else if (dir == "ne") { // UP-RIGHT
-        yDir--;
-        xDir++;
-    }
-    else if (dir == "nw") { // UP-LEFT
-        yDir--;
-        xDir--;
-    }
-    else if (dir == "se") { // DOWN-RIGHT
-        yDir++;
-        xDir++;
-    }
-    else if (dir == "sw") { // DOWN-LEFT
-        yDir++;
-        xDir--;
-    }
+    updateDir(yDir, xDir, dir);
 
     Cell& c = floors[currentFloor]->board[yDir][xDir];
     if(xDir >= 0 && yDir >= 0 && yDir < floors[currentFloor]->board.size() && xDir < floors[currentFloor]->board[playerLocation.first].size()
@@ -138,33 +111,6 @@ void Game::movePlayer(string dir) {
     floors[currentFloor]->board[playerLocation.first][playerLocation.second].occupant = p;
     floors[currentFloor]->board[playerLocation.first][playerLocation.second].occupant->eType = Entity::PLAYER;    
 
-    // Notify item cells around the Player
-    for(int i = -1; i <= 1; i++) {
-        for(int j = -1; j <= 1; j++) {
-            int y = playerLocation.first + i;
-            int x = playerLocation.second + j;
-            if (y >= 0 && x >= 0 && y < floors[currentFloor]->board.size() && x < floors[currentFloor]->board[playerLocation.first].size()) {
-                Cell& k = floors[currentFloor]->board[playerLocation.first + i][playerLocation.second + j];
-                if(k.occupant != nullptr && k.occupant->eType == Entity::ITEM) {
-                    k.occupant->notify(static_cast<Entity*>(player));
-                }
-            }
-        }
-    }
-
-    // Notify enemy cells around the Player
-    for(int i = -1; i <= 1; i++) {
-        for(int j = -1; j <= 1; j++) {
-            int y = playerLocation.first + i;
-            int x = playerLocation.second + j;
-            if (y >= 0 && x >= 0 && y < floors[currentFloor]->board.size() && x < floors[currentFloor]->board[playerLocation.first].size()) {
-                Cell& k = floors[currentFloor]->board[playerLocation.first + i][playerLocation.second + j];
-                if(k.occupant != nullptr && k.occupant->eType == Entity::ENEMY) {
-                    k.occupant->notify(static_cast<Entity*>(player));
-                }
-            }
-        }
-    }
 }
 
 void Game::moveEnemies() {
@@ -213,34 +159,8 @@ void Game::moveEnemies() {
 void Game::playerAttack(string dir) {
     int yDir = playerLocation.first;
     int xDir = playerLocation.second;
-    if (dir == "no") { // UP
-        yDir--;
-    }
-    else if (dir == "so") { // DOWN
-        yDir++;
-    }
-    else if (dir == "ea") { // RIGHT
-        xDir++;
-    }
-    else if (dir == "we") { // LEFT
-        xDir--;
-    }
-    else if (dir == "ne") { // UP-RIGHT
-        yDir--;
-        xDir++;
-    }
-    else if (dir == "nw") { // UP-LEFT
-        yDir--;
-        xDir--;
-    }
-    else if (dir == "se") { // DOWN-RIGHT
-        yDir++;
-        xDir++;
-    }
-    else if (dir == "sw") { // DOWN-LEFT
-        yDir++;
-        xDir--;
-    }
+    
+    updateDir(yDir, xDir, dir);
 
     Cell& c = floors[currentFloor]->board[yDir][xDir];
     if(xDir >= 0 && yDir >= 0 && yDir < floors[currentFloor]->board.size() && xDir < floors[currentFloor]->board[playerLocation.first].size()
@@ -268,6 +188,52 @@ void Game::usePotion(string dir) {
     // check it has a potion
     int yDir = playerLocation.first;
     int xDir = playerLocation.second;
+    
+    updateDir(yDir, xDir, dir);
+
+    Cell& c = floors[currentFloor]->board[yDir][xDir];
+    if(xDir >= 0 && yDir >= 0 && yDir < floors[currentFloor]->board.size() && xDir < floors[currentFloor]->board[playerLocation.first].size()
+        && c.occupant != nullptr && c.occupant->eType == Entity::ITEM) { 
+            Item* item = static_cast<Item*>(c.occupant);
+            if (item->itemType == Item::POTION) {
+                player->pickUp(item);
+                c.occupant = nullptr;
+            }
+        
+    }
+}
+
+void Game::notifyCells() {
+    // Notify item cells around the Player
+    for(int i = -1; i <= 1; i++) {
+        for(int j = -1; j <= 1; j++) {
+            int y = playerLocation.first + i;
+            int x = playerLocation.second + j;
+            if (y >= 0 && x >= 0 && y < floors[currentFloor]->board.size() && x < floors[currentFloor]->board[playerLocation.first].size()) {
+                Cell& k = floors[currentFloor]->board[playerLocation.first + i][playerLocation.second + j];
+                if(k.occupant != nullptr && k.occupant->eType == Entity::ITEM) {
+                    k.occupant->notify(static_cast<Entity*>(player));
+                }
+            }
+        }
+    }
+
+    // Notify enemy cells around the Player
+    for(int i = -1; i <= 1; i++) {
+        for(int j = -1; j <= 1; j++) {
+            int y = playerLocation.first + i;
+            int x = playerLocation.second + j;
+            if (y >= 0 && x >= 0 && y < floors[currentFloor]->board.size() && x < floors[currentFloor]->board[playerLocation.first].size()) {
+                Cell& k = floors[currentFloor]->board[playerLocation.first + i][playerLocation.second + j];
+                if(k.occupant != nullptr && k.occupant->eType == Entity::ENEMY) {
+                    k.occupant->notify(static_cast<Entity*>(player));
+                }
+            }
+        }
+    }
+}
+
+void Game::updateDir(int &yDir, int &xDir, string dir) {
     if (dir == "no") { // UP
         yDir--;
     }
@@ -295,17 +261,6 @@ void Game::usePotion(string dir) {
     else if (dir == "sw") { // DOWN-LEFT
         yDir++;
         xDir--;
-    }
-
-    Cell& c = floors[currentFloor]->board[yDir][xDir];
-    if(xDir >= 0 && yDir >= 0 && yDir < floors[currentFloor]->board.size() && xDir < floors[currentFloor]->board[playerLocation.first].size()
-        && c.occupant != nullptr && c.occupant->eType == Entity::ITEM) { 
-            Item* item = static_cast<Item*>(c.occupant);
-            if (item->itemType == Item::POTION) {
-                player->pickUp(item);
-                c.occupant = nullptr;
-            }
-        
     }
 }
 

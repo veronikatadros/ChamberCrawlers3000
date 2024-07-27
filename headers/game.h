@@ -27,6 +27,8 @@ class Game {
         void nextFloor();
         void reset();
         void playTurn();
+        void notifyCells();
+        void updateDir(int &yDir, int &xDir, string dir);
     public:
         Player* player;
         void start();

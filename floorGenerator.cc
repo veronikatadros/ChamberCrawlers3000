@@ -1,6 +1,6 @@
 #include <fstream>
 #include <unordered_map>
-#include <stdio.h>
+#include <iostream>
 #include "headers/randomNumberGenerator.h"
 #include "headers/floor.h"
 #include "headers/floorGenerator.h"
@@ -196,8 +196,10 @@ vector<Floor*> FloorGenerator::generateFloor(Player& player) {
 }
 
 void FloorGenerator::spawnDragon(Floor* f, Floor::EntityPosition& procItem) {
-    //get valid tiles around item
-    //
+    // get valid tiles around item (vector<Cell*>)
+    
+    // gen random num from 0 to vector.size() - 1
+    // put dragon there
 }
 
 void FloorGenerator::spawnGold(Floor* f, vector<Floor::EntityPosition>& protectedPositions) {

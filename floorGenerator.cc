@@ -152,7 +152,7 @@ vector<Floor*> FloorGenerator::generateFloor(const string& filename, Player& pla
     return floors;
 }
 
-vector<Floor*> FloorGenerator::generateFloor(Player& player){
+vector<Floor*> FloorGenerator::generateFloor(Player& player) {
     vector<Floor*> floors;
     int barrierSuitFloor = RandomNumberGenerator::randomNumber(0, 4);
     for (int curFloor = 0; curFloor < 5; ++curFloor) {
@@ -160,21 +160,22 @@ vector<Floor*> FloorGenerator::generateFloor(Player& player){
         Floor* cf = floors[curFloor];
         // 1) player position
         int playerChamber = randomChamber();
-        pair<int, int> playerPos = randomFloorTile(playerChamber);
+        pair<int, int> playerPos = randomFloorTile(cf, playerChamber);
         cf->board[playerPos.first][playerPos.second].occupant = &player;
         // 2) stair position
         int stairChamber = RandomNumberGenerator::randomNumber(0, 3);
         if (stairChamber >= playerChamber) stairChamber++;
-        pair<int, int> stairPos = randomFloorTile(stairChamber);
+        pair<int, int> stairPos = randomFloorTile(cf, stairChamber);
         cf->board[stairPos.first][stairPos.second].cellType = Cell::STAIRS;
         // 3) potions
         for (int i = 0; i < 10; ++i) {
-            pair<int, int> potionPos = randomFloorTile(randomChamber());
-            while (!emptyFloorTile(cf, potionPos)) {
-                
-            }
+            spawnPotion(cf);
         }
         // 4 gold (+ dragons)
+        vector<Floor::EntityPosition> protectedPositions;
+        for (int i = 0; i < 10; ++i) {
+
+        }
         // gen barrier suit if on correct floor
         // 5 enemies
         // choose enemy to hold compass
@@ -182,17 +183,65 @@ vector<Floor*> FloorGenerator::generateFloor(Player& player){
     }
 }
 
-bool FloorGenerator::emptyFloorTile(Floor* f, pair<int, int>& tile) {
-    if (f->board[tile.first][tile.second].occupant) return false;
-    if (f->board[tile.first][tile.second].cellType == Cell::STAIRS) return false;
+void FloorGenerator::spawnGold(Floor* f, vector<Floor::EntityPosition>& protectedPositions) {
+    pair<int, int> goldPos = randomFloorTile(f, randomChamber());
+    int goldType = RandomNumberGenerator::randomNumber(0, 7);
+    switch (goldType) {
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+            f->board[goldPos.first][goldPos.second].occupant = new Gold{1};
+            break;
+        case 5:
+        case 6:
+            break;
+        case 7:
+            break;
+        default:
+            break;
+    }
+}
+
+void FloorGenerator::spawnPotion(Floor* f) {
+    pair<int, int> potionPos = randomFloorTile(f, randomChamber());
+    int potionType = RandomNumberGenerator::randomNumber(0, 6);
+    switch (potionType) {
+        case 0:
+            f->board[potionPos.first][potionPos.second].occupant = new PermPotion{10};
+            break;
+        case 1:
+            f->board[potionPos.first][potionPos.second].occupant = new TempPotion{10, "ATK"};
+            break;
+        case 2:
+            f->board[potionPos.first][potionPos.second].occupant = new TempPotion{10, "DEF"};
+            break;
+        case 3:
+            f->board[potionPos.first][potionPos.second].occupant = new PermPotion{-10};
+            break;
+        case 4:
+            f->board[potionPos.first][potionPos.second].occupant = new TempPotion{-10, "ATK"};
+            break;
+        case 5:
+            f->board[potionPos.first][potionPos.second].occupant = new TempPotion{-10, "DEF"};
+            break;
+        default:
+            break;
+    }
+}
+
+bool FloorGenerator::emptyFloorTile(Floor* f, int row, int col) const {
+    if (f->board[row][col].occupant) return false;
+    if (f->board[row][col].cellType == Cell::STAIRS) return false;
     return true;
 }
 
-int FloorGenerator::randomChamber() {
+int FloorGenerator::randomChamber() const {
     return RandomNumberGenerator::randomNumber(0, 4);
 }
 
-pair<int, int> FloorGenerator::randomFloorTile(int chamber) {
+pair<int, int> FloorGenerator::randomFloorTile(Floor* f, int chamber) const {
     int tile = RandomNumberGenerator::randomNumber(0, chamberFloorTiles[chamber] - 1);
     int rect;
     for (rect = 0; rect < chamberDimensions[chamber].size(); ++rect) {
@@ -209,5 +258,24 @@ pair<int, int> FloorGenerator::randomFloorTile(int chamber) {
     int col = RandomNumberGenerator::randomNumber(0, chamberDimensions[chamber][rect].second - 1);
     row += chambers[chamber][rect].first;
     col += chambers[chamber][rect].second;
-    return {row, col}; // row, col on board
+    // row, col on board
+
+    // keep incrementing until empty pos reached
+    while (!emptyFloorTile(f, row, col)) {
+        // be sad
+        col++;
+        if (col - chambers[chamber][rect].second >= chamberDimensions[chamber][rect].second) { // at end of row
+            row++;
+            col = chambers[chamber][rect].second;
+            if (row - chambers[chamber][rect].first >= chamberDimensions[chamber][rect].first) { // at end of rect
+                rect++;
+                if (row >= chambers[chamber].size()) rect = 0; // at end of chamber
+                row = chambers[chamber][rect].first;
+                col = chambers[chamber][rect].second;
+            }
+        } 
+    } // technically still possible for this to never find an empty tile, but would have to be *very* unlucky
+    // maybe if at end of rects in chamber new chamber?
+
+    return {row, col}; 
 }

@@ -1,5 +1,5 @@
-#include "../headers/playerRaces/elf.h"
-#include "../headers/items/potion.h"
+#include "headers/playerRaces/elf.h"
+#include "headers/items/potion.h"
 
 Elf::Elf() : Player{140, 30, 10, "Elf"} {}
 

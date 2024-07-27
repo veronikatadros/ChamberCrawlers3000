@@ -1,4 +1,4 @@
-#include "../headers/enemyTypes/vampire.h"
+#include "headers/enemyTypes/vampire.h"
 
 Vampire::Vampire() : Enemy{'V', 3, 50, 25, 25} {}
 

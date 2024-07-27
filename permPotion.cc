@@ -1,4 +1,4 @@
-#include "../headers/items/permPotion.h"
+#include "headers/items/permPotion.h"
 
 PermPotion::PermPotion(int value) : Potion{value, "HP"} {}
 

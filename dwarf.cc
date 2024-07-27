@@ -1,6 +1,6 @@
-#include "../headers/playerRaces/dwarf.h"
-#include "../headers/items/gold.h"
-#include "../headers/items/goldHoard.h"
+#include "headers/playerRaces/dwarf.h"
+#include "headers/items/gold.h"
+#include "headers/items/goldHoard.h"
 
 Dwarf::Dwarf() : Player{140, 30, 10, "Dwarf"} {}
 

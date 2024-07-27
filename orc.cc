@@ -1,6 +1,6 @@
-#include "../headers/playerRaces/orc.h"
-#include "../headers/items/gold.h"
-#include "../headers/items/goldHoard.h"
+#include "headers/playerRaces/orc.h"
+#include "headers/items/gold.h"
+#include "headers/items/goldHoard.h"
 
 Orc::Orc() : Player{180, 30, 25, "Orc"} {}
 

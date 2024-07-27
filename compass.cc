@@ -1,4 +1,4 @@
-#include "../headers/items/compass.h"
+#include "headers/items/compass.h"
 
 Compass::Compass() : Item{'C', COMPASS} {}
 

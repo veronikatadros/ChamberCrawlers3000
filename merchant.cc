@@ -1,6 +1,6 @@
-#include "../headers/enemyTypes/merchant.h"
-#include "../headers/items/gold.h"
-#include "../headers/items/compass.h"
+#include "headers/enemyTypes/merchant.h"
+#include "headers/items/gold.h"
+#include "headers/items/compass.h"
 
 Merchant::Merchant() : Enemy{'M', 2, 30, 70, 5} {}
 
@@ -22,5 +22,5 @@ void Merchant::notify(Entity* p) {
 
 bool Merchant::tryKill(int otherAtk) {
     Merchant::merchantsHostile = true;
-    Character::tryKill(otherAtk);
+    return Character::tryKill(otherAtk);
 }

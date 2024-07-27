@@ -36,31 +36,20 @@ void Game::start() {
         player = new Orc();
     }
     else if(selectRace == "q") return;
-
-    cout << "DONE SELECTING RACE" << endl;
+    else start();
 
     currentFloor = 0;
-
-    cout << "DONE CURRENT FLOOR" << endl;
-
     // Set merchants hostiles to false
     Merchant::merchantsHostile = false;
 
-    cout << "DONE HOSTILE" << endl;
-
     // Generate a floor, create an instance of the random floor generator
     generator = new FloorGenerator();
-    cout << "DONE CTOR FG" << endl;
     floors = !cmd.empty() ? generator->generateFloor(cmd, *player) : generator->generateFloor(*player);
-    cout << "DONE GENERATE FLOOR" << endl;
 
     // Player Location
     playerLocation = generator->playerFloorLocation[currentFloor];
 
-    cout << "DONE PLAYER FLOOR LOCATION" << endl;
-
     view->render(floors[currentFloor], currentFloor, player);
-
     playTurn();
 }
 
@@ -80,6 +69,7 @@ void Game::movePlayer(string dir) {
             if(c.occupant->eType == Entity::ITEM) {
                 Item* item = static_cast<Item*>(c.occupant);
                 if(item->itemType == Item::GOLD || item->itemType == Item::COMPASS) {
+                    view->itemGrabbed(item);
                     player->pickUp(item);
                     playerLocation.first = yDir;
                     playerLocation.second = xDir;
@@ -87,6 +77,7 @@ void Game::movePlayer(string dir) {
                 else if(item->itemType == Item::BARRIER_SUIT || item->itemType == Item::GOLD_HOARD) {
                     Protected *p = static_cast<Protected*>(item);
                     if(!p->protectedAlive) {
+                        view->itemGrabbed(item);
                         player->pickUp(item);
                         playerLocation.first = yDir;
                         playerLocation.second = xDir;
@@ -111,6 +102,7 @@ void Game::movePlayer(string dir) {
     floors[currentFloor]->board[playerLocation.first][playerLocation.second].occupant = p;
     floors[currentFloor]->board[playerLocation.first][playerLocation.second].occupant->eType = Entity::PLAYER;    
 
+    view->playerMove(dir);
 }
 
 void Game::moveEnemies() {
@@ -124,6 +116,7 @@ void Game::moveEnemies() {
         Enemy *enem = static_cast<Enemy*>(e);
         if(enem->hasAttacked) {
             enem->hasAttacked = false;
+            view->enemyAttack(enem);
             return;
         }
 
@@ -168,6 +161,8 @@ void Game::playerAttack(string dir) {
             Enemy* e = static_cast<Enemy*>(c.occupant);
             bool isEnemyDead = e->tryKill(player->atk);
 
+            view->playerAttack(e, isEnemyDead);
+
             if (isEnemyDead) { // if dead, replace enemy* with gold*
                 Item *i = e->spawnLoot();
                 // erase-remove idiom
@@ -196,6 +191,7 @@ void Game::usePotion(string dir) {
         && c.occupant != nullptr && c.occupant->eType == Entity::ITEM) { 
             Item* item = static_cast<Item*>(c.occupant);
             if (item->itemType == Item::POTION) {
+                view->itemGrabbed(item);
                 player->pickUp(item);
                 c.occupant = nullptr;
             }
@@ -284,6 +280,12 @@ void Game::reset() {
 
 void Game::playTurn() {
     while(true) {
+
+        if(player->hp <= 0) {
+            view->gameOver();
+            return;
+        }
+
         cout << "Input stuff :)\n";
         string input;
         cin >> input;
@@ -308,6 +310,7 @@ void Game::playTurn() {
         }
         else {
             cout << "Invalid Try Again!" << endl;
+            continue;
         }
         notifyCells();
         moveEnemies();

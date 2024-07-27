@@ -3,10 +3,7 @@
 using namespace std;
 
 Character::Character(int maxHp, int atk, int def, Entity::EntityType entityType) : 
-                                        Entity{entityType}, maxHP{maxHP}, atk{atk}, def{def} 
-{
-    hp = maxHP;
-}
+                                        Entity{entityType}, maxHP{maxHp}, hp{maxHp}, atk{atk}, def{def} {}
 
 Character::~Character() {}
 

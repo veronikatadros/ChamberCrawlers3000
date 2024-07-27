@@ -259,7 +259,7 @@ void FloorGenerator::spawnDragon(Floor* f, Floor::EntityPosition& procItem) {
     for (int r = -1; r <= 1; ++r) {
         for (int c = -1; c <= 1; ++c) {
             int row = procItem.row + r;
-            int col = procItem.row + c;
+            int col = procItem.col + c;
             if (row >= 0 && row < 25 && col >= 0 && col < 79) {
                 Cell* temp = &(f->board[row][col]);
                 if (temp->cellType == Cell::GROUND && !temp->occupant) {

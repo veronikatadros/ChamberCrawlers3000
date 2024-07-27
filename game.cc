@@ -288,8 +288,11 @@ void Game::usePotion(string dir) {
     if(xDir >= 0 && yDir >= 0 && yDir < floors[currentFloor]->board.size() && xDir < floors[currentFloor]->board[playerLocation.first].size()
         && c.occupant != nullptr && c.occupant->eType == Entity::ITEM) { 
             Item* item = static_cast<Item*>(c.occupant);
-            if (item->itemType == Item::POTION)
+            if (item->itemType == Item::POTION) {
                 player->pickUp(item);
+                c.occupant = nullptr;
+            }
+        
     }
 }
 

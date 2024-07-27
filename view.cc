@@ -1,6 +1,8 @@
 #include "headers/view.h"
 #include "headers/floor.h"
 #include "headers/player.h"
+#include "headers/enemy.h"
+#include "headers/item.h"
 using namespace std;
 
 View::View() : action{"default action"} {}
@@ -99,5 +101,73 @@ void View::render(const Floor* floor, const int curFloor, const Player* player, 
     out << "Def: " << player->def << '\n';
 
     out << "Action: " << action << '\n';
+    action = "";
 }
+
+void View::enemyAttack(Entity* enemy, bool dead) {
+    // get enemy type
+    char e = enemy->charAt();
+    switch (e) {
+        case 'V':
+            action += "Vampire";
+            break;
+        case 'W':
+            action += "Werewolf";
+            break;
+        case 'N':
+            action += "Goblin";
+            break;
+        case 'M':
+            action += "Merchant";
+            break;
+        case 'D':
+            action += "Dragon";
+            break;
+        case 'X':
+            action += "Phoenix";
+            break;
+        case 'T':
+            action += "Troll";
+            break;
+        default:
+            break;
+    }
+    action += " attacks! ";
+}
+
+void View::playerAttack(Entity* enemy, bool dead) {
+    // get enemy type
+    action += "Player attacks ";
+    char e = enemy->charAt();
+    switch (e) {
+        case 'V':
+            action += "Vampire";
+            break;
+        case 'W':
+            action += "Werewolf";
+            break;
+        case 'N':
+            action += "Goblin";
+            break;
+        case 'M':
+            action += "Merchant";
+            break;
+        case 'D':
+            action += "Dragon";
+            break;
+        case 'X':
+            action += "Phoenix";
+            break;
+        case 'T':
+            action += "Troll";
+            break;
+        default:
+            break;
+    }
+    action += " attacks! ";
+}
+
+void View::playerMove(string dir) {}
+
+void View::itemGrabbed(Entity* item) {}
 

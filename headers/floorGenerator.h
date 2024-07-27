@@ -15,7 +15,8 @@ class FloorGenerator {
         vector< vector<pair<int, int>> > chamberDimensions;
         vector<int> occupiedTiles;
         int randomChamber();
-        pair<int, int> randomFloorTile(int chamber); //valid random floor tile
+        pair<int, int> randomFloorTile(int chamber); // random floor tile
+        bool emptyFloorTile(Floor* f, pair<int, int>& tile); // returns whether tile is empty
     public:
         FloorGenerator();
         virtual ~FloorGenerator();

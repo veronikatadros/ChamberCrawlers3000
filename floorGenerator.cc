@@ -48,7 +48,8 @@ vector<Floor*> FloorGenerator::generateFloor(const string& filename, Player& pla
     vector<Floor*> floors;
     for (int curFloor = 0; curFloor < 5; ++curFloor) {
         Floor* f = new Floor(); // Create the Floor object on the heap
-        unordered_map<pair<int, int>, Protected*> protectedPositions;
+        //unordered_map<pair<int, int>, Protected*> protectedPositions;
+        vector<Floor::EntityPosition> protectedPositions;
         vector<Floor::EntityPosition> dragonPositions;
 
         string line;
@@ -71,7 +72,7 @@ vector<Floor*> FloorGenerator::generateFloor(const string& filename, Player& pla
                     case '9': {
                         GoldHoard* gold = new GoldHoard();
                         f->board[row][col].occupant = gold;
-                        protectedPositions[{row, col}] = gold;
+                        protectedPositions.push_back({gold, row, col});
                         break;
                     }
                     case 'D': {
@@ -83,7 +84,7 @@ vector<Floor*> FloorGenerator::generateFloor(const string& filename, Player& pla
                     case 'B': {
                         BarrierSuit* suit = new BarrierSuit();
                         f->board[row][col].occupant = suit;
-                        protectedPositions[{row, col}] = suit;
+                        protectedPositions.push_back({suit, row, col});
                         break;
                     }
                     case 'W': {
@@ -123,6 +124,7 @@ vector<Floor*> FloorGenerator::generateFloor(const string& filename, Player& pla
                         break;
                     }
                     default:
+                        break;
                 }
             }
             ++row;
@@ -134,22 +136,15 @@ vector<Floor*> FloorGenerator::generateFloor(const string& filename, Player& pla
             Dragon* dragon = static_cast<Dragon*>(dragonPos.entity);
             int dr = dragonPos.x;
             int dc = dragonPos.y;
-            for (int r = -1; r <= 1; ++r) {
-                for (int c = -1; ++c <= 1; ++c) {
-                    int nr = dr + r;
-                    int nc = dc + c;
-                    if (nr >= 0 && nr < 25 && nc >= 0 && nc < 79 && !(r == 0 && c == 0)) {
-                        auto it = protectedPositions.find({nr, nc});
-                        if (it != protectedPositions.end()) {
-                            Protected* protectedItem = it->second;
-                            dragon->setHoard(protectedItem);
-                            protectedItem->setProtector(dragon);
-                            goto next_dragon;
-                        }
-                    }
+
+            for (auto& protectedPos : protectedPositions) {
+                if (abs(protectedPos.x - dragonPos.x) <= 1) {
+                    Protected* p = dynamic_cast<Protected*>(protectedPos.entity);
+                    dragon->setHoard(p);
+                    p->setProtector(dragon);
+                    break;
                 }
             }
-            next_dragon:;
         }
         
         floors.push_back(f); // Return the reference to the dynamically allocated Floor object
@@ -161,16 +156,36 @@ vector<Floor*> FloorGenerator::generateFloor(Player& player){
     vector<Floor*> floors;
     int barrierSuitFloor = RandomNumberGenerator::randomNumber(0, 4);
     for (int curFloor = 0; curFloor < 5; ++curFloor) {
-        // 1 player position
-        
-        // 2 stair position
-        // 3 potions
+        floors[curFloor] = new Floor();
+        Floor* cf = floors[curFloor];
+        // 1) player position
+        int playerChamber = randomChamber();
+        pair<int, int> playerPos = randomFloorTile(playerChamber);
+        cf->board[playerPos.first][playerPos.second].occupant = &player;
+        // 2) stair position
+        int stairChamber = RandomNumberGenerator::randomNumber(0, 3);
+        if (stairChamber >= playerChamber) stairChamber++;
+        pair<int, int> stairPos = randomFloorTile(stairChamber);
+        cf->board[stairPos.first][stairPos.second].cellType = Cell::STAIRS;
+        // 3) potions
+        for (int i = 0; i < 10; ++i) {
+            pair<int, int> potionPos = randomFloorTile(randomChamber());
+            while (!emptyFloorTile(cf, potionPos)) {
+                
+            }
+        }
         // 4 gold (+ dragons)
         // gen barrier suit if on correct floor
         // 5 enemies
         // choose enemy to hold compass
 
     }
+}
+
+bool FloorGenerator::emptyFloorTile(Floor* f, pair<int, int>& tile) {
+    if (f->board[tile.first][tile.second].occupant) return false;
+    if (f->board[tile.first][tile.second].cellType == Cell::STAIRS) return false;
+    return true;
 }
 
 int FloorGenerator::randomChamber() {
@@ -183,12 +198,16 @@ pair<int, int> FloorGenerator::randomFloorTile(int chamber) {
     for (rect = 0; rect < chamberDimensions[chamber].size(); ++rect) {
         int rectSize = chamberDimensions[chamber][rect].first * chamberDimensions[chamber][rect].second;
         if (tile <= rectSize) {
-            // in rect
+            break; // in rectangle rect of chamber
         } else {
             tile -= rectSize; // in next rect
         }
     }
 
-    // get random x and y for specific rect, if cell is occupied cycle through rect until unoccupied space
-
+    // get random row and col for specific rect, if cell is occupied cycle through rect until unoccupied space
+    int row = RandomNumberGenerator::randomNumber(0, chamberDimensions[chamber][rect].first - 1);
+    int col = RandomNumberGenerator::randomNumber(0, chamberDimensions[chamber][rect].second - 1);
+    row += chambers[chamber][rect].first;
+    col += chambers[chamber][rect].second;
+    return {row, col}; // row, col on board
 }

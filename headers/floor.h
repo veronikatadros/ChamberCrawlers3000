@@ -4,7 +4,7 @@
 #include <vector>
 #include <array>
 #include "cell.h"
-#include "game.h"
+
 
 using namespace std;
 
@@ -12,7 +12,7 @@ class Floor {
     public:
         struct EntityPosition {
             Entity* entity;
-            int x, y;
+            int row, col;
         };
         vector<EntityPosition> enemyPositions;
         array<array<Cell, 79>, 25> board;

@@ -194,13 +194,17 @@ void View::gameOver() {
 |                                                                             |
 |                                                                             |
 |-----------------------------------------------------------------------------|
-Race:                                                                 Floor: 
-Gold: 
-HP: 
-Atk: 
-Def: 
-Action: Player is dead! Game over :(
+
+
+
+
+
+
     )" << '\n';
+}
+
+void View::invalidCommand() {
+    action += "Invalid command, please try again!";
 }
 
 void View::getEnemyName(char enemyChar) {

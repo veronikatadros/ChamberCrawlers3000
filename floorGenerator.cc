@@ -196,9 +196,25 @@ vector<Floor*> FloorGenerator::generateFloor(Player& player) {
 }
 
 void FloorGenerator::spawnDragon(Floor* f, Floor::EntityPosition& procItem) {
-    // get valid tiles around item (vector<Cell*>)
+    Protected* p = dynamic_cast<Protected*>(procItem.entity);
     
-    // gen random num from 0 to vector.size() - 1
+    // get valid cells around item (vector<Cell*>)
+    vector<Cell*> validCells;
+    for (int r = -1; r <= 1; ++r) {
+        for (int c = -1; c <= 1; ++c) {
+            int row = procItem.row + r;
+            int col = procItem.row + c;
+            if (row >= 0 && row < 25 && col >= 0 && col < 79) {
+                Cell* temp = &(f->board[row][col]);
+                if (temp->cellType == Cell::GROUND && !temp->occupant) {
+                    validCells.push_back(temp);
+                }
+            }
+        }
+    }
+    int cellNum = RandomNumberGenerator::randomNumber(0, validCells.size() - 1);
+    validCells[cellNum]->occupant = new Dragon{dynamic_cast<Protected*>(procItem.entity)};
+
     // put dragon there
 }
 
@@ -217,11 +233,12 @@ void FloorGenerator::spawnGold(Floor* f, vector<Floor::EntityPosition>& protecte
         case 6:
             f->board[goldPos.first][goldPos.second].occupant = new Gold{2};
             break;
-        case 7:
+        case 7: {
             Protected* p = new GoldHoard{};
             f->board[goldPos.first][goldPos.second].occupant = p;
             protectedPositions.push_back({p, goldPos.first, goldPos.second});
             break;
+        }
         default:
             break;
     }

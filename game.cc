@@ -309,7 +309,8 @@ void Game::playTurn() {
             playerAttack(direction);
         }
         else {
-            cout << "Invalid Try Again!" << endl;
+            view->invalidCommand();
+            view->render(floors[currentFloor], currentFloor, player);
             continue;
         }
         notifyCells();

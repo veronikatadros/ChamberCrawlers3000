@@ -263,7 +263,7 @@ void Game::updateDir(int &yDir, int &xDir, string dir) {
 void Game::nextFloor() {
     currentFloor++;
     player->removeEffects();
-    player->hasCompass = false;
+    player->hasCompass = cmd.empty() ? false : true;
 }
 
 void Game::reset() {

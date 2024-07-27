@@ -63,7 +63,11 @@ void Player::removeEffects() {
     // reverse each potion effect
     TempPotion* temp = potionEffect;
     while (potionEffect) {
-        hp -= temp->value;
+        if (temp->stat == "ATK") {
+            atk -= temp->value;
+        } else if (temp->stat == "DEF") {
+            def -= temp->value;
+        }
         potionEffect = potionEffect->next;
         delete temp;
         temp = potionEffect;

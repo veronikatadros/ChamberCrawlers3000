@@ -14,9 +14,11 @@ class FloorGenerator {
         vector<int> chamberFloorTiles;
         vector< vector<pair<int, int>> > chamberDimensions;
         vector<int> occupiedTiles;
-        int randomChamber();
-        pair<int, int> randomFloorTile(int chamber); // random floor tile
-        bool emptyFloorTile(Floor* f, pair<int, int>& tile); // returns whether tile is empty
+        int randomChamber() const;
+        pair<int, int> randomFloorTile(Floor* f, int chamber) const; // random floor tile
+        bool emptyFloorTile(Floor* f, int row, int col) const; // returns whether tile is empty
+        void spawnPotion(Floor* f);
+        void spawnGold(Floor* f, vector<Floor::EntityPosition>& protectedPositions);
     public:
         FloorGenerator();
         virtual ~FloorGenerator();

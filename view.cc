@@ -165,7 +165,7 @@ void View::playerAttack(Enemy* enemy, bool dead) {
             break;
     }
 
-    action += " (" + enemy->hp;
+    action += " (" + (char)enemy->hp;
     action += " HP)! ";
 }
 

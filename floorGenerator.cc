@@ -302,7 +302,7 @@ void FloorGenerator::spawnGold(Floor* f, vector<Floor::EntityPosition>& protecte
 
 void FloorGenerator::spawnPotion(Floor* f) {
     pair<int, int> potionPos = randomFloorTile(f, randomChamber());
-    int potionType = RandomNumberGenerator::randomNumber(0, 6);
+    int potionType = RandomNumberGenerator::randomNumber(0, 5);
     switch (potionType) {
         case 0:
             f->board[potionPos.first][potionPos.second].occupant = new PermPotion{10};

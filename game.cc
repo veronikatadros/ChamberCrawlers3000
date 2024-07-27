@@ -289,7 +289,7 @@ void Game::usePotion(string dir) {
         && c.occupant != nullptr && c.occupant->eType == Entity::ITEM) { 
             Item* item = static_cast<Item*>(c.occupant);
             if (item->itemType == Item::POTION)
-            player->pickUp(item);
+                player->pickUp(item);
     }
 }
 

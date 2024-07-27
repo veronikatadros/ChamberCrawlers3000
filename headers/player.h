@@ -10,6 +10,7 @@ class HealthPotion;
 class Item;
 class Gold;
 class GoldHoard;
+class Potion;
 
 class Player : public Character {
     private:

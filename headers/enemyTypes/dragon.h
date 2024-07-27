@@ -2,7 +2,7 @@
 #define DRAGON_H
 
 #include "../enemy.h"
-#include "../headers/items/goldHoard.h"
+#include "../items/goldHoard.h"
 
 class Item;
 class Protected;

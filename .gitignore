@@ -1,0 +1,7 @@
+# Ignore object files and dependency files
+*.o
+*.d
+
+# Ignore executable files
+*.exe
+*.out

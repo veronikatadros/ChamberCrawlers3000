@@ -1,7 +1,7 @@
 #ifndef VIEW_H
 #define VIEW_H
 
-#include "iostream"
+
 using namespace std;
 
 class Floor;
@@ -16,7 +16,7 @@ class View {
     public:
         View();
         virtual ~View();
-        void render(const Floor* floor, const int curFloor, const Player* player, ostream& out = cout);
+        void render(const Floor* floor, const int curFloor, const Player* player);
         void enemyAttack(Enemy* enemy);
         void playerAttack(Enemy* enemy, bool dead);
         void playerMove(string dir);

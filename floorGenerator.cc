@@ -308,19 +308,19 @@ void FloorGenerator::spawnPotion(Floor* f) {
             f->board[potionPos.first][potionPos.second].occupant = new PermPotion{10};
             break;
         case 1:
-            f->board[potionPos.first][potionPos.second].occupant = new TempPotion{10, "ATK"};
+            f->board[potionPos.first][potionPos.second].occupant = new TempPotion{5, "ATK"};
             break;
         case 2:
-            f->board[potionPos.first][potionPos.second].occupant = new TempPotion{10, "DEF"};
+            f->board[potionPos.first][potionPos.second].occupant = new TempPotion{5, "DEF"};
             break;
         case 3:
             f->board[potionPos.first][potionPos.second].occupant = new PermPotion{-10};
             break;
         case 4:
-            f->board[potionPos.first][potionPos.second].occupant = new TempPotion{-10, "ATK"};
+            f->board[potionPos.first][potionPos.second].occupant = new TempPotion{-5, "ATK"};
             break;
         case 5:
-            f->board[potionPos.first][potionPos.second].occupant = new TempPotion{-10, "DEF"};
+            f->board[potionPos.first][potionPos.second].occupant = new TempPotion{-5, "DEF"};
             break;
         default:
             break;

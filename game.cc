@@ -170,28 +170,41 @@ void Game::movePlayer(string dir) {
 void Game::moveEnemies() {
 
     for(int k = 0; k < floors[currentFloor]->enemyPositions.size(); k++) {
-        vector<Cell*> validCells;
+        vector<pair<int, int>> testCells;
 
-        Floor::EntityPosition entPos = floors[currentFloor]->enemyPositions[k];
-        Entity *e = entPos.entity;
+        Floor::EntityPosition &ePos = floors[currentFloor]->enemyPositions[k];
+        Entity *e = ePos.entity;
+
+        Enemy *enem = static_cast<Enemy*>(e);
+        if(enem->hasAttacked) {
+            enem->hasAttacked = false;
+            return;
+        }
 
         for(int i = -1; i <= 1; i++) {
             for(int j = -1; j <= 1; j++) {
-                int y = entPos.row + i;
-                int x = entPos.col + j;
-                if (y >= 0 && x >= 0 && y < floors[currentFloor]->board.size() && x < floors[currentFloor]->board[playerLocation.first].size()) {
-                    Cell& c = floors[currentFloor]->board[y][x];
-                    if(c.cellType == Cell::GROUND && c.occupant == nullptr) validCells.push_back(&c);
+                int row = ePos.row + i;
+                int col = ePos.col + j;
+                if (row >= 0 && col >= 0 && row < floors[currentFloor]->board.size() && col < floors[currentFloor]->board[playerLocation.first].size()) {
+                    Cell& c = floors[currentFloor]->board[row][col];
+                    pair<int, int> newCoord;
+                    newCoord.first = row;
+                    newCoord.second = col;
+                    if(c.occupant == nullptr && c.cellType == Cell::GROUND) testCells.push_back(newCoord);
                 }
             }
         }
 
-        int size = validCells.size();
-        if(!validCells.empty()) {
-            int ran = RandomNumberGenerator::randomNumber(0, size -1);
-            Cell& curCell = floors[currentFloor]->board[entPos.row][entPos.col];
-            curCell.occupant = nullptr;
-            validCells[ran]->occupant = e;
+        int size = testCells.size();
+        if(size > 0) {
+            int ran = RandomNumberGenerator::randomNumber(0, size - 1);
+            pair<int, int> newCoord = testCells[ran];
+
+            floors[currentFloor]->board[ePos.row][ePos.col].occupant = nullptr;
+            floors[currentFloor]->board[newCoord.first][newCoord.second].occupant = e;
+
+            ePos.row = newCoord.first;
+            ePos.col = newCoord.second;
         }
 
     }
@@ -340,6 +353,7 @@ void Game::playTurn() {
         else {
             cout << "Invalid Try Again!" << endl;
         }
+        moveEnemies();
         view->render(floors[currentFloor], currentFloor, player);
     }
 }

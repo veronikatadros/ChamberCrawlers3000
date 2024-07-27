@@ -55,7 +55,7 @@ vector<Floor*> FloorGenerator::generateFloor(const string& filename, Player& pla
         string line;
         int row = 0;
         while (std::getline(file, line) && row < 25) {
-            for (int col = 0; col < 79 && col < line.size(); ++col) {
+            for (int col = 0; col < 79 && static_cast<size_t>(col) < line.size(); ++col) {
                 switch (line[col]) {
                     case '@': f->board[row][col].occupant = static_cast<Entity*>(&player); // shouldn't need cast here?
                     playerFloorLocation.push_back(make_pair(row, col)); break;
@@ -186,7 +186,7 @@ vector<Floor*> FloorGenerator::generateFloor(Player& player) {
         // 5) enemies
         int enemyCount;
         // generate dragons
-        for (enemyCount = 0; enemyCount < protectedPositions.size(); ++enemyCount) {
+        for (enemyCount = 0; static_cast<size_t>(enemyCount) < protectedPositions.size(); ++enemyCount) {
             spawnDragon(cf, protectedPositions[enemyCount]);
         }
 
@@ -341,7 +341,7 @@ int FloorGenerator::randomChamber() const {
 pair<int, int> FloorGenerator::randomFloorTile(Floor* f, int chamber) const {
     int tile = RandomNumberGenerator::randomNumber(0, chamberFloorTiles[chamber] - 1);
     int rect;
-    for (rect = 0; rect < chamberDimensions[chamber].size(); ++rect) {
+    for (rect = 0; static_cast<size_t>(rect) < chamberDimensions[chamber].size(); ++rect) {
         int rectSize = chamberDimensions[chamber][rect].first * chamberDimensions[chamber][rect].second;
         if (tile <= rectSize) {
             break; // in rectangle rect of chamber
@@ -366,7 +366,7 @@ pair<int, int> FloorGenerator::randomFloorTile(Floor* f, int chamber) const {
             col = chambers[chamber][rect].second;
             if (row - chambers[chamber][rect].first >= chamberDimensions[chamber][rect].first) { // at end of rect
                 rect++;
-                if (row >= chambers[chamber].size()) rect = 0; // at end of chamber
+                if (static_cast<size_t>(row) >= chambers[chamber].size()) rect = 0; // at end of chamber
                 row = chambers[chamber][rect].first;
                 col = chambers[chamber][rect].second;
             }

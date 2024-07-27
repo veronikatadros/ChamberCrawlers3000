@@ -2,7 +2,7 @@
 #include "headers/items/gold.h"
 #include "headers/items/goldHoard.h"
 
-Dwarf::Dwarf() : Player{140, 30, 10, "Dwarf"} {}
+Dwarf::Dwarf() : Player{100, 20, 30, "Dwarf"} {}
 
 Dwarf::~Dwarf() {}
 

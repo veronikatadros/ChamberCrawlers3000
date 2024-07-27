@@ -32,7 +32,7 @@ class Game {
         void start();
 
         Game(string cmd);
-        virtual ~Game() = default;
+        virtual ~Game();
 };
 #endif
 

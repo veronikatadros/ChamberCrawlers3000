@@ -14,7 +14,7 @@
 
 using namespace std;
 
-Game::Game(string cmd) : cmd{cmd} {}
+Game::Game(string cmd) : cmd{cmd}, view{new View()} {}
 
 void Game::start() {
     cout << "Welcome to the game of CC3K!" << endl;
@@ -58,6 +58,8 @@ void Game::start() {
     playerLocation = generator->playerFloorLocation[currentFloor];
 
     cout << "DONE PLAYER FLOOR LOCATION" << endl;
+
+    view->render(floors[currentFloor], currentFloor, player);
 
     playTurn();
 }
@@ -297,9 +299,7 @@ void Game::nextFloor() {
 }
 
 void Game::reset() {
-    // delete a bunch of shit
-    // delete all the floors
-    // call Game::start()
+    delete view;
     delete generator;
     delete player;
 
@@ -312,6 +312,7 @@ void Game::reset() {
 
 void Game::playTurn() {
     while(true) {
+        cout << "Input stuff :)\n";
         string input;
         cin >> input;
         if (input == "r") {
@@ -337,5 +338,15 @@ void Game::playTurn() {
             cout << "Invalid Try Again!" << endl;
         }
         view->render(floors[currentFloor], currentFloor, player);
+    }
+}
+
+Game::~Game() {
+    delete generator;
+    delete player;
+    delete view;
+
+    for(auto f : floors) {
+        delete f;
     }
 }

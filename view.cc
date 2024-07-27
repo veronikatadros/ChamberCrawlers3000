@@ -66,10 +66,17 @@ void View::render(const Floor* floor, const int curFloor, const Player* player, 
                         output += "1;35m";
                         output += temp;
                         break;
-                    case Entity::ITEM:
-                        output += "34m";
+                    case Entity::ITEM: {
+                        if (temp == 'G') {
+                            output += "33m";
+                        } else if (temp == 'P') {
+                            output += "34m";
+                        } else {
+                            output += "35m";
+                        }
                         output += temp;
                         break;
+                    } 
                     default:
                         // throw error?
                         output += "missing EntityType";
@@ -82,9 +89,10 @@ void View::render(const Floor* floor, const int curFloor, const Player* player, 
     }
     //output UI
     out << "Race: " << player->race;
-    out << " Gold: " << player->gold;
     for (int i = 0; i < View::SPACING; ++i) out << ' ';
-    out << "Floor: " << curFloor << '\n';
+    out << "Floor: " << curFloor + 1 << '\n';
+    
+    out << "Gold: " << player->gold << '\n';
 
     out << "HP: " << player->hp << '\n';
     out << "Atk: " << player->atk << '\n';

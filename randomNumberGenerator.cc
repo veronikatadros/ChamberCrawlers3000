@@ -8,7 +8,7 @@ RandomNumberGenerator::RandomNumberGenerator(unsigned int seed) : seed{seed} {
 RandomNumberGenerator::~RandomNumberGenerator() {}
 
 int RandomNumberGenerator::randomNumber(int low, int high) {
-    int range = high - low;
-    if (range == 0) return low;
+    int range = high - low + 1;
+    if (range <= 0) return low;
     return rand() % range + low;
 }

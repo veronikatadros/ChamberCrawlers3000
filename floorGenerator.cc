@@ -26,10 +26,10 @@ FloorGenerator::FloorGenerator() {
                 {{10, 38}}, 
                 {{15, 4}}, 
                 {{19, 37}, {16, 65}} };
-    chamberDimensions = {{{5, 26}}, 
+    chamberDimensions = {{{4, 26}}, 
                         {{2, 23}, {1, 31}, {1, 34}, {6, 15}}, 
                         {{3, 12}}, 
-                        {{7, 11}}, 
+                        {{7, 21}}, 
                         {{3, 28}, {6, 11}}};
     chamberFloorTiles = {104, 201, 36, 77, 150};
     occupiedTiles = {0, 0, 0, 0, 0};

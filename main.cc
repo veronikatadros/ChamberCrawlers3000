@@ -8,7 +8,7 @@ int main(int argc, char *argv[]){
 
     string command;
     string dir;
-    RandomNumberGenerator(0);
+    RandomNumberGenerator();
     Game game(argc > 1 ? argv[1] : "");
 
     game.start();

@@ -175,7 +175,7 @@ void Game::moveEnemies() {
         int size = validCells.size();
         if(!validCells.empty()) {
             int ran = RandomNumberGenerator::randomNumber(0, size -1);
-            Cell& curCell = floors[currentFloor]->board[entPos.y][entPos.x];
+            Cell& curCell = floors[currentFloor]->board[entPos.row][entPos.col];
             curCell.occupant = nullptr;
             validCells[ran]->occupant = e;
         }

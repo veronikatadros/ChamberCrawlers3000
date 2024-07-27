@@ -129,7 +129,7 @@ vector<Floor*> FloorGenerator::generateFloor(const string& filename, Player& pla
             }
             ++row;
         }
-        file.close();
+        
 
         // Second pass to link dragons to their protected objects
         for (auto& dragonPos : dragonPositions) {
@@ -147,6 +147,7 @@ vector<Floor*> FloorGenerator::generateFloor(const string& filename, Player& pla
         
         floors.push_back(f); // Return the reference to the dynamically allocated Floor object
     }
+    file.close();
     return floors;
 }
 

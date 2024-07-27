@@ -153,7 +153,7 @@ void View::itemGrabbed(Item* item) {
                 action += to_string(0 - p->value);
             } else {
                 action += "+ ";
-                action += to_string(0 - p->value);
+                action += to_string(p->value);
             }
             action += "! ";
             break;

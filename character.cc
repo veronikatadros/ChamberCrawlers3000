@@ -1,5 +1,6 @@
 #include "headers/character.h"
 #include <math.h>
+#include <iostream>
 using namespace std;
 
 Character::Character(int maxHp, int atk, int def, Entity::EntityType entityType) : 
@@ -8,7 +9,7 @@ Character::Character(int maxHp, int atk, int def, Entity::EntityType entityType)
 Character::~Character() {}
 
 bool Character::tryKill(int otherAtk) {
-    hp -= ceil( (100 / (100 + def)) * otherAtk );
+    hp -= ceil( (100 / static_cast<float>(100 + def)) * otherAtk );
     if (hp <= 0) {
         return true; // entity is dead, game should delete
     }

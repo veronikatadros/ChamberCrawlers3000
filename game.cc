@@ -320,7 +320,7 @@ void Game::playTurn() {
             break;
         }
         else if (input == "q") {
-            quitGame = true;
+            return;
         }
         else if (input == "no" || input == "so" || input == "ea" || input == "we" || input == "ne" || input == "nw" || input == "se" || input == "sw") {
             movePlayer(input);

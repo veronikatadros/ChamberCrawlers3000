@@ -14,7 +14,7 @@
 
 using namespace std;
 
-Game::Game(string cmd) : cmd{cmd}, view{new View()} {}
+Game::Game(string cmd) : view{new View()}, cmd{cmd} {}
 
 void Game::start() {
     cout << "Welcome to the game of CC3K!" << endl;

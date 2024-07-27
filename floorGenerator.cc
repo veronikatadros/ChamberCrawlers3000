@@ -37,7 +37,7 @@ FloorGenerator::FloorGenerator() {
 
 FloorGenerator::~FloorGenerator() {}
 
-vector<Floor&> FloorGenerator::generateFloor(const string& filename, Player& player) {
+vector<Floor*> FloorGenerator::generateFloor(const string& filename, Player& player) {
     ifstream file(filename);
     if (!file) {
         cerr << "Failed to open file: " << filename << endl;
@@ -45,7 +45,7 @@ vector<Floor&> FloorGenerator::generateFloor(const string& filename, Player& pla
     }
     // assume can always see the stairs
     player.hasCompass = true;
-    vector<Floor&> floors;
+    vector<Floor*> floors;
     for (int curFloor = 0; curFloor < 5; ++curFloor) {
         Floor* f = new Floor(); // Create the Floor object on the heap
         unordered_map<pair<int, int>, Protected*> protectedPositions;
@@ -152,13 +152,13 @@ vector<Floor&> FloorGenerator::generateFloor(const string& filename, Player& pla
             next_dragon:;
         }
         
-        floors.push_back(*f); // Return the reference to the dynamically allocated Floor object
+        floors.push_back(f); // Return the reference to the dynamically allocated Floor object
     }
     return floors;
 }
 
-vector<Floor&> FloorGenerator::generateFloor(Player& player){
-    vector<Floor&> floors;
+vector<Floor*> FloorGenerator::generateFloor(Player& player){
+    vector<Floor*> floors;
     int barrierSuitFloor = RandomNumberGenerator::randomNumber(0, 4);
     for (int curFloor = 0; curFloor < 5; ++curFloor) {
         // 1 player position

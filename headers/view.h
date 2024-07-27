@@ -13,7 +13,7 @@ class View {
         View();
         virtual ~View();
         string action;
-        void render(const Floor& floor, const int curFloor, const Player& player, ostream& out = cout);
+        void render(const Floor* floor, const int curFloor, const Player* player, ostream& out = cout);
 };
 
 #endif

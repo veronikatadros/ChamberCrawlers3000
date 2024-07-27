@@ -8,11 +8,11 @@ View::View() : action{""} {}
 
 View::~View() {}
 
-void View::render(const Floor& floor, const int curFloor, const Player& player, ostream& out) {
+void View::render(const Floor* floor, const int curFloor, const Player* player, ostream& out) {
     // go through each row & column on board, includes border
-    for (size_t row = 0; row < floor.board.size(); ++row) {
-        for (size_t col = 0; col < floor.board[row].size(); ++col) {
-            const Cell& c = floor.board[row][col];
+    for (size_t row = 0; row < floor->board.size(); ++row) {
+        for (size_t col = 0; col < floor->board[row].size(); ++col) {
+            const Cell& c = floor->board[row][col];
             if (c.occupant == nullptr) {
                 out << View::BEGCOLOR;
                 // use cell type
@@ -22,7 +22,7 @@ void View::render(const Floor& floor, const int curFloor, const Player& player, 
                         break;
                     case Cell::STAIRS:
                         // green (32)
-                        if (player.hasCompass) {
+                        if (player->hasCompass) {
                             out << "32m\\";
                             break;
                         }
@@ -80,14 +80,14 @@ void View::render(const Floor& floor, const int curFloor, const Player& player, 
         out << '\n';
     }
     //output UI
-    out << "Race: " << player.race;
-    out << " Gold: " << player.gold;
+    out << "Race: " << player->race;
+    out << " Gold: " << player->gold;
     for (int i = 0; i < View::SPACING; ++i) out << ' ';
     out << "Floor: " << curFloor << '\n';
 
-    out << "HP: " << player.hp << '\n';
-    out << "Atk: " << player.atk << '\n';
-    out << "Def: " << player.def << '\n';
+    out << "HP: " << player->hp << '\n';
+    out << "Atk: " << player->atk << '\n';
+    out << "Def: " << player->def << '\n';
 
     out << "Action: " << action << '\n';
 }

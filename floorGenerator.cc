@@ -206,7 +206,7 @@ vector<Floor*> FloorGenerator::generateFloor(Player& player) {
 void FloorGenerator::spawnEnemy(Floor* f) {
     pair<int, int> enemyPos = randomFloorTile(f, randomChamber());
     int enemyType = RandomNumberGenerator::randomNumber(0, 17);
-    Enemy* e;
+    Enemy* e = nullptr;
     switch (enemyType) {
         case 0:
         case 1:
@@ -247,8 +247,10 @@ void FloorGenerator::spawnEnemy(Floor* f) {
         default:
             break;
     }
-    f->board[enemyPos.first][enemyPos.second].occupant = e;
-    f->enemyPositions.push_back({e, enemyPos.first, enemyPos.second});
+    if (e) {
+        f->board[enemyPos.first][enemyPos.second].occupant = e;
+        f->enemyPositions.push_back({e, enemyPos.first, enemyPos.second});
+    }
 }
 
 void FloorGenerator::spawnDragon(Floor* f, Floor::EntityPosition& procItem) {

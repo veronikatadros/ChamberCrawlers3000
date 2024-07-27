@@ -117,7 +117,7 @@ void Game::moveEnemies() {
         if(enem->hasAttacked) {
             enem->hasAttacked = false;
             view->enemyAttack(enem);
-            return;
+            continue;
         }
 
         for(int i = -1; i <= 1; i++) {

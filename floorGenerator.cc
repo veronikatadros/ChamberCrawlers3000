@@ -188,16 +188,71 @@ vector<Floor*> FloorGenerator::generateFloor(Player& player) {
         int enemyCount;
         // generate dragons
         for (enemyCount = 0; enemyCount < protectedPositions.size(); ++enemyCount) {
-            // find valid cells
+            spawnDragon(cf, protectedPositions[enemyCount]);
         }
-        // choose enemy to hold compass
 
+        while (enemyCount < 20) {
+            spawnEnemy(cf);
+            ++enemyCount;
+        }
+
+        // choose enemy with compass
+        int compassEnemyIndex = RandomNumberGenerator::randomNumber(0, cf->enemyPositions.size() - 1);
+        Enemy* compassEnemy = dynamic_cast<Enemy*>(cf->enemyPositions[compassEnemyIndex].entity);
+        compassEnemy->holdsCompass = true;
     }
+}
+
+void FloorGenerator::spawnEnemy(Floor* f) {
+    pair<int, int> enemyPos = randomFloorTile(f, randomChamber());
+    int enemyType = RandomNumberGenerator::randomNumber(0, 17);
+    Enemy* e;
+    switch (enemyType) {
+        case 0:
+        case 1:
+        case 2:
+        case 3: {
+            e = new Werewolf{};
+            break;
+        }
+        case 4:
+        case 5:
+        case 6: {
+            e = new Vampire{};
+            break;
+        }
+        case 7:
+        case 8:
+        case 9:
+        case 10:
+        case 11: {
+            e = new Goblin{};
+            break;
+        }
+        case 12:
+        case 13: {
+            e = new Troll{};
+            break;
+        }
+        case 14:
+        case 15: {
+            e = new Phoenix{};
+            break;
+        }
+        case 16:
+        case 17: {
+            e = new Merchant{};
+            break;
+        }
+        default:
+            break;
+    }
+    f->board[enemyPos.first][enemyPos.second].occupant = e;
+    f->enemyPositions.push_back({e, enemyPos.first, enemyPos.second});
 }
 
 void FloorGenerator::spawnDragon(Floor* f, Floor::EntityPosition& procItem) {
     Protected* p = dynamic_cast<Protected*>(procItem.entity);
-    
     // get valid cells around item (vector<Cell*>)
     vector<Cell*> validCells;
     for (int r = -1; r <= 1; ++r) {
@@ -213,9 +268,9 @@ void FloorGenerator::spawnDragon(Floor* f, Floor::EntityPosition& procItem) {
         }
     }
     int cellNum = RandomNumberGenerator::randomNumber(0, validCells.size() - 1);
-    validCells[cellNum]->occupant = new Dragon{dynamic_cast<Protected*>(procItem.entity)};
-
-    // put dragon there
+    Dragon* d = new Dragon{p};
+    validCells[cellNum]->occupant = d;
+    p->protector = d;
 }
 
 void FloorGenerator::spawnGold(Floor* f, vector<Floor::EntityPosition>& protectedPositions) {

@@ -20,6 +20,7 @@ class FloorGenerator {
         void spawnPotion(Floor* f);
         void spawnGold(Floor* f, vector<Floor::EntityPosition>& protectedPositions);
         void spawnDragon(Floor* f, Floor::EntityPosition& procItem);
+        void spawnEnemy(Floor* f);
     public:
         FloorGenerator();
         virtual ~FloorGenerator();

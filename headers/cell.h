@@ -16,6 +16,6 @@ class Cell {
         CellType cellType;
         Entity* occupant;
         Cell(CellType c = CellType::EMPTY, Entity* e = nullptr);
-
+        virtual ~Cell() = default;
 };
 #endif

@@ -56,7 +56,8 @@ vector<Floor*> FloorGenerator::generateFloor(const string& filename, Player& pla
         int row = 0;
         while (std::getline(file, line) && row < 25) {
             for (int col = 0; col < 79 && static_cast<size_t>(col) < line.size(); ++col) {
-                switch (line[col]) {
+                char c = line[col];
+                switch (c) {
                     case '@': f->board[row][col].occupant = static_cast<Entity*>(&player); // shouldn't need cast here?
                     playerFloorLocation.push_back(make_pair(row, col)); break;
                     case '\\': f->board[row][col].cellType = Cell::STAIRS; break;

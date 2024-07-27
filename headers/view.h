@@ -22,7 +22,7 @@ class View {
         void playerMove(string dir);
         void itemGrabbed(Item* item);
         void gameOver();
-        void gameWon();
+        void gameWon(Player* p);
         void invalidCommand();
 };
 

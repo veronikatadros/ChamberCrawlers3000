@@ -160,10 +160,14 @@ void View::itemGrabbed(Item* item) {
         }
         case (Item::COMPASS): {
             action += " Compass! Stairs to next floor visible. ";
+            break;
         }
         case (Item::BARRIER_SUIT): {
             action += " Barrier Suit! Damage done to player halved. ";
+            break;
         }
+        default:
+            break;
     }
 }
 
@@ -203,7 +207,12 @@ void View::gameOver() {
     )" << '\n';
 }
 
-void View::gameWon() {
+void View::gameWon(Player* p) {
+    int score = p->gold;
+    if (p->race == "Human") {
+        score *= 1.5;
+    }
+    
     cout << R"(
 |-----------------------------------------------------------------------------|
 |                                                                             |
@@ -230,13 +239,10 @@ void View::gameWon() {
 |                                                                             |
 |                                                                             |
 |-----------------------------------------------------------------------------|
-
-
-
-
-
-...Press r to restart or q to quit
     )" << '\n';
+    cout << "Score: " << score << endl;
+    cout << "\n\n\n\n";
+    cout << "...Press r to restart or q to quit\n";
 }
 
 void View::invalidCommand() {

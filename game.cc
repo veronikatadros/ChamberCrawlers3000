@@ -132,7 +132,7 @@ void Game::movePlayer(string dir) {
             if (y >= 0 && x >= 0 && y < floors[currentFloor]->board.size() && x < floors[currentFloor]->board[playerLocation.first].size()) {
                 Cell& k = floors[currentFloor]->board[playerLocation.first + i][playerLocation.second + j];
                 if(k.occupant != nullptr && k.occupant->eType == Entity::ITEM) {
-                    k.occupant->notify(*player);
+                    k.occupant->notify(static_cast<Entity*>(player));
                 }
             }
         }
@@ -146,7 +146,7 @@ void Game::movePlayer(string dir) {
             if (y >= 0 && x >= 0 && y < floors[currentFloor]->board.size() && x < floors[currentFloor]->board[playerLocation.first].size()) {
                 Cell& k = floors[currentFloor]->board[playerLocation.first + i][playerLocation.second + j];
                 if(k.occupant != nullptr && k.occupant->eType == Entity::ENEMY) {
-                    k.occupant->notify(*player);
+                    k.occupant->notify(static_cast<Entity*>(player));
                 }
             }
         }

@@ -177,3 +177,5 @@ void View::itemGrabbed(Item* item) {
     
 }
 
+void View::gameOver() {}
+

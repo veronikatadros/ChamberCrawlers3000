@@ -15,10 +15,11 @@ class View {
         View();
         virtual ~View();
         void render(const Floor* floor, const int curFloor, const Player* player, ostream& out = cout);
-        void enemyAttack(Entity* enemy, bool dead);
-        void playerAttack(Entity* enemy, bool dead);
+        void enemyAttack(Enemy* enemy);
+        void playerAttack(Enemy* enemy, bool dead);
         void playerMove(string dir);
         void itemGrabbed(Entity* item);
+        void gameOver();
 };
 
 #endif

@@ -19,15 +19,18 @@ void Player::pickUp(Item* i) { // these items need to be deleted in game logic
     } else if (i->itemType == Item::GOLD) {
         Gold* g = dynamic_cast<Gold*>(i);
         gold += getGoldValue(g);
+        delete i;
     } else if (i->itemType == Item::GOLD_HOARD) {
         GoldHoard* g = dynamic_cast<GoldHoard*>(i);
         gold += getGoldValue(g);
+        delete i;
     } else if (i->itemType == Item::COMPASS) {
         hasCompass = true;
+        delete i;
     } else if (i->itemType == Item::BARRIER_SUIT) {
         hasBarrierSuit = true;
+        delete i;
     }
-    delete i;
 }
 
 void Player::notify(Entity* player) {}
@@ -71,6 +74,7 @@ void Player::removeEffects() {
         } else if (temp->stat == "DEF") {
             def -= temp->value;
         }
+
         potionEffect = potionEffect->next;
         delete temp;
         temp = potionEffect;

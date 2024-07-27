@@ -104,7 +104,7 @@ void View::render(const Floor* floor, const int curFloor, const Player* player, 
     action = "";
 }
 
-void View::enemyAttack(Entity* enemy, bool dead) {
+void View::enemyAttack(Enemy* enemy) {
     // get enemy type
     char e = enemy->charAt();
     switch (e) {
@@ -135,7 +135,7 @@ void View::enemyAttack(Entity* enemy, bool dead) {
     action += " attacks! ";
 }
 
-void View::playerAttack(Entity* enemy, bool dead) {
+void View::playerAttack(Enemy* enemy, bool dead) {
     // get enemy type
     action += "Player attacks ";
     char e = enemy->charAt();
@@ -164,10 +164,16 @@ void View::playerAttack(Entity* enemy, bool dead) {
         default:
             break;
     }
-    action += " attacks! ";
+
+    action += " (" + enemy->hp;
+    action += " HP)! ";
 }
 
-void View::playerMove(string dir) {}
+void View::playerMove(string dir) {
+    action += "Player moves " + dir + " ";
+}
 
-void View::itemGrabbed(Entity* item) {}
+void View::itemGrabbed(Entity* item) {
+    
+}
 

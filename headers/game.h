@@ -12,7 +12,7 @@ using namespace std;
 class Game {
     private:
         pair<int, int> playerLocation;
-        vector<Floor&> floors;
+        vector<Floor*> floors;
         int currentFloor = 0;
         View* view;
         FloorGenerator* generator;

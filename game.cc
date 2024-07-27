@@ -54,7 +54,7 @@ void Game::movePlayer(string dir) {
 
     int yDir = playerLocation.first;
     int xDir = playerLocation.second;
-    floors[currentFloor].board[playerLocation.first][playerLocation.second].occupant = nullptr; // set current board cell Entity to NULL
+    floors[currentFloor]->board[playerLocation.first][playerLocation.second].occupant = nullptr; // set current board cell Entity to NULL
     
     if (dir == "no") { // UP
         yDir--;
@@ -85,8 +85,8 @@ void Game::movePlayer(string dir) {
         xDir--;
     }
 
-    Cell& c = floors[currentFloor].board[yDir][xDir];
-    if(xDir >= 0 && yDir >= 0 && yDir < floors[currentFloor].board.size() && xDir < floors[currentFloor].board[playerLocation.first].size()
+    Cell& c = floors[currentFloor]->board[yDir][xDir];
+    if(xDir >= 0 && yDir >= 0 && yDir < floors[currentFloor]->board.size() && xDir < floors[currentFloor]->board[playerLocation.first].size()
         && c.cellType != Cell::HWALL && c.cellType != Cell::VWALL) {
         
         if(c.occupant != nullptr) {
@@ -121,16 +121,16 @@ void Game::movePlayer(string dir) {
 
     // Set current board cell entity to the player.
     Entity *p = static_cast<Entity*>(player);
-    floors[currentFloor].board[playerLocation.first][playerLocation.second].occupant = p;
-    floors[currentFloor].board[playerLocation.first][playerLocation.second].occupant->eType = Entity::PLAYER;    
+    floors[currentFloor]->board[playerLocation.first][playerLocation.second].occupant = p;
+    floors[currentFloor]->board[playerLocation.first][playerLocation.second].occupant->eType = Entity::PLAYER;    
 
     // Notify item cells around the Player
     for(int i = -1; i <= 1; i++) {
         for(int j = -1; i <= 1; j++) {
             int y = playerLocation.first + i;
             int x = playerLocation.second + j;
-            if (y >= 0 && x >= 0 && y < floors[currentFloor].board.size() && x < floors[currentFloor].board[playerLocation.first].size()) {
-                Cell& k = floors[currentFloor].board[playerLocation.first + i][playerLocation.second + j];
+            if (y >= 0 && x >= 0 && y < floors[currentFloor]->board.size() && x < floors[currentFloor]->board[playerLocation.first].size()) {
+                Cell& k = floors[currentFloor]->board[playerLocation.first + i][playerLocation.second + j];
                 if(k.occupant != nullptr && k.occupant->eType == Entity::ITEM) {
                     k.occupant->notify(*player);
                 }
@@ -143,8 +143,8 @@ void Game::movePlayer(string dir) {
         for(int j = -1; i <= 1; j++) {
             int y = playerLocation.first + i;
             int x = playerLocation.second + j;
-            if (y >= 0 && x >= 0 && y < floors[currentFloor].board.size() && x < floors[currentFloor].board[playerLocation.first].size()) {
-                Cell& k = floors[currentFloor].board[playerLocation.first + i][playerLocation.second + j];
+            if (y >= 0 && x >= 0 && y < floors[currentFloor]->board.size() && x < floors[currentFloor]->board[playerLocation.first].size()) {
+                Cell& k = floors[currentFloor]->board[playerLocation.first + i][playerLocation.second + j];
                 if(k.occupant != nullptr && k.occupant->eType == Entity::ENEMY) {
                     k.occupant->notify(*player);
                 }
@@ -155,18 +155,18 @@ void Game::movePlayer(string dir) {
 
 void Game::moveEnemies() {
 
-    for(int k = 0; k < floors[currentFloor].enemyPositions.size(); k++) {
+    for(int k = 0; k < floors[currentFloor]->enemyPositions.size(); k++) {
         vector<Cell&> validCells;
 
-        Floor::EntityPosition entPos = floors[currentFloor].enemyPositions[k];
+        Floor::EntityPosition entPos = floors[currentFloor]->enemyPositions[k];
         Entity *e = entPos.entity;
 
         for(int i = -1; i <= 1; i++) {
             for(int j = -1; i <= 1; j++) {
                 int y = playerLocation.first + i;
                 int x = playerLocation.second + j;
-                if (y >= 0 && x >= 0 && y < floors[currentFloor].board.size() && x < floors[currentFloor].board[playerLocation.first].size()) {
-                    Cell& c = floors[currentFloor].board[y][x];
+                if (y >= 0 && x >= 0 && y < floors[currentFloor]->board.size() && x < floors[currentFloor]->board[playerLocation.first].size()) {
+                    Cell& c = floors[currentFloor]->board[y][x];
                     if(c.cellType == Cell::GROUND && c.occupant == nullptr) validCells.push_back(c);
                 }
             }
@@ -175,7 +175,7 @@ void Game::moveEnemies() {
         int size = validCells.size();
         if(!validCells.empty()) {
             int ran = RandomNumberGenerator::randomNumber(0, size -1);
-            Cell& curCell = floors[currentFloor].board[entPos.y][entPos.x];
+            Cell& curCell = floors[currentFloor]->board[entPos.y][entPos.x];
             curCell.occupant = nullptr;
             validCells[ran].occupant = e;
         }
@@ -215,8 +215,8 @@ void Game::playerAttack(string dir) {
         xDir--;
     }
 
-    Cell& c = floors[currentFloor].board[yDir][xDir];
-    if(xDir >= 0 && yDir >= 0 && yDir < floors[currentFloor].board.size() && xDir < floors[currentFloor].board[playerLocation.first].size()
+    Cell& c = floors[currentFloor]->board[yDir][xDir];
+    if(xDir >= 0 && yDir >= 0 && yDir < floors[currentFloor]->board.size() && xDir < floors[currentFloor]->board[playerLocation.first].size()
         && c.occupant != nullptr && c.occupant->eType == Entity::ENEMY) { 
             Enemy* e = static_cast<Enemy*>(c.occupant);
             bool isEnemyDead = e->tryKill(player->atk);
@@ -224,7 +224,7 @@ void Game::playerAttack(string dir) {
             if (isEnemyDead) { // if dead, replace enemy* with gold*
                 Item *i = e->spawnLoot();
                 // erase-remove idiom
-                floors[currentFloor].enemyPositions.erase(remove(floors[currentFloor].enemyPositions.begin(), floors[currentFloor].enemyPositions.end(), e), floors[currentFloor].enemyPositions.end());
+                floors[currentFloor]->enemyPositions.erase(remove(floors[currentFloor]->enemyPositions.begin(), floors[currentFloor]->enemyPositions.end(), e), floors[currentFloor]->enemyPositions.end());
                 delete e;
                 c.occupant = i;
             }
@@ -265,8 +265,8 @@ void Game::usePotion(string dir) {
         xDir--;
     }
 
-    Cell& c = floors[currentFloor].board[yDir][xDir];
-    if(xDir >= 0 && yDir >= 0 && yDir < floors[currentFloor].board.size() && xDir < floors[currentFloor].board[playerLocation.first].size()
+    Cell& c = floors[currentFloor]->board[yDir][xDir];
+    if(xDir >= 0 && yDir >= 0 && yDir < floors[currentFloor]->board.size() && xDir < floors[currentFloor]->board[playerLocation.first].size()
         && c.occupant != nullptr && c.occupant->eType == Entity::ITEM) { 
             Item* item = static_cast<Item*>(c.occupant);
             if (item->itemType == Item::POTION)
@@ -285,6 +285,11 @@ void Game::reset() {
     // call Game::start()
     delete generator;
     delete player;
+
+    for(auto f : floors) {
+        delete f;
+    }
+
     start();
 }
 
@@ -314,6 +319,6 @@ void Game::playTurn() {
         else {
             cout << "Invalid Try Again!" << endl;
         }
-        view->render(floors[currentFloor], currentFloor, *player);
+        view->render(floors[currentFloor], currentFloor, player);
     }
 }

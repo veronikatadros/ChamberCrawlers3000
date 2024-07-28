@@ -316,7 +316,11 @@ void Game::playTurn() {
         }
         else if (input == "no" || input == "so" || input == "ea" || input == "we" || input == "ne" || input == "nw" || input == "se" || input == "sw") {
             movePlayer(input);
-            if(quitGame) continue;
+            if(quitGame) {
+                view->gameWon(player);
+                endGame();
+                return;
+            }
         }
         else if (input == "u") {
             string direction;

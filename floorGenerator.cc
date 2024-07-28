@@ -257,7 +257,7 @@ void FloorGenerator::spawnEnemy(Floor* f) {
 void FloorGenerator::spawnDragon(Floor* f, Floor::EntityPosition& procItem) {
     Protected* p = dynamic_cast<Protected*>(procItem.entity);
     // get valid cells around item (vector<Cell*>)
-    vector<Cell*> validCells;
+    vector<pair<Cell*, pair<int, int>>> validCells;
     for (int r = -1; r <= 1; ++r) {
         for (int c = -1; c <= 1; ++c) {
             int row = procItem.row + r;
@@ -265,15 +265,17 @@ void FloorGenerator::spawnDragon(Floor* f, Floor::EntityPosition& procItem) {
             if (row >= 0 && row < 25 && col >= 0 && col < 79) {
                 Cell* temp = &(f->board[row][col]);
                 if (temp->cellType == Cell::GROUND && !temp->occupant) {
-                    validCells.push_back(temp);
+                    validCells.push_back({temp, {row, col}});
                 }
             }
         }
     }
     int cellNum = RandomNumberGenerator::randomNumber(0, validCells.size() - 1);
     Dragon* d = new Dragon{p};
-    validCells[cellNum]->occupant = d;
+    validCells[cellNum].first->occupant = d;
     p->protector = d;
+
+    f->enemyPositions.push_back({d, validCells[cellNum].second.first,validCells[cellNum].second.second});
 }
 
 void FloorGenerator::spawnGold(Floor* f, vector<Floor::EntityPosition>& protectedPositions) {

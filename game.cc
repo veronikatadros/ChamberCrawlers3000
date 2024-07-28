@@ -14,11 +14,11 @@
 
 using namespace std;
 
-Game::Game(string cmd) : view{new View()}, cmd{cmd} {}
+Game::Game(string cmd) : view{new View()}, generator{new FloorGenerator()}, cmd{cmd} {}
 
 void Game::start() {
     playAgain = false;
-    
+
     cout << "Welcome to the game of CC3K!" << endl;
     cout << "Enter 'q' to quit or please enter your race: ";
 
@@ -51,7 +51,6 @@ void Game::start() {
     Merchant::merchantsHostile = false;
 
     // Generate a floor, create an instance of the random floor generator
-    generator = new FloorGenerator();
     floors = !cmd.empty() ? generator->generateFloor(cmd, *player) : generator->generateFloor(*player);
 
     // Player Location
@@ -272,8 +271,7 @@ void Game::nextFloor() {
     currentFloor++;
 
     if(currentFloor >= 5) {
-        view->gameWon(player);
-        endGame();
+        quitGame = true;
     }
 
     player->removeEffects();
@@ -281,15 +279,15 @@ void Game::nextFloor() {
 }
 
 void Game::endGame() {
+    quitGame = true;
     string input;
     while(cin >> input) {
         if (input == "r") {
-            reset();
-            break;
+            playAgain = true;
+            return;
         }
         else if (input == "q") {
-            quitGame = true;
-            break;
+            return;
         }
         else {
             cout << "Invalid commands! Try again." << endl;
@@ -297,34 +295,28 @@ void Game::endGame() {
     }
 }
 
-void Game::reset() {
-    playAgain = true;
-    return;
-}
-
 void Game::playTurn() {
     while(true) {
 
-        if(player->hp <= 0) {
+        if(player->hp <= 0 || quitGame) {
             view->gameOver();
             endGame();
+            return;
         }
-
-        if(quitGame) return;
 
         cout << "Input stuff :)\n";
         string input;
         cin >> input;
         if (input == "r") {
-            reset();
-            break;
+            playAgain = true;
+            return;
         }
         else if (input == "q") {
             return;
         }
         else if (input == "no" || input == "so" || input == "ea" || input == "we" || input == "ne" || input == "nw" || input == "se" || input == "sw") {
             movePlayer(input);
-            if(quitGame) return;
+            if(quitGame) continue;
         }
         else if (input == "u") {
             string direction;
@@ -348,12 +340,16 @@ void Game::playTurn() {
 }
 
 Game::~Game() {
-    delete generator;
-    delete view;
+    if(generator)
+        delete generator;
+    if(view)
+        delete view;
 
     for(auto f : floors) {
-        delete f;
+        if(f)
+            delete f;
     }
     player->removeEffects();
-    delete player;
+    if(player)
+        delete player;
 }

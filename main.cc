@@ -16,8 +16,8 @@ int main(int argc, char *argv[]){
 
     while(game->playAgain) {
         delete game;
-        Game game(cmd);
-        game.start();
+        game = new Game(cmd);
+        game->start();
     }
     delete game;
 }

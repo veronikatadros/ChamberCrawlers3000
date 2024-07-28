@@ -95,7 +95,7 @@ void Game::movePlayer(string dir) {
         else {
             if(c.cellType == Cell::STAIRS) {
                 nextFloor();
-                playerLocation = generator->playerFloorLocation[currentFloor];
+                if (currentFloor < 5) playerLocation = generator->playerFloorLocation[currentFloor];
             }
             else {
                 playerLocation.first = yDir;
@@ -126,6 +126,8 @@ void Game::moveEnemies() {
             view->enemyAttack(enem);
             continue;
         }
+
+        if(enem->charAt() == 'D') continue;
 
         for(int i = -1; i <= 1; i++) {
             for(int j = -1; j <= 1; j++) {

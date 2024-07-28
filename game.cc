@@ -105,11 +105,13 @@ void Game::movePlayer(string dir) {
     }
 
     // Set current board cell entity to the player.
-    Entity *p = static_cast<Entity*>(player);
-    floors[currentFloor]->board[playerLocation.first][playerLocation.second].occupant = p;
-    floors[currentFloor]->board[playerLocation.first][playerLocation.second].occupant->eType = Entity::PLAYER;    
-
-    view->playerMove(dir);
+    if (currentFloor < 5) {
+        Entity *p = static_cast<Entity*>(player);
+        floors[currentFloor]->board[playerLocation.first][playerLocation.second].occupant = p;
+        floors[currentFloor]->board[playerLocation.first][playerLocation.second].occupant->eType = Entity::PLAYER;
+        
+        view->playerMove(dir);
+    }  
 }
 
 void Game::moveEnemies() {

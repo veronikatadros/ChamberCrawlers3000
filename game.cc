@@ -308,7 +308,7 @@ void Game::playTurn() {
             return;
         }
 
-        cout << "Input stuff :)\n";
+        cout << "Please input command :)\n";
         string input;
         cin >> input;
         if (input == "r") {

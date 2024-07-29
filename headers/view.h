@@ -22,7 +22,10 @@ class View {
         void itemGrabbed(Item* item);
         void gameOver();
         void gameWon(Player* p);
+        void invalidActionCommand();
         void invalidCommand();
+        void input();
+        void gameStart();
 };
 
 #endif

@@ -258,8 +258,21 @@ void View::gameWon(Player* p) {
     cout << "...Press r to restart or q to quit\n";
 }
 
-void View::invalidCommand() {
+void View::invalidActionCommand() {
     action += "Invalid command, please try again!";
+}
+
+void View::invalidCommand() {
+    cout << "Invalid command. Try again!\n";
+}
+
+void View::gameStart() {
+    cout << "Welcome to the game of CC3k!\n";
+    cout << "Enter 'q' to quit or please enter your race:\n";
+}
+
+void View::input() {
+    cout << "Please input command:\n";
 }
 
 void View::getEnemyName(char enemyChar) {

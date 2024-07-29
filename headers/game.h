@@ -13,6 +13,8 @@ using namespace std;
 
 class Game {
     private:
+        Player* player;
+
         pair<int, int> playerLocation;
         vector<Floor*> floors;
         int currentFloor = 0;
@@ -31,10 +33,8 @@ class Game {
         void updateDir(int &yDir, int &xDir, string dir);
         void endGame();
     public:
-        Player* player;
         bool playAgain = false;
         void start();
-
         Game(string cmd);
         virtual ~Game();
 };

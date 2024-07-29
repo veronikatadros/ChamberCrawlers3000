@@ -20,8 +20,7 @@ Game::Game(string cmd) : player{nullptr}, view{new View()}, generator{new FloorG
 void Game::start() {
     playAgain = false;
 
-    cout << "Welcome to the game of CC3K!" << endl;
-    cout << "Enter 'q' to quit or please enter your race: ";
+    view->gameStart();
 
     string selectRace;
     while(cin >> selectRace) {
@@ -43,7 +42,7 @@ void Game::start() {
         }
         else if(selectRace == "q") return;
         else {
-            cout << "Invalid command. Try again!" << endl;
+            view->invalidCommand();
         }
     }
 
@@ -299,7 +298,7 @@ void Game::endGame() {
             return;
         }
         else {
-            cout << "Invalid commands! Try again." << endl;
+             view->invalidCommand();
         }
     }
 }
@@ -313,7 +312,8 @@ void Game::playTurn() {
             return;
         }
 
-        cout << "Please input command :)\n";
+        view->input();
+        
         string input;
         cin >> input;
         if (input == "r") {
@@ -342,7 +342,7 @@ void Game::playTurn() {
             playerAttack(direction);
         }
         else {
-            view->invalidCommand();
+            view->invalidActionCommand();
             view->render(floors[currentFloor], currentFloor, player);
             continue;
         }

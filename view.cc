@@ -268,11 +268,11 @@ void View::invalidCommand() {
 
 void View::gameStart() {
     cout << "Welcome to the game of CC3k!\n";
-    cout << "Enter 'q' to quit or please enter your race:\n";
+    cout << "Enter 'q' to quit or please enter your race: ";
 }
 
 void View::input() {
-    cout << "Please input command:\n";
+    cout << "Please input command: ";
 }
 
 void View::getEnemyName(char enemyChar) {

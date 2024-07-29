@@ -26,7 +26,6 @@ class Game {
         void playerAttack(string dir);
         void usePotion(string dir);
         void nextFloor();
-        void reset();
         void playTurn();
         void notifyCells();
         void updateDir(int &yDir, int &xDir, string dir);

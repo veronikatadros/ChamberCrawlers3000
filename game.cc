@@ -9,6 +9,7 @@
 #include "headers/playerRaces/orc.h"
 #include "headers/items/protected.h"
 #include "headers/enemyTypes/merchant.h"
+#include "headers/enemyTypes/dragon.h"
 #include "headers/randomNumberGenerator.h"
 #include <iostream>
 
@@ -129,7 +130,11 @@ void Game::moveEnemies() {
             continue;
         }
 
-        if(enem->charAt() == 'D') continue;
+        if(enem->charAt() == 'D') {
+            Dragon* d = dynamic_cast<Dragon*>(enem);
+            d->hostile = false;
+            continue;
+        }
 
         for(int i = -1; i <= 1; i++) {
             for(int j = -1; j <= 1; j++) {

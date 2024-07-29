@@ -115,12 +115,19 @@ void View::enemyAttack(Enemy* enemy) {
 }
 
 void View::playerAttack(Enemy* enemy, bool dead) {
-    action += "Player attacks ";
+    action += "Player ";
+    if (dead) {
+        action += "kills ";
+    } else {
+        action += "attacks ";
+    }
     char e = enemy->charAt();
     getEnemyName(e);
-
-    action += " (" + to_string(enemy->hp);
-    action += " HP)! ";
+    if (!dead) {
+        action += " (" + to_string(enemy->hp);
+        action += " HP)";
+    }
+    action += "! ";
 }
 
 void View::playerMove(string dir) {

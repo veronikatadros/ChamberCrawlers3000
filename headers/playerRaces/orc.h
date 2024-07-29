@@ -4,8 +4,8 @@
 #include "../player.h"
 
 class Orc : public Player {
-        int getGoldValue(Gold* g) override;
-        int getGoldValue(GoldHoard* g) override;
+        float getGoldValue(Gold* g) override;
+        float getGoldValue(GoldHoard* g) override;
     public:
         Orc();
         virtual ~Orc();

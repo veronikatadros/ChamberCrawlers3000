@@ -7,6 +7,7 @@
 #include "headers/items/goldHoard.h"
 #include "headers/items/potion.h"
 #include <iostream>
+#include <sstream>
 using namespace std;
 
 View::View() : action{""} {}
@@ -140,14 +141,18 @@ void View::itemGrabbed(Item* item) {
         case (Item::GOLD): {
             action += " Gold (";
             Gold* g = dynamic_cast<Gold*>(item);
-            action += to_string(g->value);
+            stringstream stream;
+            stream << g->value;
+            action += stream.str();
             action += ")! ";
             break;
         }
         case (Item::GOLD_HOARD): {
             action += " Gold Hoard (";
             GoldHoard* g = dynamic_cast<GoldHoard*>(item);
-            action += to_string(g->value);
+            stringstream stream;
+            stream << g->value;
+            action += stream.str();
             action += ")! ";
             break;
         }
@@ -216,7 +221,7 @@ void View::gameOver() {
 }
 
 void View::gameWon(Player* p) {
-    int score = p->gold;
+    float score = p->gold;
     if (p->race == "Human") {
         score *= 1.5;
     }

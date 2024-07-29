@@ -5,8 +5,8 @@
 
 class Gold : public Item {    
     public:
-        int value;
-        Gold(int value);
+        float value;
+        Gold(float value);
         virtual ~Gold();
 };
 

@@ -6,10 +6,10 @@ Dwarf::Dwarf() : Player{100, 20, 30, "Dwarf"} {}
 
 Dwarf::~Dwarf() {}
 
-int Dwarf::getGoldValue(Gold* g) {
-    return g->value * 2;
+float Dwarf::getGoldValue(Gold* g) {
+    return g->value * 2.0;
 }
 
-int Dwarf::getGoldValue(GoldHoard* g) {
-    return g->value * 2;
+float Dwarf::getGoldValue(GoldHoard* g) {
+    return g->value * 2.0;
 }

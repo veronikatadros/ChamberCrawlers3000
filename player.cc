@@ -39,11 +39,11 @@ char Player::charAt() const {
     return '@';
 }
 
-int Player::getGoldValue(Gold* g) {
+float Player::getGoldValue(Gold* g) {
     return g->value;
 }
 
-int Player::getGoldValue(GoldHoard* g) {
+float Player::getGoldValue(GoldHoard* g) {
     return g->value;
 }
 

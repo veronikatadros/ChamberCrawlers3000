@@ -5,7 +5,7 @@
 
 class GoldHoard : public Protected {
     public:
-        int value = 6;
+        float value = 6.0;
         GoldHoard();
         virtual ~GoldHoard();
 };

@@ -16,7 +16,7 @@ class Floor {
         vector<EntityPosition> enemyPositions;
         array<array<Cell, 79>, 25> board;
         Floor();
-        ~Floor();
+        virtual ~Floor();
 };
 
 #endif

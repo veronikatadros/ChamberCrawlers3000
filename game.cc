@@ -15,7 +15,7 @@
 
 using namespace std;
 
-Game::Game(string cmd) : view{new View()}, generator{new FloorGenerator()}, cmd{cmd} {}
+Game::Game(string cmd) : player{nullptr}, view{new View()}, generator{new FloorGenerator()}, cmd{cmd} {}
 
 void Game::start() {
     playAgain = false;
@@ -362,7 +362,9 @@ Game::~Game() {
         if(f)
             delete f;
     }
-    player->removeEffects();
-    if(player)
+    if(player) {
+        player->removeEffects();
         delete player;
+        player = nullptr;
+    }
 }

@@ -9,10 +9,12 @@ int main(int argc, char *argv[]){
     RandomNumberGenerator();    
     
     string cmd = argc > 1 ? argv[1] : "";
-    cout << "using ncurses? Y/N";
+    cout << "using ncurses? Y/N: ";
     char answer;
     cin >> answer;
+    cout << '\n';
     Game* game;
+    bool usingNcurses;
     if (answer == 'Y') {
         setlocale(LC_ALL, "");
         initscr();              // Initialize the window
@@ -31,15 +33,16 @@ int main(int argc, char *argv[]){
         init_pair(7, COLOR_BLACK, COLOR_WHITE);
         init_pair(8, COLOR_GREEN, COLOR_BLACK);
         init_pair(9, COLOR_WHITE, COLOR_GREEN);
-        game = new Game(cmd, true);
+        usingNcurses = true;
     } else {
-        game = new Game(cmd, false);
+        usingNcurses = false;
     }
+    game = new Game(cmd, usingNcurses);
     game->start();
 
     while(game->playAgain) {
         delete game;
-        game = new Game(cmd);
+        game = new Game(cmd, usingNcurses);
         game->start();
     }
     delete game;

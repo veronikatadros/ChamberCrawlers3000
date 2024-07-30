@@ -281,6 +281,22 @@ void Game::updateDir(int &yDir, int &xDir, int ch) {
         case KEY_RIGHT: // RIGHT
             xDir++;
             break;
+        case 'i':
+            yDir--;
+            xDir--;
+            break;
+        case 'o':
+            yDir--;
+            xDir++;
+            break;
+        case 'l':
+            yDir++;
+            xDir++;
+            break;
+        case 'k':
+            yDir++;
+            xDir--;
+            break;
     }
 }
 
@@ -332,7 +348,7 @@ void Game::playTurn() {
             quitGame = true;
             return;
         }
-        else if (ch == KEY_UP || ch == KEY_DOWN || ch == KEY_LEFT || ch == KEY_RIGHT) {
+        else if (ch == KEY_UP || ch == KEY_DOWN || ch == KEY_LEFT || ch == KEY_RIGHT || ch == 'i' || ch == 'o' || ch == 'k' || ch == 'l') {
             movePlayer(ch); // Handle movement with arrow keys
             if(quitGame) {
                 view->gameWon(player);

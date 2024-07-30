@@ -197,7 +197,7 @@ void View::itemBought(Item* item, bool tooBroke) {
     } else if (p->stat == "DEF") {
         stream << ((p->value >= 0) ? "of shielding! +" : "of rust! -");
     }
-    int value = abs(p->value);
+    float value = abs(p->value);
     stream << value;
     stream << " " << p->stat << " ";
     action += stream.str();
@@ -239,7 +239,7 @@ void View::itemGrabbed(Item* item) {
             } else if (p->stat == "DEF") {
                 stream << ((p->value >= 0) ? "of shielding! +" : "of rust! -");
             }
-            int value = abs(p->value);
+            float value = abs(p->value);
             stream << value;
             stream << " " << p->stat << " ";
             break;

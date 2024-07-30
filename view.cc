@@ -159,6 +159,23 @@ void View::playerMove(int dir) {
     case KEY_LEFT:
         action += "Player moves left! ";
         break;
+
+    case 'i':
+        action += "Player moves up-left! ";
+        break;
+
+    case 'o':
+        action += "Player moves up-right! ";
+        break;
+    
+    case 'k':
+        action += "Player moves down-left! ";
+        break;
+    
+    case 'l':
+        action += "Player moves down-right! ";
+        break;
+
     
     default:
         break;

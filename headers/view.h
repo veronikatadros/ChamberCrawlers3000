@@ -14,18 +14,18 @@ class View {
     public:
         View();
         virtual ~View();
-        void render(const Floor* floor, const int curFloor, const Player* player);
+        virtual void render(const Floor* floor, const int curFloor, const Player* player);
         void enemyAttack(Enemy* enemy);
         void playerAttack(Enemy* enemy, bool dead);
         void playerMove(int dir);
         void itemGrabbed(Item* item);
         void itemBought(Item* item, Player* player);
-        void gameOver();
-        void gameWon(Player* p);
+        virtual void gameOver();
+        virtual void gameWon(Player* p);
         void invalidActionCommand();
-        void invalidCommand();
-        void input();
-        void gameStart();
+        virtual void invalidCommand();
+        virtual void input();
+        virtual void gameStart();
 };
 
 #endif

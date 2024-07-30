@@ -22,6 +22,7 @@ class Game {
         bool quitGame = false;
 
         void movePlayer(string dir);
+        void buyFromMerchant(string dir, string potionType);
         void moveEnemies();
         void playerAttack(string dir);
         void usePotion(string dir);

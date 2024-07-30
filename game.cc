@@ -3,6 +3,7 @@
 #include "headers/floor.h"
 #include "headers/entity.h"
 #include "headers/player.h"
+#include "headers/items/potion.h"
 #include "headers/playerRaces/human.h"
 #include "headers/playerRaces/dwarf.h"
 #include "headers/playerRaces/elf.h"
@@ -165,7 +166,25 @@ void Game::moveEnemies() {
     }
 }
 
-void Game::playerAttack(int dir) {
+
+void Game::buyFromMerchant(string dir, string potionType){
+    int yDir = playerLocation.first;
+    int xDir = playerLocation.second;
+
+    updateDir(yDir, xDir, dir);
+
+    Cell& c = floors[currentFloor]->board[yDir][xDir];
+    if(xDir >= 0 && yDir >= 0 && static_cast<std::size_t>(yDir) < floors[currentFloor]->board.size() && static_cast<std::size_t>(xDir) < floors[currentFloor]->board[playerLocation.first].size()
+        && c.occupant != nullptr && c.occupant->eType == Entity::ENEMY && dynamic_cast<Merchant*>(c.occupant)) { 
+            Merchant* m = static_cast<Merchant*>(c.occupant);
+            Potion* p = m->sellPotion(potionType);
+            bool tooBroke = player->buyPotion(p);
+            view->itemBought(p, tooBroke);
+    }
+    
+}
+
+void Game::playerAttack(string dir) {
     int yDir = playerLocation.first;
     int xDir = playerLocation.second;
     
@@ -326,6 +345,12 @@ void Game::playTurn() {
             int direction = getch();
             playerAttack(direction);
         }
+        else if (input == "b") {
+            string direction;
+            string pType;
+            cin >> direction >> pType;
+            buyFromMerchant(direction, pType);
+        }
         else {
             view->invalidActionCommand();
             view->render(floors[currentFloor], currentFloor, player);
@@ -334,6 +359,7 @@ void Game::playTurn() {
 
         notifyCells();
         moveEnemies();
+        player->overTimeEffects();
         view->render(floors[currentFloor], currentFloor, player);
         refresh();
     }

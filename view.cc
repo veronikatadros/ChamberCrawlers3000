@@ -6,6 +6,7 @@
 #include "headers/items/gold.h"
 #include "headers/items/goldHoard.h"
 #include "headers/items/potion.h"
+#include "headers/items/timedPotion.h"
 #include <iostream>
 #include <sstream>
 #include <curses.h>
@@ -155,53 +156,94 @@ void View::playerMove(int dir) {
     
 }
 
+void View::itemBought(Item* item, bool tooBroke) {
+    stringstream stream;
+    stream << "Player bought ";
+    Potion* p = dynamic_cast<Potion*>(item);
+    if (tooBroke) {
+        stream << "nothing, you broke. ";
+        action += stream.str();
+        return;
+    } else if (!p) {
+        stream << "nothing, merchant does not sell that. ";
+        action += stream.str();
+        return;
+    }
+    stream << "potion ";
+    if (p->stat == "HP") {
+        TimedPotion* tp = dynamic_cast<TimedPotion*>(p);
+        if (tp) {
+            stream << ((tp->value >= 0) ? "of regeneration! +" : "of poison! -");
+            stream << tp->value << "HP/turn ";
+            action += stream.str();
+            return;
+        } else {
+            stream << ((p->value >= 0) ? "of health! +" : "of pain! -");
+        }
+    } else if (p->stat == "ATK") {
+        stream << ((p->value >= 0) ? "of strength! +" : "of weakness! -");
+    } else if (p->stat == "DEF") {
+        stream << ((p->value >= 0) ? "of shielding! +" : "of rust! -");
+    }
+    int value = abs(p->value);
+    stream << value;
+    stream << " " << p->stat << " ";
+    action += stream.str();
+}
+
 void View::itemGrabbed(Item* item) {
-    action += "Player picks up";
+    stringstream stream;
+    stream << "Player picks up";
     switch(item->itemType) {
         case (Item::GOLD): {
-            action += " Gold (";
+            stream << " Gold (";
             Gold* g = dynamic_cast<Gold*>(item);
-            std::stringstream stream;
             stream << g->value;
-            action += stream.str();
-            action += ")! ";
+            stream << ")! ";
             break;
         }
         case (Item::GOLD_HOARD): {
             action += " Gold Hoard (";
             GoldHoard* g = dynamic_cast<GoldHoard*>(item);
-            std::stringstream stream;
             stream << g->value;
-            action += stream.str();
-            action += ")! ";
+            stream << ")! ";
             break;
         }
         case (Item::POTION): {
-            action += " Potion: ";
+            stream << " potion ";
             Potion* p = dynamic_cast<Potion*>(item);
-
-            action += p->stat + " ";
-            if (p->value < 0) {
-                action += "- ";
-                action += std::to_string(0 - p->value);
-            } else {
-                action += "+ ";
-                action += std::to_string(p->value);
+            
+            if (p->stat == "HP") {
+                TimedPotion* tp = dynamic_cast<TimedPotion*>(p);
+                if (tp) {
+                    stream << ((tp->value >= 0) ? "of regeneration! +" : "of poison! -");
+                    stream << tp->value << "HP/turn ";
+                    break;
+                } else {
+                    stream << ((p->value >= 0) ? "of health! +" : "of pain! -");
+                }
+            } else if (p->stat == "ATK") {
+                stream << ((p->value >= 0) ? "of strength! +" : "of weakness! -");
+            } else if (p->stat == "DEF") {
+                stream << ((p->value >= 0) ? "of shielding! +" : "of rust! -");
             }
-            action += "! ";
+            int value = abs(p->value);
+            stream << value;
+            stream << " " << p->stat << " ";
             break;
         }
         case (Item::COMPASS): {
-            action += " Compass! Stairs to next floor visible. ";
+            stream << " Compass! Stairs to next floor visible. ";
             break;
         }
         case (Item::BARRIER_SUIT): {
-            action += " Barrier Suit! Damage done to player halved. ";
+            stream << " Barrier Suit! Damage done to player halved. ";
             break;
         }
         default:
             break;
     }
+    action += stream.str();
 }
 
 void View::gameOver() {

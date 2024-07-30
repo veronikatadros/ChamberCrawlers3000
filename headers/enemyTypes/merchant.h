@@ -2,7 +2,10 @@
 #define MERCHANT_H
 
 #include "../enemy.h"
+#include <string>
+
 class Item;
+class Potion;
 
 class Merchant : public Enemy {
     public:
@@ -12,6 +15,7 @@ class Merchant : public Enemy {
         void notify(Entity* player) override;
         bool tryKill(int otherAtk) override;
         static bool merchantsHostile;
+        Potion* sellPotion(std::string potionType);
 };
 
 #endif

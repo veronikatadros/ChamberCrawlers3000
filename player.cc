@@ -71,6 +71,7 @@ void Player::usePotion(Potion* p) {
         potionEffect = tempP;
     } else {
         delete p;
+        p = nullptr;
     }
 }
 
@@ -92,6 +93,7 @@ void Player::overTimeEffects() {
 bool Player::buyPotion(Potion* p){
     if (gold < 2){
         delete p;
+        p = nullptr;
         return true; // too broke to buy
     }
     usePotion(p);

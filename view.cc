@@ -170,13 +170,13 @@ void View::playerMove(int dir) {
 void View::itemBought(Item* item, bool tooBroke) {
     stringstream stream;
     stream << "Player bought ";
-    if (!item) {
-        stream << "nothing, merchant does not sell that. ";
-        action += stream.str();
-        return;
-    } 
     if (tooBroke) {
         stream << "nothing, you broke. ";
+        action += stream.str();
+        return;
+    }
+    if (!item) {
+        stream << "nothing, merchant does not sell that. ";
         action += stream.str();
         return;
     }
@@ -199,7 +199,7 @@ void View::itemBought(Item* item, bool tooBroke) {
     }
     float value = abs(p->value);
     stream << value;
-    stream << " " << p->stat << " ";
+    stream << " " << p->stat << "! ";
     action += stream.str();
 }
 

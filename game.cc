@@ -348,6 +348,7 @@ void Game::playTurn() {
         }
         notifyCells();
         moveEnemies();
+        player->overTimeEffects();
         view->render(floors[currentFloor], currentFloor, player);
     }
 }

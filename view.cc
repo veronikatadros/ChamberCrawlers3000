@@ -6,6 +6,7 @@
 #include "headers/items/gold.h"
 #include "headers/items/goldHoard.h"
 #include "headers/items/potion.h"
+#include "headers/items/timedPotion.h"
 #include <iostream>
 #include <sstream>
 using namespace std;
@@ -136,15 +137,14 @@ void View::playerMove(string dir) {
 }
 
 void View::itemGrabbed(Item* item) {
-    action += "Player picks up";
+    stringstream stream;
+    stream << "Player picks up";
     switch(item->itemType) {
         case (Item::GOLD): {
-            action += " Gold (";
+            stream << " Gold (";
             Gold* g = dynamic_cast<Gold*>(item);
-            stringstream stream;
             stream << g->value;
-            action += stream.str();
-            action += ")! ";
+            stream << ")! ";
             break;
         }
         case (Item::GOLD_HOARD): {
@@ -152,36 +152,43 @@ void View::itemGrabbed(Item* item) {
             GoldHoard* g = dynamic_cast<GoldHoard*>(item);
             stringstream stream;
             stream << g->value;
-            action += stream.str();
-            action += ")! ";
+            stream << ")! ";
             break;
         }
         case (Item::POTION): {
-            action += " Potion: ";
+            stream << " potion ";
             Potion* p = dynamic_cast<Potion*>(item);
             
-            action += p->stat + " ";
-            if (p->value < 0) {
-                action += "- ";
-                action += to_string(0 - p->value);
-            } else {
-                action += "+ ";
-                action += to_string(p->value);
+            if (p->stat == "HP") {
+                TimedPotion* tp = dynamic_cast<TimedPotion*>(p);
+                if (tp) {
+                    stream << ((tp->value >= 0) ? "of regeneration! +" : "of poison! ");
+                    stream << tp->value << "HP/turn ";
+                    break;
+                } else {
+                    stream << ((p->value >= 0) ? "of health! +" : "of pain! ");
+                }
+            } else if (p->stat == "ATK") {
+                stream << ((p->value >= 0) ? "of strength! +" : "of weakness! ");
+            } else if (p->stat == "DEF") {
+                stream << ((p->value >= 0) ? "of shielding! +" : "of rust! ");
             }
-            action += "! ";
+            stream << ((p->value < 0) ? 0 - p->value : p->value);
+            stream << " " << p->stat << " ";
             break;
         }
         case (Item::COMPASS): {
-            action += " Compass! Stairs to next floor visible. ";
+            stream << " Compass! Stairs to next floor visible. ";
             break;
         }
         case (Item::BARRIER_SUIT): {
-            action += " Barrier Suit! Damage done to player halved. ";
+            stream << " Barrier Suit! Damage done to player halved. ";
             break;
         }
         default:
             break;
     }
+    action += stream.str();
 }
 
 void View::gameOver() {

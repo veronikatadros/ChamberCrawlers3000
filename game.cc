@@ -3,6 +3,7 @@
 #include "headers/floor.h"
 #include "headers/entity.h"
 #include "headers/player.h"
+#include "headers/items/potion.h"
 #include "headers/playerRaces/human.h"
 #include "headers/playerRaces/dwarf.h"
 #include "headers/playerRaces/elf.h"
@@ -176,6 +177,7 @@ void Game::buyFromMerchant(string dir, string potionType){
             Merchant* m = static_cast<Merchant*>(c.occupant);
             Potion* p = m->sellPotion(potionType);
             player->buyPotion(p);
+            view->itemBought(p);
     }
     
 }

@@ -8,6 +8,7 @@
 #include "headers/items/potion.h"
 #include "headers/items/timedPotion.h"
 #include <iostream>
+#include <iomanip>
 #include <sstream>
 #include <curses.h>
 
@@ -29,8 +30,13 @@ void View::render(const Floor* floor, const int curFloor, const Player* player) 
                         break;
                     case Cell::STAIRS:
                         if (player->hasCompass) {
-                            attron(COLOR_PAIR(2));
+                            attron(COLOR_PAIR(9));
                             mvaddch(row, col, '\\');
+                            attroff(COLOR_PAIR(9));
+                        }
+                        else {
+                            attron(COLOR_PAIR(2));
+                            mvaddch(row, col, '.');
                             attroff(COLOR_PAIR(2));
                         }
                         break;
@@ -97,7 +103,12 @@ void View::render(const Floor* floor, const int curFloor, const Player* player) 
     // Display UI elements
     mvprintw(LINES - 9, 0, "Race: %s", player->race.c_str());
     mvprintw(LINES - 8, 0, "Floor: %d", curFloor + 1);
-    mvprintw(LINES - 7, 0, "Gold: %d", player->gold);
+    
+    ostringstream oss;
+    oss << fixed << setprecision(1) << player->gold;
+    string goldStr = oss.str();
+    mvprintw(LINES - 7, 0, "Gold: %s", goldStr.c_str());
+    
     mvprintw(LINES - 6, 0, "HP: %d", player->hp);
     mvprintw(LINES - 5, 0, "Atk: %d", player->atk);
     mvprintw(LINES - 4, 0, "Def: %d", player->def);

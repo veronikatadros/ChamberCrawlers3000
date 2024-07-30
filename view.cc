@@ -9,6 +9,8 @@
 #include "headers/items/timedPotion.h"
 #include <iostream>
 #include <sstream>
+#include <curses.h>
+
 using namespace std;
 
 View::View() : action{""} {}
@@ -16,99 +18,95 @@ View::View() : action{""} {}
 View::~View() {}
 
 void View::render(const Floor* floor, const int curFloor, const Player* player) {
-    // go through each row & column on board, includes border
+    clear(); // Clear the screen
+
     for (size_t row = 0; row < floor->board.size(); ++row) {
         for (size_t col = 0; col < floor->board[row].size(); ++col) {
             const Cell& c = floor->board[row][col];
-            string output = "";
             if (c.occupant == nullptr) {
-                output += View::BEGCOLOR;
-                // use cell type
                 switch (c.cellType) {
                     case Cell::EMPTY:
-                        output += "m ";
                         break;
                     case Cell::STAIRS:
-                        // green (32)
                         if (player->hasCompass) {
-                            output += "32m\\";
-                            break;
+                            attron(COLOR_PAIR(2));
+                            mvaddch(row, col, '\\');
+                            attroff(COLOR_PAIR(2));
                         }
+                        break;
                     case Cell::GROUND:
-                        output += "m.";
+                        attron(COLOR_PAIR(2));
+                        mvaddch(row, col, '.');
+                        attroff(COLOR_PAIR(2));
                         break;
                     case Cell::VWALL:
-                        // inverse (7)
-                        output += "7m|";
+                        attron(COLOR_PAIR(7));
+                        mvaddch(row, col, '|');
+                        attroff(COLOR_PAIR(7));
                         break;
                     case Cell::HWALL:
-                        // inverse (7)
-                        output += "7m-";
+                        attron(COLOR_PAIR(7));
+                        mvaddch(row, col, '-');
+                        attroff(COLOR_PAIR(7));
                         break;
                     case Cell::DOOR:
-                        // inverse (7) and then blue (34)
-                        output += "7;34m+";
+                        attron(COLOR_PAIR(8));
+                        mvaddch(row, col, '+');
+                        attroff(COLOR_PAIR(8));
                         break;
                     case Cell::PASSAGE:
-                        // blue (34)
-                        output += "34m#";
+                        attron(COLOR_PAIR(4));
+                        mvaddch(row, col, '#');
+                        attroff(COLOR_PAIR(4));
                         break;
                     default:
-                        // throw error?
-                        output += "missing CellType\n";
+                        mvprintw(row, col, "missing CellType"); // idk dude i just put this here!
                 }
-                output += View::ENDCOLOR;
             } else {
-                // use occupant type
                 char temp = c.occupant->charAt();
-                // enemy red (31)
-                // potion blue (34)
-                // player bold/bright (1) magenta (35)
-                output += View::BEGCOLOR;
                 switch (c.occupant->eType) {
                     case Entity::ENEMY:
-                        output += "31m";
-                        output += temp;
+                        attron(COLOR_PAIR(5));
+                        mvaddch(row, col, temp);
+                        attroff(COLOR_PAIR(5));
                         break;
                     case Entity::PLAYER:
-                        output += "1;35m";
-                        output += temp;
+                        attron(COLOR_PAIR(1));
+                        mvaddch(row, col, temp);
+                        attroff(COLOR_PAIR(1));
                         break;
                     case Entity::ITEM: {
                         if (temp == 'G') {
-                            output += "33m";
+                            attron(COLOR_PAIR(3));
                         } else if (temp == 'P') {
-                            output += "34m";
+                            attron(COLOR_PAIR(6));
                         } else {
-                            output += "35m";
+                            attron(COLOR_PAIR(6));
                         }
-                        output += temp;
+                        mvaddch(row, col, temp);
+                        attroff(COLOR_PAIR(3));
                         break;
-                    } 
+                    }
                     default:
-                        // throw error?
-                        output += "missing EntityType";
+                        mvprintw(row, col, "missing EntityType");
                 }
-                output += View::ENDCOLOR;
             }
-            cout << output;
         }
-        cout << '\n';
     }
-    //output UI
-    cout << "Race: " << player->race;
-    for (int i = 0; i < View::SPACING; ++i) cout << ' ';
-    cout << "Floor: " << curFloor + 1 << '\n';
+
+    // Display UI elements
+    mvprintw(LINES - 9, 0, "Race: %s", player->race.c_str());
+    mvprintw(LINES - 8, 0, "Floor: %d", curFloor + 1);
+    mvprintw(LINES - 7, 0, "Gold: %d", player->gold);
+    mvprintw(LINES - 6, 0, "HP: %d", player->hp);
+    mvprintw(LINES - 5, 0, "Atk: %d", player->atk);
+    mvprintw(LINES - 4, 0, "Def: %d", player->def);
+    mvprintw(LINES - 3, 0, "Action: %s", action.c_str());
     
-    cout << "Gold: " << player->gold << '\n';
-
-    cout << "HP: " << player->hp << '\n';
-    cout << "Atk: " << player->atk << '\n';
-    cout << "Def: " << player->def << '\n';
-
-    cout << "Action: " << action << '\n';
+    refresh(); // Refresh to show changes
     action = "";
 }
+
 
 void View::enemyAttack(Enemy* enemy) {
     char e = enemy->charAt();
@@ -126,14 +124,36 @@ void View::playerAttack(Enemy* enemy, bool dead) {
     char e = enemy->charAt();
     getEnemyName(e);
     if (!dead) {
-        action += " (" + to_string(enemy->hp);
+        action += " (" + std::to_string(enemy->hp);
         action += " HP)";
     }
     action += "! ";
 }
 
-void View::playerMove(string dir) {
-    action += "Player moves " + dir + "! ";
+void View::playerMove(int dir) {
+    switch (dir)
+    {
+    case KEY_UP:
+        action += "Player moves up! ";
+        break;
+
+    case KEY_DOWN:
+        action += "Player moves down! ";
+        break;
+
+    case KEY_RIGHT:
+        action += "Player moves right! ";
+        break;
+
+    case KEY_LEFT:
+        action += "Player moves left! ";
+        break;
+    
+    default:
+        break;
+    }
+
+    
 }
 
 void View::itemBought(Item* item, bool tooBroke) {
@@ -185,7 +205,6 @@ void View::itemGrabbed(Item* item) {
         case (Item::GOLD_HOARD): {
             action += " Gold Hoard (";
             GoldHoard* g = dynamic_cast<GoldHoard*>(item);
-            stringstream stream;
             stream << g->value;
             stream << ")! ";
             break;
@@ -228,7 +247,38 @@ void View::itemGrabbed(Item* item) {
 }
 
 void View::gameOver() {
-    cout << R"(
+    clear();
+    mvprintw(0, 0, R"(
+.-----------------------------------------.
+|                                         |
+|                                         |
+|                                         |
+|                                         |
+|                                         |
+|     ____ ____ _  _ ____                 |
+|     | __ |__| |\/| |___                 |
+|     |__] |  | |  | |___                 |
+|                                         |
+|                 ____ _  _ ____ ____     |
+|                 |  | |  | |___ |__/     |
+|                 |__|  \/  |___ |  \     |
+|                                         |
+|                                         |
+|                                         |
+|                                         |
+|                                         |
+'-----------------------------------------'
+
+
+
+
+
+...Press r to restart or q to quit
+    )");
+    refresh();
+}
+
+/*
 |-----------------------------------------------------------------------------|
 |                                                                             |
 |                                                                             |
@@ -254,22 +304,46 @@ void View::gameOver() {
 |                                                                             |
 |                                                                             |
 |-----------------------------------------------------------------------------|
-
-
-
-
-
-...Press r to restart or q to quit
-    )" << '\n';
-}
+*/
 
 void View::gameWon(Player* p) {
+    clear();
     float score = p->gold;
     if (p->race == "Human") {
         score *= 1.5;
     }
     
-    cout << R"(
+    mvprintw(0, 0, R"(
+.-----------------------------------------------------------------.
+|                                                                 |
+|                                                                 |
+|                                                                 |
+|                                                                 |
+|                                                                 |
+|       _____ _    _          __  __ ____  ______ _____           |
+|      / ____| |  | |   /\   |  \/  |  _ \|  ____|  __ \          |
+|     | |    | |__| |  /  \  | \  / | |_) | |__  | |__) |         |
+|     | |    |  __  | / /\ \ | |\/| |  _ <|  __| |  _  /          |
+|     | |____| |  | |/ ____ \| |  | | |_) | |____| | \ \          |
+|      \_____|_|__|_/_/   _\_\_|  |_|____/|______|_|_ \_\__       |
+|      / ____|  __ \     /\ \        / / |    |  ____|  __ \      |
+|     | |    | |__) |   /  \ \  /\  / /| |    | |__  | |  | |     |
+|     | |    |  _  /   / /\ \ \/  \/ / | |    |  __| | |  | |     |
+|     | |____| | \ \  / ____ \  /\  /  | |____| |____| |__| |     |
+|      \_____|_|  \_\/_/    \_\/  \/   |______|______|_____/      |
+|                                                                 |
+|                                                                 |
+|                                                                 |
+|                                                                 |
+|                                                                 |
+'-----------------------------------------------------------------'
+    )");
+    mvprintw(LINES - 3, 0, "Score: %.2f", score);
+    mvprintw(LINES - 2, 0, "...Press r to restart or q to quit");
+    refresh();
+}
+
+/*
 |-----------------------------------------------------------------------------|
 |                                                                             |
 |                                                                             |
@@ -295,27 +369,28 @@ void View::gameWon(Player* p) {
 |                                                                             |
 |                                                                             |
 |-----------------------------------------------------------------------------|
-    )" << '\n';
-    cout << "Score: " << score << endl;
-    cout << "\n\n\n\n";
-    cout << "...Press r to restart or q to quit\n";
-}
+*/
 
 void View::invalidActionCommand() {
     action += "Invalid command, please try again!";
 }
 
 void View::invalidCommand() {
-    cout << "Invalid command. Try again!\n";
+    clear();
+    mvprintw(0, 0, "Invalid command. Try again!");
+    refresh();
 }
 
 void View::gameStart() {
-    cout << "Welcome to the game of CC3k!\n";
-    cout << "Enter 'q' to quit or please enter your race: ";
+    clear();
+    mvprintw(0, 0, "Welcome to the game of CC3k!");
+    mvprintw(1, 0, "Enter 'q' to quit or please enter your race: ");
+    refresh();
 }
 
 void View::input() {
-    cout << "Please input command: ";
+    mvprintw(LINES - 2, 0, "Please input command: ");
+    refresh();
 }
 
 void View::getEnemyName(char enemyChar) {
@@ -342,6 +417,7 @@ void View::getEnemyName(char enemyChar) {
             action += "Troll";
             break;
         default:
+            action += "Unknown enemy";
             break;
     }
 }

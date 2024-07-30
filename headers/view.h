@@ -20,6 +20,7 @@ class View {
         void playerAttack(Enemy* enemy, bool dead);
         void playerMove(string dir);
         void itemGrabbed(Item* item);
+        void itemBought(Item* item);
         void gameOver();
         void gameWon(Player* p);
         void invalidActionCommand();

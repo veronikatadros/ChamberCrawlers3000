@@ -170,16 +170,17 @@ void View::playerMove(int dir) {
 void View::itemBought(Item* item, bool tooBroke) {
     stringstream stream;
     stream << "Player bought ";
-    Potion* p = dynamic_cast<Potion*>(item);
-    if (!p) {
+    if (!item) {
         stream << "nothing, merchant does not sell that. ";
         action += stream.str();
         return;
-    } else if (tooBroke) {
+    } 
+    if (tooBroke) {
         stream << "nothing, you broke. ";
         action += stream.str();
         return;
     }
+    Potion* p = dynamic_cast<Potion*>(item);
     stream << "potion ";
     if (p->stat == "HP") {
         TimedPotion* tp = dynamic_cast<TimedPotion*>(p);

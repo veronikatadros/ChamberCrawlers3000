@@ -141,6 +141,8 @@ void View::itemBought(Item* item) {
     stream << "Player bought ";
     Potion* p = dynamic_cast<Potion*>(item);
     if (!p) {
+        stream << "nothing, you broke. ";
+        action += stream.str();
         return;
     }
     stream << "potion ";

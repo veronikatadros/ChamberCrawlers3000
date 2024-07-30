@@ -167,7 +167,7 @@ void Game::moveEnemies() {
 }
 
 
-void Game::buyFromMerchant(string dir, string potionType){
+void Game::buyFromMerchant(int dir, string potionType) {
     int yDir = playerLocation.first;
     int xDir = playerLocation.second;
 
@@ -184,7 +184,7 @@ void Game::buyFromMerchant(string dir, string potionType){
     
 }
 
-void Game::playerAttack(string dir) {
+void Game::playerAttack(int dir) {
     int yDir = playerLocation.first;
     int xDir = playerLocation.second;
     
@@ -345,10 +345,10 @@ void Game::playTurn() {
             int direction = getch();
             playerAttack(direction);
         }
-        else if (input == "b") {
-            string direction;
+        else if (ch == 'b') {
+            int direction = getch();
             string pType;
-            cin >> direction >> pType;
+            cin >> pType;
             buyFromMerchant(direction, pType);
         }
         else {

@@ -8,7 +8,6 @@ class Player;
 class Enemy;
 class Item;
 class View {
-        const int SPACING = 57;
         const string BEGCOLOR = "\033[", ENDCOLOR = "\033[0m";
         string action;
         void getEnemyName(char enemyChar);

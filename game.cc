@@ -12,12 +12,13 @@
 #include "headers/enemyTypes/merchant.h"
 #include "headers/enemyTypes/dragon.h"
 #include "headers/randomNumberGenerator.h"
+#include "headers/consoleView.h"
 #include <iostream>
 #include <curses.h>
 
 using namespace std;
 
-Game::Game(string cmd) : player{nullptr}, view{new View()}, generator{new FloorGenerator()}, cmd{cmd} {}
+Game::Game(string cmd, bool useCurses) : player{nullptr}, view{useCurses ? new View() : new ConsoleView()}, generator{new FloorGenerator()}, cmd{cmd}, useCurses{useCurses} {}
 
 void Game::start() {
     playAgain = false;
@@ -62,13 +63,13 @@ void Game::start() {
     playTurn();
 }
 
-void Game::movePlayer(int dir) {
+void Game::movePlayer(int dir, string direction) {
 
     int yDir = playerLocation.first;
     int xDir = playerLocation.second;
     floors[currentFloor]->board[playerLocation.first][playerLocation.second].occupant = nullptr; // set current board cell Entity to NULL
     
-    updateDir(yDir, xDir, dir);
+    updateDir(yDir, xDir, dir, direction);
 
     Cell& c = floors[currentFloor]->board[yDir][xDir];
     if(xDir >= 0 && yDir >= 0 && static_cast<std::size_t>(yDir) < floors[currentFloor]->board.size() && static_cast<std::size_t>(xDir) < floors[currentFloor]->board[playerLocation.first].size()
@@ -167,11 +168,11 @@ void Game::moveEnemies() {
 }
 
 
-void Game::buyFromMerchant(int dir, string potionType) {
+void Game::buyFromMerchant(string potionType, int dir, string direction) {
     int yDir = playerLocation.first;
     int xDir = playerLocation.second;
 
-    updateDir(yDir, xDir, dir);
+    updateDir(yDir, xDir, dir, direction);
 
     Cell& c = floors[currentFloor]->board[yDir][xDir];
     if(xDir >= 0 && yDir >= 0 && static_cast<std::size_t>(yDir) < floors[currentFloor]->board.size() && static_cast<std::size_t>(xDir) < floors[currentFloor]->board[playerLocation.first].size()
@@ -187,11 +188,11 @@ void Game::buyFromMerchant(int dir, string potionType) {
     
 }
 
-void Game::playerAttack(int dir) {
+void Game::playerAttack(int dir, string direction) {
     int yDir = playerLocation.first;
     int xDir = playerLocation.second;
     
-    updateDir(yDir, xDir, dir);
+    updateDir(yDir, xDir, dir, direction);
 
     Cell& c = floors[currentFloor]->board[yDir][xDir];
     if(xDir >= 0 && yDir >= 0 && static_cast<std::size_t>(yDir) < floors[currentFloor]->board.size() && static_cast<std::size_t>(xDir) < floors[currentFloor]->board[playerLocation.first].size()
@@ -217,12 +218,12 @@ void Game::playerAttack(int dir) {
 
 }
 
-void Game::usePotion(int dir) {
+void Game::usePotion(int dir, string direction) {
     // check it has a potion
     int yDir = playerLocation.first;
     int xDir = playerLocation.second;
     
-    updateDir(yDir, xDir, dir);
+    updateDir(yDir, xDir, dir, direction);
 
     Cell& c = floors[currentFloor]->board[yDir][xDir];
     if(xDir >= 0 && yDir >= 0 && static_cast<std::size_t>(yDir) < floors[currentFloor]->board.size() && static_cast<std::size_t>(xDir) < floors[currentFloor]->board[playerLocation.first].size()
@@ -267,37 +268,70 @@ void Game::notifyCells() {
     }
 }
 
-void Game::updateDir(int &yDir, int &xDir, int ch) {
-    switch (ch) {
-        case KEY_UP:    // UP
-            yDir--;
-            break;
-        case KEY_DOWN:  // DOWN
-            yDir++;
-            break;
-        case KEY_LEFT:  // LEFT
-            xDir--;
-            break;
-        case KEY_RIGHT: // RIGHT
-            xDir++;
-            break;
-        case 'i':
-            yDir--;
-            xDir--;
-            break;
-        case 'o':
-            yDir--;
-            xDir++;
-            break;
-        case 'l':
-            yDir++;
-            xDir++;
-            break;
-        case 'k':
-            yDir++;
-            xDir--;
-            break;
+void Game::updateDir(int &yDir, int &xDir, int ch, string dir) {
+    if(useCurses) {
+        switch (ch) {
+            case KEY_UP:    // UP
+                yDir--;
+                break;
+            case KEY_DOWN:  // DOWN
+                yDir++;
+                break;
+            case KEY_LEFT:  // LEFT
+                xDir--;
+                break;
+            case KEY_RIGHT: // RIGHT
+                xDir++;
+                break;
+            case 'i':
+                yDir--;
+                xDir--;
+                break;
+            case 'o':
+                yDir--;
+                xDir++;
+                break;
+            case 'l':
+                yDir++;
+                xDir++;
+                break;
+            case 'k':
+                yDir++;
+                xDir--;
+                break;
+        }
     }
+    else {
+        if (dir == "no") { // UP
+        yDir--;
+        }
+        else if (dir == "so") { // DOWN
+            yDir++;
+        }
+        else if (dir == "ea") { // RIGHT
+            xDir++;
+        }
+        else if (dir == "we") { // LEFT
+            xDir--;
+        }
+        else if (dir == "ne") { // UP-RIGHT
+            yDir--;
+            xDir++;
+        }
+        else if (dir == "nw") { // UP-LEFT
+            yDir--;
+            xDir--;
+        }
+        else if (dir == "se") { // DOWN-RIGHT
+            yDir++;
+            xDir++;
+        }
+        else if (dir == "sw") { // DOWN-LEFT
+            yDir++;
+            xDir--;
+        }
+    }
+    
 }
 
 void Game::nextFloor() {
@@ -330,58 +364,107 @@ void Game::endGame() {
 
 void Game::playTurn() {
     while(true) {
-        if(player->hp <= 0 || quitGame) {
-            view->gameOver();
-            endGame();
-            return;
-        }
 
-        view->input();
-
-        int ch = getch(); // Get user input from curses
-
-        if (ch == 'r') {
-            playAgain = true;
-            return;
-        }
-        else if (ch == 'q') {
-            quitGame = true;
-            return;
-        }
-        else if (ch == KEY_UP || ch == KEY_DOWN || ch == KEY_LEFT || ch == KEY_RIGHT || ch == 'i' || ch == 'o' || ch == 'k' || ch == 'l') {
-            movePlayer(ch); // Handle movement with arrow keys
-            if(quitGame) {
-                view->gameWon(player);
+        if(useCurses) {
+            if(player->hp <= 0 || quitGame) {
+                view->gameOver();
                 endGame();
                 return;
             }
-        }
-        else if (ch == 'u') {
-            int direction = getch();
-            usePotion(direction);
-        }
-        else if (ch == 'a') {
-            int direction = getch();
-            playerAttack(direction);
-        }
-        else if (ch == 'b') {
-            int direction = getch();
-            string pType;
-            cin >> pType;
-            buyFromMerchant(direction, pType);
+
+            view->input();
+
+            int ch = getch(); // Get user input from curses
+
+            if (ch == 'r') {
+                playAgain = true;
+                return;
+            }
+            else if (ch == 'q') {
+                quitGame = true;
+                return;
+            }
+            else if (ch == KEY_UP || ch == KEY_DOWN || ch == KEY_LEFT || ch == KEY_RIGHT || ch == 'i' || ch == 'o' || ch == 'k' || ch == 'l') {
+                movePlayer(ch); // Handle movement with arrow keys
+                if(quitGame) {
+                    view->gameWon(player);
+                    endGame();
+                    return;
+                }
+            }
+            else if (ch == 'u') {
+                int direction = getch();
+                usePotion(direction);
+            }
+            else if (ch == 'a') {
+                int direction = getch();
+                playerAttack(direction);
+            }
+            else if (ch == 'b') {
+                int direction = getch();
+                string pType;
+                cin >> pType;
+                buyFromMerchant(pType, direction);
+            }
+            else {
+                view->invalidActionCommand();
+                view->render(floors[currentFloor], currentFloor, player);
+                continue;
+            }
+
+            notifyCells();
+            moveEnemies();
+            player->overTimeEffects();
+            view->render(floors[currentFloor], currentFloor, player);
+            refresh();
         }
         else {
-            view->invalidActionCommand();
+            if(player->hp <= 0 || quitGame) {
+                view->gameOver();
+                endGame();
+                return;
+            }
+
+            cout << "Input stuff :)\n";
+            string input;
+            cin >> input;
+            if (input == "r") {
+                playAgain = true;
+                return;
+            }
+            else if (input == "q") {
+                return;
+            }
+            else if (input == "no" || input == "so" || input == "ea" || input == "we" || input == "ne" || input == "nw" || input == "se" || input == "sw") {
+                movePlayer(0, input);
+                if(quitGame) {
+                    view->gameWon(player);
+                    endGame();
+                    return;
+                }
+            }
+            else if (input == "u") {
+                string direction;
+                cin >> direction;
+                usePotion(0, direction);
+            }
+            else if (input == "a") {
+                string direction;
+                cin >> direction;
+                playerAttack(0, direction);
+            }
+            else {
+                view->invalidCommand();
+                view->render(floors[currentFloor], currentFloor, player);
+                continue;
+            }
+            notifyCells();
+            moveEnemies();
             view->render(floors[currentFloor], currentFloor, player);
-            continue;
+        }
         }
 
-        notifyCells();
-        moveEnemies();
-        player->overTimeEffects();
-        view->render(floors[currentFloor], currentFloor, player);
-        refresh();
-    }
+
 }
 
 Game::~Game() {

@@ -22,21 +22,22 @@ class Game {
         FloorGenerator* generator;
         string cmd;
         bool quitGame = false;
+        bool useCurses = false;
 
-        void movePlayer(int dir);
-        void buyFromMerchant(int dir, string potionType);
+        void movePlayer(int dir, string direction = "");
+        void buyFromMerchant(string potionType, int dir, string direction = "");
         void moveEnemies();
-        void playerAttack(int dir);
-        void usePotion(int dir);
+        void playerAttack(int dir, string direction = "");
+        void usePotion(int dir, string direction = "");
         void nextFloor();
         void playTurn();
         void notifyCells();
-        void updateDir(int &yDir, int &xDir, int dir);
+        void updateDir(int &yDir, int &xDir, int ch, string direction = "");
         void endGame();
     public:
         bool playAgain = false;
         void start();
-        Game(string cmd);
+        Game(string cmd, bool useCurses);
         virtual ~Game();
 };
 #endif

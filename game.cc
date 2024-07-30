@@ -179,8 +179,10 @@ void Game::buyFromMerchant(int dir, string potionType) {
             Merchant* m = static_cast<Merchant*>(c.occupant);
             Potion* p = m->sellPotion(potionType);
             if (!p) view->itemBought(p, false);
-            bool tooBroke = player->buyPotion(p);
-            view->itemBought(p, tooBroke);
+            else {
+                bool tooBroke = player->buyPotion(p);
+                view->itemBought(p, tooBroke);
+            }
     }
     
 }

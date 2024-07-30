@@ -4,9 +4,10 @@ EXEC = cc3k
 CCFILES = $(wildcard *.cc)
 OBJECTS = $(CCFILES:.cc=.o)
 DEPENDS = ${OBJECTS:.o=.d}
+LDFLAGS = -L/usr/local/opt/ncurses/lib -lncursesw -lncurses
 
 ${EXEC}: ${OBJECTS}
-	${CXX} ${OBJECTS} -o ${EXEC} -lncurses -lncursesw
+	${CXX} ${OBJECTS} -o ${EXEC} ${LDFLAGS}
 
 -include ${DEPENDS}
 

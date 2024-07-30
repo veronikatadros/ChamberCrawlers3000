@@ -178,6 +178,7 @@ void Game::buyFromMerchant(int dir, string potionType) {
         && c.occupant != nullptr && c.occupant->eType == Entity::ENEMY && dynamic_cast<Merchant*>(c.occupant)) { 
             Merchant* m = static_cast<Merchant*>(c.occupant);
             Potion* p = m->sellPotion(potionType);
+            if (!p) view->itemBought(p, false);
             bool tooBroke = player->buyPotion(p);
             view->itemBought(p, tooBroke);
     }

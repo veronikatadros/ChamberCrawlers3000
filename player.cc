@@ -84,13 +84,12 @@ void Player::overTimeEffects() {
         }
         p->duration--;
         hp += p->value;
+        if (hp <= 0) hp = 0;
+        if (hp >= maxHP) hp = maxHP;
     }
 }
 
 bool Player::buyPotion(Potion* p){
-    if (!p) {
-        return false; // incorrect command
-    }
     if (gold < 2){
         delete p;
         return true; // too broke to buy

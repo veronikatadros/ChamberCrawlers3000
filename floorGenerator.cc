@@ -170,7 +170,7 @@ vector<Floor*> FloorGenerator::generateFloor(Player& player) {
         pair<int, int> stairPos = randomFloorTile(cf, stairChamber);
         cf->board[stairPos.first][stairPos.second].cellType = Cell::STAIRS;
         // 3) potions
-        for (int i = 0; i < 20; ++i) {
+        for (int i = 0; i < 10; ++i) {
             spawnPotion(cf);
         }
         // 4) gold
@@ -192,7 +192,7 @@ vector<Floor*> FloorGenerator::generateFloor(Player& player) {
             spawnDragon(cf, protectedPositions[enemyCount]);
         }
 
-        while (enemyCount < 10) {
+        while (enemyCount < 20) {
             spawnEnemy(cf);
             ++enemyCount;
         }
@@ -310,23 +310,23 @@ void FloorGenerator::spawnPotion(Floor* f) {
     int potionType = RandomNumberGenerator::randomNumber(0, 7);
     switch (potionType) {
         case 0:
-            //f->board[potionPos.first][potionPos.second].occupant = new PermPotion{10};
-            //break;
+            f->board[potionPos.first][potionPos.second].occupant = new PermPotion{10};
+            break;
         case 1:
-            //f->board[potionPos.first][potionPos.second].occupant = new TempPotion{5, "ATK"};
-            //break;
+            f->board[potionPos.first][potionPos.second].occupant = new TempPotion{5, "ATK"};
+            break;
         case 2:
-            //f->board[potionPos.first][potionPos.second].occupant = new TempPotion{5, "DEF"};
-            //break;
+            f->board[potionPos.first][potionPos.second].occupant = new TempPotion{5, "DEF"};
+            break;
         case 3:
-            //f->board[potionPos.first][potionPos.second].occupant = new PermPotion{-10};
-            //break;
+            f->board[potionPos.first][potionPos.second].occupant = new PermPotion{-10};
+            break;
         case 4:
-            //f->board[potionPos.first][potionPos.second].occupant = new TempPotion{-5, "ATK"};
-            //break;
+            f->board[potionPos.first][potionPos.second].occupant = new TempPotion{-5, "ATK"};
+            break;
         case 5:
-            //f->board[potionPos.first][potionPos.second].occupant = new TempPotion{-5, "DEF"};
-            //break;
+            f->board[potionPos.first][potionPos.second].occupant = new TempPotion{-5, "DEF"};
+            break;
         case 6:
             f->board[potionPos.first][potionPos.second].occupant = new TimedPotion{4, -5};
             break;

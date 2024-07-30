@@ -8,6 +8,8 @@
 #include "headers/items/potion.h"
 #include <iostream>
 #include <sstream>
+#include <curses.h>
+
 using namespace std;
 
 View::View() : action{""} {}
@@ -131,8 +133,30 @@ void View::playerAttack(Enemy* enemy, bool dead) {
     action += "! ";
 }
 
-void View::playerMove(string dir) {
-    action += "Player moves " + dir + "! ";
+void View::playerMove(int dir) {
+    switch (dir)
+    {
+    case KEY_UP:
+        action += "Player moves up! ";
+        break;
+
+    case KEY_DOWN:
+        action += "Player moves down! ";
+        break;
+
+    case KEY_RIGHT:
+        action += "Player moves right! ";
+        break;
+
+    case KEY_LEFT:
+        action += "Player moves left! ";
+        break;
+    
+    default:
+        break;
+    }
+
+    
 }
 
 void View::itemGrabbed(Item* item) {

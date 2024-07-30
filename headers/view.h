@@ -18,7 +18,7 @@ class View {
         void render(const Floor* floor, const int curFloor, const Player* player);
         void enemyAttack(Enemy* enemy);
         void playerAttack(Enemy* enemy, bool dead);
-        void playerMove(string dir);
+        void playerMove(int dir);
         void itemGrabbed(Item* item);
         void gameOver();
         void gameWon(Player* p);

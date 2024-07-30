@@ -23,14 +23,14 @@ class Game {
         string cmd;
         bool quitGame = false;
 
-        void movePlayer(string dir);
+        void movePlayer(int dir);
         void moveEnemies();
-        void playerAttack(string dir);
-        void usePotion(string dir);
+        void playerAttack(int dir);
+        void usePotion(int dir);
         void nextFloor();
         void playTurn();
         void notifyCells();
-        void updateDir(int &yDir, int &xDir, string dir);
+        void updateDir(int &yDir, int &xDir, int dir);
         void endGame();
     public:
         bool playAgain = false;

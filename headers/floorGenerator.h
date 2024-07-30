@@ -1,6 +1,7 @@
 #ifndef FLOOR_GEN_H
 #define FLOOR_GEN_H
 
+#include <string>
 #include<vector>
 #include "floor.h"
 

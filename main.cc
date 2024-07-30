@@ -6,7 +6,7 @@
 using namespace std;
 
 int main(int argc, char *argv[]){
-
+    setlocale(LC_ALL, "");
     initscr();              // Initialize the window
     raw();                  // Line buffering disabled
     keypad(stdscr, TRUE);   // Enable special keys capture

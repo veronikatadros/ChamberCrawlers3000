@@ -87,6 +87,15 @@ void Player::overTimeEffects() {
     }
 }
 
+void Player::buyPotion(Potion* p){
+    if (gold < 2 || !p){
+        delete p;
+        return; 
+    }
+    usePotion(p);
+    gold -= 2;
+}
+
 void Player::removeEffects() {
     // reverse each ongoing potion effect
     TempPotion* temp = potionEffect;

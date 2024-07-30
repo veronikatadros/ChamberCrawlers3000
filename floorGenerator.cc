@@ -10,6 +10,7 @@
 #include "headers/items/goldHoard.h"
 #include "headers/items/permPotion.h"
 #include "headers/items/tempPotion.h"
+#include "headers/items/timedPotion.h"
 
 #include "headers/enemyTypes/dragon.h"
 #include "headers/enemyTypes/goblin.h"
@@ -306,7 +307,7 @@ void FloorGenerator::spawnGold(Floor* f, vector<Floor::EntityPosition>& protecte
 
 void FloorGenerator::spawnPotion(Floor* f) {
     pair<int, int> potionPos = randomFloorTile(f, randomChamber());
-    int potionType = RandomNumberGenerator::randomNumber(0, 5);
+    int potionType = RandomNumberGenerator::randomNumber(0, 7);
     switch (potionType) {
         case 0:
             f->board[potionPos.first][potionPos.second].occupant = new PermPotion{10};
@@ -325,6 +326,12 @@ void FloorGenerator::spawnPotion(Floor* f) {
             break;
         case 5:
             f->board[potionPos.first][potionPos.second].occupant = new TempPotion{-5, "DEF"};
+            break;
+        case 6:
+            f->board[potionPos.first][potionPos.second].occupant = new TimedPotion{4, -5};
+            break;
+        case 7:
+            f->board[potionPos.first][potionPos.second].occupant = new TimedPotion{4, 5};
             break;
         default:
             break;

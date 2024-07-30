@@ -3,6 +3,7 @@
 #include "headers/items/potion.h"
 #include "headers/items/tempPotion.h"
 #include "headers/items/permPotion.h"
+#include "headers/items/timedPotion.h"
 #include "headers/items/gold.h"
 #include "headers/items/compass.h"
 #include "headers/items/barrierSuit.h"
@@ -48,6 +49,12 @@ float Player::getGoldValue(GoldHoard* g) {
 }
 
 void Player::usePotion(Potion* p) {
+    TimedPotion* timedP = dynamic_cast<TimedPotion*>(p);
+    if (timedP) {
+        timedEffects.push_back(timedP);
+        return;
+    }
+    
     if (p->stat == "ATK") {
         atk += p->value;
     } else if (p->stat == "DEF") {
@@ -58,12 +65,25 @@ void Player::usePotion(Potion* p) {
             hp = maxHP;
         }
     }
-    TempPotion* tp = dynamic_cast<TempPotion*>(p);
-    if (tp) {
-        tp->next = potionEffect;
-        potionEffect = tp;
+    TempPotion* tempP = dynamic_cast<TempPotion*>(p);
+    if (tempP) {
+        tempP->next = potionEffect;
+        potionEffect = tempP;
     } else {
         delete p;
+    }
+}
+
+void Player::overTimeEffects() {
+    for (auto it = timedEffects.begin(); it != timedEffects.end(); ++it) {
+        TimedPotion* p = *it;
+        if (p->duration == 0) {
+            delete p;
+            timedEffects.erase(it);
+            return;
+        }
+        p->duration--;
+        hp += p->value;
     }
 }
 
@@ -77,7 +97,7 @@ void Player::buyPotion(Potion* p){
 }
 
 void Player::removeEffects() {
-    // reverse each potion effect
+    // reverse each ongoing potion effect
     TempPotion* temp = potionEffect;
     while (potionEffect) {
         if (temp->stat == "ATK") {
@@ -90,6 +110,11 @@ void Player::removeEffects() {
         delete temp;
         temp = potionEffect;
     }
+
+    for (auto p : timedEffects) {
+        delete p;
+    }
+    timedEffects.clear();
 }
 
 bool Player::tryKill(int otherAtk) {

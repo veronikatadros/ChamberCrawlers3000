@@ -15,7 +15,7 @@ int main(int argc, char *argv[]){
     cout << '\n';
     Game* game;
     bool usingNcurses;
-    if (answer == 'Y') {
+    if (answer == 'Y' || answer == 'y') {
         setlocale(LC_ALL, "");
         initscr();              // Initialize the window
         raw();                  // Line buffering disabled

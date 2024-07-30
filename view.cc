@@ -167,10 +167,10 @@ void View::playerMove(int dir) {
     
 }
 
-void View::itemBought(Item* item, bool tooBroke) {
+void View::itemBought(Item* item, Player* player) {
     stringstream stream;
     stream << "Player bought ";
-    if (tooBroke) {
+    if (player->gold < 2) {
         stream << "nothing, you broke. ";
         action += stream.str();
         return;

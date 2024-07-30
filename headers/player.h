@@ -19,6 +19,7 @@ class Player : public Character {
         virtual float getGoldValue(Gold* g);
         virtual float getGoldValue(GoldHoard* g); // I'd like to just have GoldHoard inherit from Gold, but then deadly diamond
         virtual void usePotion(Potion* p);
+       
     public:
         Player(int maxHP, int atk, int def, string race);
         virtual ~Player() = 0;
@@ -29,6 +30,7 @@ class Player : public Character {
         bool hasBarrierSuit;
         
         void pickUp(Item* i);
+        virtual void buyPotion(Potion* p);
         virtual void removeEffects();
         
         void notify(Entity* player) override;

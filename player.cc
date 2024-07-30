@@ -87,13 +87,17 @@ void Player::overTimeEffects() {
     }
 }
 
-void Player::buyPotion(Potion* p){
-    if (gold < 2 || !p){
+bool Player::buyPotion(Potion* p){
+    if (!p) {
+        return false; // incorrect command
+    }
+    if (gold < 2){
         delete p;
-        return; 
+        return true; // too broke to buy
     }
     usePotion(p);
     gold -= 2;
+    return false;
 }
 
 void Player::removeEffects() {

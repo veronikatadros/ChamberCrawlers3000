@@ -33,7 +33,7 @@ class Player : public Character {
         bool hasBarrierSuit;
         
         void pickUp(Item* i);
-        virtual void buyPotion(Potion* p);
+        virtual bool buyPotion(Potion* p);
         virtual void removeEffects();
         virtual void overTimeEffects();
         

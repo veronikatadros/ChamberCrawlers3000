@@ -136,12 +136,16 @@ void View::playerMove(string dir) {
     action += "Player moves " + dir + "! ";
 }
 
-void View::itemBought(Item* item) {
+void View::itemBought(Item* item, bool tooBroke) {
     stringstream stream;
     stream << "Player bought ";
     Potion* p = dynamic_cast<Potion*>(item);
-    if (!p) {
+    if (tooBroke) {
         stream << "nothing, you broke. ";
+        action += stream.str();
+        return;
+    } else if (!p) {
+        stream << "nothing, merchant does not sell that. ";
         action += stream.str();
         return;
     }
@@ -149,19 +153,20 @@ void View::itemBought(Item* item) {
     if (p->stat == "HP") {
         TimedPotion* tp = dynamic_cast<TimedPotion*>(p);
         if (tp) {
-            stream << ((tp->value >= 0) ? "of regeneration! +" : "of poison! ");
+            stream << ((tp->value >= 0) ? "of regeneration! +" : "of poison! -");
             stream << tp->value << "HP/turn ";
             action += stream.str();
             return;
         } else {
-            stream << ((p->value >= 0) ? "of health! +" : "of pain! ");
+            stream << ((p->value >= 0) ? "of health! +" : "of pain! -");
         }
     } else if (p->stat == "ATK") {
-        stream << ((p->value >= 0) ? "of strength! +" : "of weakness! ");
+        stream << ((p->value >= 0) ? "of strength! +" : "of weakness! -");
     } else if (p->stat == "DEF") {
-        stream << ((p->value >= 0) ? "of shielding! +" : "of rust! ");
+        stream << ((p->value >= 0) ? "of shielding! +" : "of rust! -");
     }
-    stream << ((p->value < 0) ? 0 - p->value : p->value);
+    int value = abs(p->value);
+    stream << value;
     stream << " " << p->stat << " ";
     action += stream.str();
 }
@@ -192,18 +197,19 @@ void View::itemGrabbed(Item* item) {
             if (p->stat == "HP") {
                 TimedPotion* tp = dynamic_cast<TimedPotion*>(p);
                 if (tp) {
-                    stream << ((tp->value >= 0) ? "of regeneration! +" : "of poison! ");
+                    stream << ((tp->value >= 0) ? "of regeneration! +" : "of poison! -");
                     stream << tp->value << "HP/turn ";
                     break;
                 } else {
-                    stream << ((p->value >= 0) ? "of health! +" : "of pain! ");
+                    stream << ((p->value >= 0) ? "of health! +" : "of pain! -");
                 }
             } else if (p->stat == "ATK") {
-                stream << ((p->value >= 0) ? "of strength! +" : "of weakness! ");
+                stream << ((p->value >= 0) ? "of strength! +" : "of weakness! -");
             } else if (p->stat == "DEF") {
-                stream << ((p->value >= 0) ? "of shielding! +" : "of rust! ");
+                stream << ((p->value >= 0) ? "of shielding! +" : "of rust! -");
             }
-            stream << ((p->value < 0) ? 0 - p->value : p->value);
+            int value = abs(p->value);
+            stream << value;
             stream << " " << p->stat << " ";
             break;
         }
